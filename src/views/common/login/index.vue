@@ -57,8 +57,8 @@
 </template>
 
 <script setup>
-import {encrypt} from '@/utils/crypto'
-import {getUUID} from '@/utils'
+import { encrypt } from '@/utils/crypto'
+import { getUUID } from '@/utils'
 import Verify from '@/components/verifition/Verify.vue'
 import cookie from 'vue-cookies'
 
@@ -70,13 +70,25 @@ const dataForm = ref({
 })
 const dataRule = {
   userName: [
-    {required: true, message: '帐号不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '帐号不能为空',
+      trigger: 'blur'
+    }
   ],
   password: [
-    {required: true, message: '密码不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '密码不能为空',
+      trigger: 'blur'
+    }
   ],
   captcha: [
-    {required: true, message: '验证码不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '验证码不能为空',
+      trigger: 'blur'
+    }
   ]
 }
 
@@ -122,9 +134,9 @@ const login = (verifyResult) => {
       passWord: encrypt(dataForm.value.password),
       captchaVerification: verifyResult.captchaVerification
     })
-  }).then(({data}) => {
+  }).then(({ data }) => {
     cookie.set('Authorization', data.accessToken)
-    router.replace({name: 'home'})
+    router.replace({ name: 'home' })
   }).catch(() => {
     isSubmit = false
   })
@@ -143,7 +155,7 @@ const getCaptcha = () => {
 .login {
   width: 100%;
   height: 100%;
-  background: url('../../../assets/img/login-bg.png') no-repeat;
+  background: url('../../../static/img/login-bg.png') no-repeat;
   background-size: cover;
   position: fixed;
 
