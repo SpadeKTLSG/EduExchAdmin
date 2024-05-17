@@ -27,3 +27,4 @@ dist-ssr
 # 自动引入
 src/auto-import
 components.d.ts
+.eslintrc-auto-import.json
