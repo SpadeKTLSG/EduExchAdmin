@@ -8,5 +8,5 @@
 
 <!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
 <style lang="scss">
-@use '@/assets/app.scss';
+@use '@/styles/app.scss';
 </style>
