@@ -142,7 +142,7 @@
 </template>
 
 <script setup>
-import {scoreProdStore} from '@/stores/prod.js'
+import { scoreProdStore } from '@/stores/prod.js'
 
 const props = defineProps({
   modelValue: {
@@ -168,7 +168,7 @@ const tableLeftTitles = computed(() => {
 })
 const prod = scoreProdStore()
 const skuTags = computed({
-  get() {
+  get () {
     return prod.skuTags
   }
 })
@@ -184,7 +184,7 @@ onMounted(() => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dbSpecs.value = data
       })
 })
@@ -192,7 +192,7 @@ onMounted(() => {
 const init = () => {
   initing = true
 }
-defineExpose({init})
+defineExpose({ init })
 
 const changeSkuStatus = (tagIndex) => {
   // eslint-disable-next-line vue/no-mutating-props

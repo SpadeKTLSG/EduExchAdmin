@@ -69,8 +69,8 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -87,8 +87,15 @@ const validateTitle = (rule, value, callback) => {
 }
 const dataRule = {
   title: [
-    {required: true, message: '公告标题不能为空', trigger: 'blur'},
-    {validator: validateTitle, trigger: 'blur'}
+    {
+      required: true,
+      message: '公告标题不能为空',
+      trigger: 'blur'
+    },
+    {
+      validator: validateTitle,
+      trigger: 'blur'
+    }
   ]
 }
 
@@ -111,13 +118,13 @@ const init = (id) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({data}) => {
+          .then(({ data }) => {
             dataForm.value = data
           })
     }
   })
 }
-defineExpose({init})
+defineExpose({ init })
 
 /**
  * 表单提交

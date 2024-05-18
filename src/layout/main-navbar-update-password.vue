@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const visible = ref(false)
 const dataForm = reactive({
@@ -79,11 +79,26 @@ const validateConfirmPassword = (rule, value, callback) => {
   }
 }
 const dataRule = reactive({
-  password: [{required: true, message: '原密码不能为空', trigger: 'blur'}],
-  newPassword: [{required: true, message: '新密码不能为空', trigger: 'blur'}],
+  password: [{
+    required: true,
+    message: '原密码不能为空',
+    trigger: 'blur'
+  }],
+  newPassword: [{
+    required: true,
+    message: '新密码不能为空',
+    trigger: 'blur'
+  }],
   confirmPassword: [
-    {required: true, message: '确认密码不能为空', trigger: 'blur'},
-    {validator: validateConfirmPassword, trigger: 'blur'}
+    {
+      required: true,
+      message: '确认密码不能为空',
+      trigger: 'blur'
+    },
+    {
+      validator: validateConfirmPassword,
+      trigger: 'blur'
+    }
   ]
 })
 const userStore = useUserStore()
@@ -109,7 +124,7 @@ const onSubmit = async formEl => {
             visible.value = false
             nextTick(() => {
               clearLoginInfo()
-              router.replace({name: 'login'})
+              router.replace({ name: 'login' })
             })
           }
         })
@@ -118,5 +133,5 @@ const onSubmit = async formEl => {
   })
 }
 
-defineExpose({init})
+defineExpose({ init })
 </script>

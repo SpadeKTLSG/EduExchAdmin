@@ -71,9 +71,9 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
-import {ElMessage, ElMessageBox} from 'element-plus'
-import {tableOption} from '@/crud/shop/hotSearch.js'
+import { isAuth } from '@/utils'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { tableOption } from '@/crud/shop/hotSearch.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -96,7 +96,7 @@ const getDataList = (pageParam, params, done) => {
       size: pageParam ? pageParam.pageSize : 20
     }, params))
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         page.total = data.total
         page.pageSize = data.size
         page.currentPage = data.current

@@ -102,10 +102,10 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {isEmail, isMobile} from '@/utils/validate'
-import {Debounce} from '@/utils/debounce'
-import {encrypt} from '@/utils/crypto'
+import { ElMessage } from 'element-plus'
+import { isEmail, isMobile } from '@/utils/validate'
+import { Debounce } from '@/utils/debounce'
+import { encrypt } from '@/utils/crypto'
 
 const emit = defineEmits(['refreshDataList'])
 
@@ -158,22 +158,50 @@ const validateMobile = (rule, value, callback) => {
 }
 const dataRule = {
   userName: [
-    {required: true, message: '用户名不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的用户名', trigger: 'blur'}
+    {
+      required: true,
+      message: '用户名不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的用户名',
+      trigger: 'blur'
+    }
   ],
   password: [
-    {validator: validatePassword, trigger: 'blur'}
+    {
+      validator: validatePassword,
+      trigger: 'blur'
+    }
   ],
   comfirmPassword: [
-    {validator: validateComfirmPassword, trigger: 'blur'}
+    {
+      validator: validateComfirmPassword,
+      trigger: 'blur'
+    }
   ],
   email: [
-    {required: true, message: '邮箱不能为空', trigger: 'blur'},
-    {validator: validateEmail, trigger: 'blur'}
+    {
+      required: true,
+      message: '邮箱不能为空',
+      trigger: 'blur'
+    },
+    {
+      validator: validateEmail,
+      trigger: 'blur'
+    }
   ],
   mobile: [
-    {required: true, message: '手机号不能为空', trigger: 'blur'},
-    {validator: validateMobile, trigger: 'blur'}
+    {
+      required: true,
+      message: '手机号不能为空',
+      trigger: 'blur'
+    },
+    {
+      validator: validateMobile,
+      trigger: 'blur'
+    }
   ]
 }
 
@@ -185,7 +213,7 @@ const init = (id) => {
     url: http.adornUrl('/sys/role/list'),
     method: 'get',
     params: http.adornParams()
-  }).then(({data}) => {
+  }).then(({ data }) => {
     roleList.value = data
   }).then(() => {
     visible.value = true
@@ -198,7 +226,7 @@ const init = (id) => {
         url: http.adornUrl(`/sys/user/info/${dataForm.id}`),
         method: 'get',
         params: http.adornParams()
-      }).then(({data}) => {
+      }).then(({ data }) => {
         dataForm.userName = data.username
         dataForm.email = data.email
         dataForm.mobile = data.mobile
@@ -208,7 +236,7 @@ const init = (id) => {
     }
   })
 }
-defineExpose({init})
+defineExpose({ init })
 
 /**
  * 表单提交

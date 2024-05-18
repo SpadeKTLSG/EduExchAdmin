@@ -356,12 +356,12 @@ const init = (orderNumber) => {
       method: 'get',
       params: http.adornParams()
     })
-        .then(({data}) => {
+        .then(({ data }) => {
           dataForm.value = data
         })
   }
 }
-defineExpose({init})
+defineExpose({ init })
 
 const getDataList = () => {
   http({
@@ -369,7 +369,7 @@ const getDataList = () => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataForm.value = data
       })
 }

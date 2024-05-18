@@ -83,8 +83,8 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const dataForm = ref({
@@ -103,14 +103,40 @@ const page = reactive({
 const visible = ref(false)
 const dataRule = {
   title: [
-    {required: true, message: '标题不能为空', trigger: 'blur'},
-    {min: 1, max: 50, message: '长度在1到50个字符内', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '标题不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '标题不能为空',
+      trigger: 'blur'
+    },
+    {
+      min: 1,
+      max: 50,
+      message: '长度在1到50个字符内',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '标题不能为空',
+      trigger: 'blur'
+    }
   ],
   content: [
-    {required: true, message: '内容不能为空', trigger: 'blur'},
-    {min: 1, max: 255, message: '长度在1到255个字符内', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '内容不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '内容不能为空',
+      trigger: 'blur'
+    },
+    {
+      min: 1,
+      max: 255,
+      message: '长度在1到255个字符内',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '内容不能为空',
+      trigger: 'blur'
+    }
   ]
 }
 
@@ -126,13 +152,13 @@ const init = (id) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({data}) => {
+          .then(({ data }) => {
             dataForm.value = data
           })
     }
   })
 }
-defineExpose({init})
+defineExpose({ init })
 
 /**
  * 表单提交

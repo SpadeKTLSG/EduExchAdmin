@@ -131,12 +131,12 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {idList, treeDataTranslate} from '@/utils'
+import { ElMessage } from 'element-plus'
+import { idList, treeDataTranslate } from '@/utils'
 import ProdTransport from './components/prod-transport.vue'
 import SkuTag from './components/sku-tag.vue'
 import SkuTable from './components/sku-table.vue'
-import {Debounce} from '@/utils/debounce'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 
@@ -188,7 +188,7 @@ const getDataList = () => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({data}) => {
+          .then(({ data }) => {
             dataForm.value = data
             dataForm.value.deliveryMode = JSON.parse(data.deliveryMode)
             skuTagRef.value?.init(data.skuList)
@@ -215,7 +215,7 @@ const getCategoryList = () => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         category.list = treeDataTranslate(data, 'categoryId', 'parentId')
       })
 }
@@ -337,7 +337,7 @@ const getTagList = () => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         tags.value = data
       })
 }

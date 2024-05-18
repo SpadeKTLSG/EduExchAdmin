@@ -80,8 +80,8 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -108,13 +108,13 @@ const init = (id) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({data}) => {
+          .then(({ data }) => {
             dataForm.value = data
           })
     }
   })
 }
-defineExpose({init})
+defineExpose({ init })
 
 const dataFormRef = ref(null)
 /**

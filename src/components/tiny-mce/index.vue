@@ -38,7 +38,7 @@
 import Editor from '@tinymce/tinymce-vue'
 import $cookie from 'vue-cookies'
 
-const uploadHeaders = {Authorization: $cookie.get('Authorization')}
+const uploadHeaders = { Authorization: $cookie.get('Authorization') }
 const uploadAction = http.adornUrl('/admin/file/upload/element')
 
 const props = defineProps({
@@ -111,7 +111,7 @@ const init = reactive({
       emit('update:modelValue', editor.getContent())
     })
   },
-  setup(editor) {
+  setup (editor) {
     const addOrupload = document.querySelectorAll('.components-tiny-mce .tinymce-container .add-or-upload')
     addOrupload.forEach(v => {
       v.style.zIndex = 10

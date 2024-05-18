@@ -236,7 +236,7 @@
 <script setup>
 import AddOrUpdate from './components/order-info.vue'
 import ConsignmentInfo from './components/consignment-info.vue'
-import {isAuth} from '@/utils'
+import { isAuth } from '@/utils'
 
 const resourcesUrl = import.meta.env.VITE_APP_RESOURCES_URL
 const dataForm = ref({})
@@ -297,7 +297,7 @@ const getDataList = (pageParam, params, done) => {
         ), false
     )
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = data.records
         page.total = data.total
         if (done) done()
@@ -362,8 +362,8 @@ const getWaitingConsignmentExcel = (consignmentInfo) => {
     }),
     responseType: 'blob' // 解决文件下载乱码问题
   })
-      .then(({data}) => {
-        const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
+      .then(({ data }) => {
+        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
         const fileName = '待发货信息整理.xls'
         const elink = document.createElement('a')
         if ('download' in elink) { // 非IE下载
@@ -390,8 +390,8 @@ const getSoldExcel = () => {
     }),
     responseType: 'blob' // 解决文件下载乱码问题
   })
-      .then(({data}) => {
-        const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
+      .then(({ data }) => {
+        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
         const fileName = '销售信息整理.xls'
         const elink = document.createElement('a')
         if ('download' in elink) { // 非IE下载

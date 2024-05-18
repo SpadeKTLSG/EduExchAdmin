@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import {tableOption} from '@/crud/sys/log.js'
+import { tableOption } from '@/crud/sys/log.js'
 
 const dataList = ref([])
 const page = reactive({
@@ -42,7 +42,7 @@ const getDataList = (pageParam, params, done) => {
         )
     )
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = data.records
         page.total = data.total
         if (done) done()

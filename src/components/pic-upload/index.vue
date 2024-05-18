@@ -27,11 +27,11 @@
 </template>
 
 <script setup>
-import {checkFileUrl} from '@/utils'
+import { checkFileUrl } from '@/utils'
 import $cookie from 'vue-cookies'
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 
-const uploadHeaders = {Authorization: $cookie.get('Authorization')}
+const uploadHeaders = { Authorization: $cookie.get('Authorization') }
 const uploadAction = http.adornUrl('/admin/file/upload/element')
 const emit = defineEmits(['update:modelValue'])
 // eslint-disable-next-line no-unused-vars

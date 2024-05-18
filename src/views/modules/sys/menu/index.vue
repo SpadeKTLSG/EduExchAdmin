@@ -134,8 +134,8 @@
 </template>
 
 <script setup>
-import {treeDataTranslate, isAuth} from '@/utils'
-import {ElMessage, ElMessageBox} from 'element-plus'
+import { isAuth, treeDataTranslate } from '@/utils'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataForm = ref({})
@@ -152,7 +152,7 @@ const getDataList = () => {
     url: http.adornUrl('/sys/menu/table'),
     method: 'get',
     params: http.adornParams()
-  }).then(({data}) => {
+  }).then(({ data }) => {
     dataList.value = treeDataTranslate(data, 'menuId')
   })
 }

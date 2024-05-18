@@ -329,9 +329,9 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
-import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import { isAuth } from '@/utils'
+import { ElMessage } from 'element-plus'
+import { Debounce } from '@/utils/debounce'
 import AddOrUpdate from './add-or-update.vue'
 
 const emit = defineEmits(['refreshDataList'])
@@ -345,8 +345,14 @@ const dataForm = ref({
   chargeType: 0,
   transportId: 0,
   isFreeFee: 0,
-  transfees: [{cityList: [], status: 1}],
-  transfeeFrees: [{freeCityList: [], freeType: 0}]
+  transfees: [{
+    cityList: [],
+    status: 1
+  }],
+  transfeeFrees: [{
+    freeCityList: [],
+    freeType: 0
+  }]
 })
 const page = reactive({
   total: 0, // 总页数
@@ -385,8 +391,14 @@ const init = (id) => {
       chargeType: 0,
       transportId: 0,
       isFreeFee: 0,
-      transfees: [{cityList: [], status: 1}],
-      transfeeFrees: [{freeCityList: [], freeType: 0}]
+      transfees: [{
+        cityList: [],
+        status: 1
+      }],
+      transfeeFrees: [{
+        freeCityList: [],
+        freeType: 0
+      }]
     }
   })
   if (dataForm.value.transportId) {
@@ -395,7 +407,7 @@ const init = (id) => {
       url: http.adornUrl(`/shop/transport/info/${dataForm.value.transportId}`),
       method: 'get'
     })
-        .then(({data}) => {
+        .then(({ data }) => {
           if (data.isFreeFee) {
             data.transfees[0].status = 0
           } else {
@@ -406,7 +418,7 @@ const init = (id) => {
         })
   }
 }
-defineExpose({init})
+defineExpose({ init })
 
 const getDataList = (row, cityList, type) => {
   if (type === 0) {
@@ -421,7 +433,10 @@ const getDataList = (row, cityList, type) => {
  * 添加运费项
  */
 const addTransfee = () => {
-  dataForm.value.transfees.push({cityList: [], status: 1})
+  dataForm.value.transfees.push({
+    cityList: [],
+    status: 1
+  })
 }
 
 /**
@@ -448,7 +463,10 @@ const onAddOrUpdate = () => {
  */
 const addTransfeeFree = () => {
   if (dataForm.value.hasFreeCondition) {
-    dataForm.value.transfeeFrees?.push({freeCityList: [], freeType: 0})
+    dataForm.value.transfeeFrees?.push({
+      freeCityList: [],
+      freeType: 0
+    })
   }
 }
 
@@ -482,9 +500,19 @@ const changeFreeFee = (val) => {
   dataForm.value.hasFreeCondition = false
   if (val) {
     dataForm.value.chargeType = 0
-    dataForm.value.transfees = [{cityList: [], status: 0, firstPiece: 1, firstFee: 0, continuousPiece: 1, continuousFee: 0}]
+    dataForm.value.transfees = [{
+      cityList: [],
+      status: 0,
+      firstPiece: 1,
+      firstFee: 0,
+      continuousPiece: 1,
+      continuousFee: 0
+    }]
   } else {
-    dataForm.value.transfees = [{cityList: [], status: 1}]
+    dataForm.value.transfees = [{
+      cityList: [],
+      status: 1
+    }]
   }
 }
 

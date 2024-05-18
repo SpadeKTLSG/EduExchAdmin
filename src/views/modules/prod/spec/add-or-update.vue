@@ -75,13 +75,17 @@
   </el-dialog>
 </template>
 <script setup>
-import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 
 const visible = ref(false)
-const dataList = ref([{propId: 0, propName: '', prodPropValues: [{valueId: 0}]}])
+const dataList = ref([{
+  propId: 0,
+  propName: '',
+  prodPropValues: [{ valueId: 0 }]
+}])
 const page = {
   total: 0, // 总页数
   currentPage: 1, // 当前页数
@@ -93,12 +97,16 @@ const init = (val) => {
     dataList.value = [JSON.parse(JSON.stringify(val))]
   } else {
     dataList.value = [
-      {propId: 0, propName: '', prodPropValues: [{valueId: 0}]}
+      {
+        propId: 0,
+        propName: '',
+        prodPropValues: [{ valueId: 0 }]
+      }
     ]
   }
   visible.value = true
 }
-defineExpose({init})
+defineExpose({ init })
 
 /**
  * 表单提交
@@ -123,7 +131,7 @@ const onSubmit = Debounce(() => {
     return
   }
   if (dataList.value[0].prodPropValues.length < 1) {
-    dataList.value[0].prodPropValues = [{valueId: 0}]
+    dataList.value[0].prodPropValues = [{ valueId: 0 }]
     ElMessage.error('规格项不能为空')
     return
   }

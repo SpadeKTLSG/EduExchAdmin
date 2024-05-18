@@ -126,7 +126,7 @@ const handleRightRoute = selectLeftId => {
 }
 
 const toHome = () => {
-  router.push({name: 'home'})
+  router.push({ name: 'home' })
   expandMenuList.value = []
   sessionStorage.setItem('isExpand', '0')
   commonStore.updateSidebarFold(true)
@@ -161,7 +161,7 @@ const gotoRouteHandle = menu => {
     sessionStorage.setItem('isExpand', '0')
     commonStore.updateSelectRightId('')
     commonStore.updateSelectLeftId(menu.menuId || '')
-    router.push({name: menu.url})
+    router.push({ name: menu.url })
   }
 }
 
@@ -183,13 +183,13 @@ const routeJump = menu => {
   const routes = menu.list
   for (let i = 0; i < routes.length; i++) {
     if (!routes[i].hidden && !routes[i].list) {
-      router.push({name: routes[i].url})
+      router.push({ name: routes[i].url })
       break
     } else if (routes[i].list) {
       let flag = false
       for (let j = 0; j < routes[i].list.length; j++) {
         if (!routes[i].list[j].hidden) {
-          router.push({name: routes[i].list[j].url})
+          router.push({ name: routes[i].list[j].url })
           flag = true
           break
         }

@@ -92,7 +92,7 @@ const gotoRouteHandle = menu => {
   if (router.currentRoute.value.name === menu.url) {
     return
   }
-  router.push({name: menu.url})
+  router.push({ name: menu.url })
 }
 </script>
 <style lang="scss" scoped>

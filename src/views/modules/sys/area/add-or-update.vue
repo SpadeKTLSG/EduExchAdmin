@@ -56,15 +56,23 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {treeDataTranslate} from '@/utils'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { treeDataTranslate } from '@/utils'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const dataRule = reactive({
   areaName: [
-    {required: true, message: '区域名称不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的区域名称', trigger: 'blur'}
+    {
+      required: true,
+      message: '区域名称不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的区域名称',
+      trigger: 'blur'
+    }
   ]
 })
 
@@ -95,7 +103,7 @@ const init = (areaId) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({data}) => {
+          .then(({ data }) => {
             dataForm.value = data
             selectedOptions.value = dataForm.value.parentId
             categoryTreeProps.areaId = dataForm.value.areaId
@@ -107,12 +115,12 @@ const init = (areaId) => {
       method: 'get',
       params: http.adornParams()
     })
-        .then(({data}) => {
+        .then(({ data }) => {
           areaList.value = treeDataTranslate(data, 'areaId', 'parentId')
         })
   })
 }
-defineExpose({init})
+defineExpose({ init })
 
 const page = {
   total: 0, // 总页数

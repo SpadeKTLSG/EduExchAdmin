@@ -68,13 +68,25 @@ const dataForm = reactive({
 })
 const dataRule = {
   consignmentName: [
-    {required: true, message: '不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'blur'
+    }
   ],
   consignmentMobile: [
-    {required: true, message: '不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'blur'
+    }
   ],
   consignmentAddr: [
-    {required: true, message: '不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'blur'
+    }
   ]
 }
 
@@ -85,7 +97,7 @@ const init = () => {
     dataFormRef.value?.resetFields()
   })
 }
-defineExpose({init})
+defineExpose({ init })
 
 /**
  * 表单提交

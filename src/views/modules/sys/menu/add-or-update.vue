@@ -145,8 +145,8 @@
 </template>
 
 <script setup>
-import {treeDataTranslate, idList} from '@/utils'
-import {ElMessage} from 'element-plus'
+import { idList, treeDataTranslate } from '@/utils'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits(['refreshDataList'])
 const iconInputRef = ref(null)
@@ -188,11 +188,22 @@ const validateUrl = (rule, value, callback) => {
 }
 const dataRule = ref({
   name: [
-    {required: true, message: '菜单名称不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的菜单名称', trigger: 'blur'}
+    {
+      required: true,
+      message: '菜单名称不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的菜单名称',
+      trigger: 'blur'
+    }
   ],
   url: [
-    {validator: validateUrl, trigger: 'blur'}
+    {
+      validator: validateUrl,
+      trigger: 'blur'
+    }
   ]
 })
 
@@ -219,7 +230,7 @@ const init = (id) => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         menuList.value = treeDataTranslate(data, 'menuId')
       })
       .then(() => {
@@ -235,7 +246,7 @@ const init = (id) => {
             url: http.adornUrl(`/sys/menu/info/${dataForm.id}`),
             method: 'get',
             params: http.adornParams()
-          }).then(({data}) => {
+          }).then(({ data }) => {
             dataForm.id = data.menuId
             dataForm.type = data.type
             dataForm.name = data.name
@@ -251,7 +262,7 @@ const init = (id) => {
         }
       })
 }
-defineExpose({init})
+defineExpose({ init })
 
 const handleSelectMenuChange = (val) => {
   dataForm.parentId = val[val.length - 1]

@@ -103,8 +103,8 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const dataForm = ref({
@@ -118,7 +118,11 @@ const dataForm = ref({
 })
 const dataRule = reactive({
   imgUrl: [
-    {required: true, message: '轮播图片不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '轮播图片不能为空',
+      trigger: 'blur'
+    }
   ]
 })
 // 关联数据
@@ -153,7 +157,7 @@ const init = (id) => {
       url: http.adornUrl(`/admin/indexImg/info/${dataForm.value.imgId}`),
       method: 'get'
     })
-        .then(({data}) => {
+        .then(({ data }) => {
           dataForm.value = data
           if (data.relation) {
             card.value.pic = data.pic
@@ -168,7 +172,7 @@ const init = (id) => {
     })
   }
 }
-defineExpose({init})
+defineExpose({ init })
 
 /**
  * 表单提交

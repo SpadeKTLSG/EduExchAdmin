@@ -54,8 +54,8 @@
 </template>
 
 <script setup>
-import {ElMessage, ElMessageBox} from 'element-plus'
-import {tableOption} from '@/crud/sys/config.js'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { tableOption } from '@/crud/sys/config.js'
 
 const dataList = ref([])
 const page = reactive({
@@ -80,7 +80,7 @@ const getDataList = (pageParam, params, done) => {
         )
     )
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = data.records
         page.total = data.total
         if (done) done()

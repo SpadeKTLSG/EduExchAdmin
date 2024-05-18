@@ -104,9 +104,9 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {isMobile} from '@/utils/validate'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { isMobile } from '@/utils/validate'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -120,21 +120,56 @@ const validateMobile = (rule, value, callback) => {
 }
 const dataRule = {
   addrName: [
-    {required: true, message: '自提点名称不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的自提点名称', trigger: 'blur'}
+    {
+      required: true,
+      message: '自提点名称不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的自提点名称',
+      trigger: 'blur'
+    }
   ],
   addr: [
-    {required: true, message: '地址不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的地址', trigger: 'blur'}
+    {
+      required: true,
+      message: '地址不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的地址',
+      trigger: 'blur'
+    }
   ],
-  city: [{required: true, message: '城市不能为空', trigger: 'blur'}],
+  city: [{
+    required: true,
+    message: '城市不能为空',
+    trigger: 'blur'
+  }],
   province: [
-    {required: true, message: '省份不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '省份不能为空',
+      trigger: 'blur'
+    }
   ],
-  area: [{required: true, message: '区/县不能为空', trigger: 'blur'}],
+  area: [{
+    required: true,
+    message: '区/县不能为空',
+    trigger: 'blur'
+  }],
   mobile: [
-    {required: true, message: '手机号不能为空', trigger: 'blur'},
-    {validator: validateMobile, trigger: 'blur'}
+    {
+      required: true,
+      message: '手机号不能为空',
+      trigger: 'blur'
+    },
+    {
+      validator: validateMobile,
+      trigger: 'blur'
+    }
   ]
 }
 const provinceList = ref([])
@@ -169,7 +204,7 @@ const init = (id) => {
     dataForm.cityId = null
     dataForm.areaId = null
   })
-  listAreaByParentId().then(({data}) => {
+  listAreaByParentId().then(({ data }) => {
     provinceList.value = data
   })
   if (dataForm.addrId) {
@@ -180,30 +215,30 @@ const init = (id) => {
       method: 'get',
       params: http.adornParams()
     })
-        .then(({data}) => {
+        .then(({ data }) => {
           dataForm.addr = data.addr
           dataForm.mobile = data.mobile
           dataForm.addrName = data.addrName
           dataForm.areaId = data.areaId
           dataForm.cityId = data.cityId
           dataForm.provinceId = data.provinceId
-          listAreaByParentId(data.provinceId).then(({data}) => {
+          listAreaByParentId(data.provinceId).then(({ data }) => {
             cityList.value = data
           })
-          listAreaByParentId(data.cityId).then(({data}) => {
+          listAreaByParentId(data.cityId).then(({ data }) => {
             areaList.value = data
           })
         })
   }
 }
-defineExpose({init})
+defineExpose({ init })
 
 const listAreaByParentId = (pid) => {
   if (!pid) pid = 0
   return http({
     url: http.adornUrl('/admin/area/listByPid'),
     method: 'get',
-    params: http.adornParams({pid})
+    params: http.adornParams({ pid })
   })
 }
 
@@ -215,7 +250,7 @@ const selectProvince = (val) => {
   dataForm.cityId = null
   dataForm.city = ''
   // 获取城市的select
-  listAreaByParentId(val).then(({data}) => {
+  listAreaByParentId(val).then(({ data }) => {
     cityList.value = data
   })
 }
@@ -228,7 +263,7 @@ const selectCity = (val) => {
   dataForm.areaId = null
   dataForm.area = ''
   // 获取区的select
-  listAreaByParentId(val).then(({data}) => {
+  listAreaByParentId(val).then(({ data }) => {
     areaList.value = data
   })
 }

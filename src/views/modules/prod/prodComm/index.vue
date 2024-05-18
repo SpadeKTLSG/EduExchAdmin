@@ -45,8 +45,8 @@
 </template>
 
 <script setup>
-import {ElMessage, ElMessageBox} from 'element-plus'
-import {tableOption} from '@/crud/prod/prodComm.js'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { tableOption } from '@/crud/prod/prodComm.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -67,7 +67,7 @@ const getDataList = (pageParam, params, done) => {
       size: pageParam == null ? page.pageSize : pageParam.pageSize
     }, params))
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = data.records
         page.total = data.total
         dataListLoading.value = false

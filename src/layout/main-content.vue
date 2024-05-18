@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import {ArrowRight} from '@element-plus/icons-vue'
+import { ArrowRight } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const documentClientHeight = ref(document.documentElement.clientHeight)
@@ -54,9 +54,9 @@ const siteContentViewHeight = computed(() => {
   let height = documentClientHeight.value - 50 - 30 - 2
   if (route.meta.isTab) {
     height -= 40
-    return isURL(route.meta.iframeUrl) ? {height: height + 'px'} : {minHeight: height + 'px'}
+    return isURL(route.meta.iframeUrl) ? { height: height + 'px' } : { minHeight: height + 'px' }
   }
-  return {minHeight: height + 'px'}
+  return { minHeight: height + 'px' }
 })
 
 const commonStore = useCommonStore()

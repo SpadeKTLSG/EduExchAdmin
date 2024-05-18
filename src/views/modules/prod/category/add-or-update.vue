@@ -84,9 +84,9 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {treeDataTranslate, idList} from '@/utils'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { idList, treeDataTranslate } from '@/utils'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -102,11 +102,23 @@ const dataForm = reactive({
 })
 const dataRule = reactive({
   categoryName: [
-    {required: true, message: '分类名称不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的分类名称', trigger: 'blur'}
+    {
+      required: true,
+      message: '分类名称不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的分类名称',
+      trigger: 'blur'
+    }
   ],
   pic: [
-    {required: true, message: '分类图片不能为空', trigger: 'blur'}
+    {
+      required: true,
+      message: '分类图片不能为空',
+      trigger: 'blur'
+    }
   ]
 })
 const categoryList = ref([])
@@ -126,7 +138,7 @@ const init = (id) => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         categoryList.value = treeDataTranslate(data, 'categoryId', 'parentId')
       })
       .then(() => {
@@ -144,7 +156,7 @@ const init = (id) => {
             method: 'get',
             params: http.adornParams()
           })
-              .then(({data}) => {
+              .then(({ data }) => {
                 dataForm.categoryId = data.categoryId
                 dataForm.categoryName = data.categoryName
                 dataForm.seq = data.seq
@@ -156,7 +168,7 @@ const init = (id) => {
         }
       })
 }
-defineExpose({init})
+defineExpose({ init })
 
 const handleChange = (val) => {
   dataForm.parentId = val[val.length - 1]

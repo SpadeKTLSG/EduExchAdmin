@@ -48,7 +48,7 @@ const getUserInfo = () => {
     url: http.adornUrl('/sys/user/info'),
     method: 'get',
     params: http.adornParams()
-  }).then(({data}) => {
+  }).then(({ data }) => {
     loading.value = false
     userStore.userId = data.userId
     userStore.name = data.username

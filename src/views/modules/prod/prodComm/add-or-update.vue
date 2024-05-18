@@ -147,7 +147,7 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits(['refreshDataList'])
 const dataRule = ref({})
@@ -181,13 +181,13 @@ const init = (prodCommId, isEditParam) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({data}) => {
+          .then(({ data }) => {
             dataForm.value = data
           })
     }
   })
 }
-defineExpose({init})
+defineExpose({ init })
 
 const visible = ref(false)
 const dataFormRef = ref(null)

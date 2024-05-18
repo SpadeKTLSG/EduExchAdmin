@@ -60,9 +60,9 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
-import {ElMessage, ElMessageBox} from 'element-plus'
-import {tableOption} from '@/crud/sys/role.js'
+import { isAuth } from '@/utils'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { tableOption } from '@/crud/sys/role.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -90,7 +90,7 @@ const getDataList = (pageParam, params, done) => {
         )
     )
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = data.records
         page.total = data.total
         if (done) {

@@ -52,9 +52,9 @@
 </template>
 
 <script setup>
-import {ElMessage, ElMessageBox} from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
-import {treeDataTranslate} from '@/utils'
+import { treeDataTranslate } from '@/utils'
 
 const areaName = ref('')
 const props = {
@@ -89,7 +89,7 @@ const getDataList = (pageParam, params) => {
       current: pageParam == null ? page.currentPage : pageParam.currentPage,
       size: pageParam == null ? page.pageSize : pageParam.pageSize
     }, params))
-  }).then(({data}) => {
+  }).then(({ data }) => {
     areaTreeData.value = treeDataTranslate(data, 'areaId', 'parentId')
   })
 }

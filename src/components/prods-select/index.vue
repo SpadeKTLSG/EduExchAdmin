@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits(['refreshSelectProds'])
 // eslint-disable-next-line no-unused-vars
@@ -122,7 +122,7 @@ const init = (selectProdParam) => {
   }
   getDataList()
 }
-defineExpose({init})
+defineExpose({ init })
 
 const prodTableRef = ref(null)
 const getDataList = () => {
@@ -141,7 +141,7 @@ const getDataList = () => {
         )
     )
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = data.records
         totalPage.value = data.total
         dataListLoading.value = false
@@ -217,7 +217,11 @@ const submitProds = () => {
   dataListSelections.value.forEach(item => {
     const prodIndex = prods.findIndex((prod) => prod.prodId === item.prodId)
     if (prodIndex === -1) {
-      prods.push({prodId: item.prodId, prodName: item.prodName, pic: item.pic})
+      prods.push({
+        prodId: item.prodId,
+        prodName: item.prodName,
+        pic: item.pic
+      })
     }
   })
   emit('refreshSelectProds', prods)

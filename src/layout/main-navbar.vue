@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import {ElMessageBox} from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import UpdatePassword from './main-navbar-update-password.vue'
 
 const route = useRoute()
@@ -100,7 +100,7 @@ const logoutHandle = () => {
       data: http.adornData()
     }).then(() => {
       clearLoginInfo()
-      router.push({name: 'login'})
+      router.push({ name: 'login' })
     })
   })
 }

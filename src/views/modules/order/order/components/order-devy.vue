@@ -49,7 +49,7 @@
   </el-dialog>
 </template>
 <script setup>
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits(['refreshDataList'])
 
@@ -63,8 +63,15 @@ const validDvyFlowId = (rule, value, callback) => {
 }
 const dataRule = {
   dvyFlowId: [
-    {required: true, message: '不能为空', trigger: 'blur'},
-    {validator: validDvyFlowId, trigger: 'blur'}
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'blur'
+    },
+    {
+      validator: validDvyFlowId,
+      trigger: 'blur'
+    }
   ]
 }
 
@@ -85,11 +92,11 @@ const init = (orderNumber, dvyId, dvyFlowId) => {
     url: http.adornUrl('/admin/delivery/list'),
     method: 'get',
     params: http.adornParams()
-  }).then(({data}) => {
+  }).then(({ data }) => {
     dataForm.dvyNames = data
   })
 }
-defineExpose({init})
+defineExpose({ init })
 
 const dataFormRef = ref(null)
 /**

@@ -107,8 +107,8 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {scoreProdStore} from '@/stores/prod.js'
+import { ElMessage } from 'element-plus'
+import { scoreProdStore } from '@/stores/prod.js'
 
 const prod = scoreProdStore()
 const props = defineProps({
@@ -136,10 +136,10 @@ let maxPropId = 0 // 规格id 最大
 let initing = false
 
 const skuTags = computed({
-  get() {
+  get () {
     return prod.skuTags
   },
-  set(val) {
+  set (val) {
     prod.updateSkuTags(val)
   }
 })
@@ -263,7 +263,7 @@ onMounted(() => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dbTags.value = data
         if (data) {
           maxPropId = Math.max.apply(Math, data.map(item => item.propId))
@@ -276,7 +276,7 @@ onMounted(() => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         if (data) {
           maxValueId = data
         } else {
@@ -304,17 +304,20 @@ const init = (skuList) => {
           tagName: properties[0],
           tagItems: []
         }
-        tagItemInputs.value.push({visible: false, value: ''})
+        tagItemInputs.value.push({
+          visible: false,
+          value: ''
+        })
       }
       const tagItemNameIndex = skuTagsParam[j].tagItems.findIndex((tagItemName) => tagItemName.propValue === properties[1])
       if (tagItemNameIndex === -1) {
-        skuTagsParam[j].tagItems.push({propValue: properties[1]})
+        skuTagsParam[j].tagItems.push({ propValue: properties[1] })
       }
     }
   }
   skuTags.value = skuTagsParam
 }
-defineExpose({init})
+defineExpose({ init })
 
 /**
  * 显示规格名、规格值输入框
@@ -357,7 +360,11 @@ const addTag = () => {
       tagItems.push(element)
     } else {
       maxValueId = maxValueId + 1
-      tagItems.push({propId: maxPropId, propValue: element, valueId: maxValueId})
+      tagItems.push({
+        propId: maxPropId,
+        propValue: element,
+        valueId: maxValueId
+      })
     }
   }
   // 向规格中放入规格输入框内的数据
@@ -396,7 +403,7 @@ const handleTagClick = () => {
     url: http.adornUrl(`/prod/spec/listSpecValue/${dbTags.value[specsIndex].propId}`),
     method: 'get',
     params: http.adornParams()
-  }).then(({data}) => {
+  }).then(({ data }) => {
     dbTagValues.value = data
   })
 }
@@ -428,9 +435,16 @@ const handleInputConfirm = (tagIndex) => {
   tagName = skuTags.value[tagIndex].tagName
   tagItemName.value = tagItemInputs.value[tagIndex].value
   const maxValue = getMaxValueId(skuTags.value[tagIndex].tagItems)
-  const tagItem = {propId: index === -1 ? 0 : skuTags.value[tagIndex].tagItems[index].propId, propValue: itemValue, valueId: index === -1 ? 0 : (maxValue + 1)}
+  const tagItem = {
+    propId: index === -1 ? 0 : skuTags.value[tagIndex].tagItems[index].propId,
+    propValue: itemValue,
+    valueId: index === -1 ? 0 : (maxValue + 1)
+  }
   if (tagItem) {
-    prod.addSkuTagItem({tagIndex, tagItem})
+    prod.addSkuTagItem({
+      tagIndex,
+      tagItem
+    })
   }
   tagItemInputs.value[tagIndex].visible = false
   tagItemInputs.value[tagIndex].value = ''
@@ -441,7 +455,10 @@ const handleInputConfirm = (tagIndex) => {
  * 显示标签输入框
  */
 const showTagInput = (tagIndex) => {
-  tagItemInputs.value.push({visible: false, value: ''})
+  tagItemInputs.value.push({
+    visible: false,
+    value: ''
+  })
   tagItemInputs.value[tagIndex].visible = true
   nextTick(() => {
     [`saveTagInput${tagIndex}`][0].value.input.focus()

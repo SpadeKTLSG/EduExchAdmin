@@ -52,8 +52,8 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -65,12 +65,28 @@ const dataForm = reactive({
 })
 const dataRule = {
   paramKey: [
-    {required: true, message: '参数名不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的参数名', trigger: 'blur'}
+    {
+      required: true,
+      message: '参数名不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的参数名',
+      trigger: 'blur'
+    }
   ],
   paramValue: [
-    {required: true, message: '参数值不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的参数值', trigger: 'blur'}
+    {
+      required: true,
+      message: '参数值不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的参数值',
+      trigger: 'blur'
+    }
   ]
 }
 const dataFormRef = ref(null)
@@ -84,7 +100,7 @@ const init = (id) => {
         url: http.adornUrl(`/sys/config/info/${dataForm.id}`),
         method: 'get',
         params: http.adornParams()
-      }).then(({data}) => {
+      }).then(({ data }) => {
         dataForm.paramKey = data.paramKey
         dataForm.paramValue = data.paramValue
         dataForm.remark = data.remark
@@ -92,7 +108,7 @@ const init = (id) => {
     }
   })
 }
-defineExpose({init})
+defineExpose({ init })
 /**
  * 表单提交
  */

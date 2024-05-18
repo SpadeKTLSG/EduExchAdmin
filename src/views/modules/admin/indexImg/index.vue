@@ -76,10 +76,10 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
-import {ElMessage, ElMessageBox} from 'element-plus'
+import { isAuth } from '@/utils'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
-import {tableOption} from '@/crud/admin/indexImg.js'
+import { tableOption } from '@/crud/admin/indexImg.js'
 
 const dataList = ref([])
 const dataListLoading = ref(false)
@@ -108,7 +108,7 @@ const getDataList = (pageParam, params, done) => {
         )
     )
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         data.records.forEach(item => {
           item.imgUrl = item.imgUrl ? resourcesUrl + item.imgUrl : ''
         })

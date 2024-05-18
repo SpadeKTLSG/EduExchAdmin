@@ -60,10 +60,10 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
-import {ElMessage, ElMessageBox} from 'element-plus'
+import { isAuth } from '@/utils'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
-import {tableOption} from '@/crud/prod/spec.js'
+import { tableOption } from '@/crud/prod/spec.js'
 
 const permission = ref({
   delBtn: isAuth('prod:prod:delete')
@@ -94,7 +94,7 @@ const getDataList = (pageParam, params, done) => {
         )
     )
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = data.records
         page.total = data.total
         dataListLoading.value = false

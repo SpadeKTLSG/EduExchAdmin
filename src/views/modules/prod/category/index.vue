@@ -99,8 +99,8 @@
 </template>
 
 <script setup>
-import {checkFileUrl, isAuth, treeDataTranslate} from '@/utils'
-import {ElMessage, ElMessageBox} from 'element-plus'
+import { checkFileUrl, isAuth, treeDataTranslate } from '@/utils'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataForm = ref({})
@@ -121,7 +121,7 @@ const getDataList = () => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = treeDataTranslate(data, 'categoryId', 'parentId')
         dataListLoading.value = false
       })

@@ -26,9 +26,9 @@
 
 <script setup>
 import $cookie from 'vue-cookies'
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 
-const uploadHeaders = {Authorization: $cookie.get('Authorization')}
+const uploadHeaders = { Authorization: $cookie.get('Authorization') }
 const uploadAction = http.adornUrl('/admin/file/upload/element')
 const props = defineProps({
   modelValue: {
@@ -46,7 +46,10 @@ const imageList = computed(() => {
   if (props.modelValue) {
     const imageArray = props.modelValue?.split(',')
     for (let i = 0; i < imageArray.length; i++) {
-      res.push({url: resourcesUrl + imageArray[i], response: imageArray[i]})
+      res.push({
+        url: resourcesUrl + imageArray[i],
+        response: imageArray[i]
+      })
     }
   }
   emit('update:modelValue', props.modelValue)

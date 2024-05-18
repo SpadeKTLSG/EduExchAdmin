@@ -52,9 +52,9 @@
 </template>
 
 <script setup>
-import {ElMessage} from 'element-plus'
-import {treeDataTranslate} from '@/utils'
-import {Debounce} from '@/utils/debounce'
+import { ElMessage } from 'element-plus'
+import { treeDataTranslate } from '@/utils'
+import { Debounce } from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const tempKey = -666666 // 临时key) 用于解决tree半选中状态项不能传给后台接口问题. # 待优化
@@ -71,11 +71,24 @@ const dataForm = reactive({
 })
 const dataRule = reactive({
   roleName: [
-    {required: true, message: '角色名称不能为空', trigger: 'blur'},
-    {pattern: /\s\S+|S+\s|\S/, message: '请输入正确的角色名称', trigger: 'blur'}
+    {
+      required: true,
+      message: '角色名称不能为空',
+      trigger: 'blur'
+    },
+    {
+      pattern: /\s\S+|S+\s|\S/,
+      message: '请输入正确的角色名称',
+      trigger: 'blur'
+    }
   ],
   remark: [
-    {required: false, pattern: /\s\S+|S+\s|\S/, message: '输入格式有误', trigger: 'blur'}
+    {
+      required: false,
+      pattern: /\s\S+|S+\s|\S/,
+      message: '输入格式有误',
+      trigger: 'blur'
+    }
   ]
 })
 const dataFormRef = ref(null)
@@ -87,7 +100,7 @@ const init = (id) => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         menuList.value = treeDataTranslate(data, 'menuId', 'parentId')
       })
       .then(() => {
@@ -104,7 +117,7 @@ const init = (id) => {
             method: 'get',
             params: http.adornParams()
           })
-              .then(({data}) => {
+              .then(({ data }) => {
                 dataForm.roleName = data.roleName
                 dataForm.remark = data.remark
                 const idx = data.menuIdList.indexOf(tempKey)
@@ -116,7 +129,7 @@ const init = (id) => {
         }
       })
 }
-defineExpose({init})
+defineExpose({ init })
 /**
  * 表单提交
  */

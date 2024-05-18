@@ -133,13 +133,13 @@ const getTransportList = () => {
     method: 'get',
     params: http.adornParams({})
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         transportList.value = data
       })
 }
 const transportInfo = ref({
   hasFreeCondition: false,
-  transfeeFrees: [{freeCityList: []}]
+  transfeeFrees: [{ freeCityList: [] }]
 })
 const changeTransport = (id) => {
   emit('update:modelValue', id)
@@ -151,7 +151,7 @@ const changeTransport = (id) => {
     method: 'get',
     params: http.adornParams({})
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         transportInfo.value = data
       })
 }

@@ -13,7 +13,8 @@
         <img :src="'data:image/png;base64,'+pointBackImgBase"
              ref="canvas"
              alt="" style="width:100%;height:100%;display:block"
-             @click="bindingClick?canvasClick($event):undefined">
+             @click="bindingClick?canvasClick($event):undefined"
+        >
 
         <div v-for="(tempPoint, index) in tempPoints" :key="index" class="point-area"
              :style="{
@@ -28,7 +29,8 @@
                         position:'absolute',
                         top:parseInt(tempPoint.y-10) + 'px',
                         left:parseInt(tempPoint.x-10) + 'px'
-                     }">
+                     }"
+        >
           {{ index + 1 }}
         </div>
       </div>
@@ -38,7 +40,8 @@
          :style="{'width': setSize.imgWidth,
                       'color': this.barAreaColor,
                       'border-color': this.barAreaBorderColor,
-                      'line-height':this.barSize.height}">
+                      'line-height':this.barSize.height}"
+    >
       <span class="verify-msg">{{ text }}</span>
     </div>
   </div>
@@ -48,10 +51,10 @@
  * VerifyPoints
  * @description 点选
  * */
-import {resetSize} from './../utils/util'
-import {aesEncrypt} from './../utils/ase'
-import {reqCheck, reqGet} from './../api/index'
-import {getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs} from 'vue'
+import { resetSize } from './../utils/util'
+import { aesEncrypt } from './../utils/ase'
+import { reqCheck, reqGet } from './../api/index'
+import { getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 
 export default {
   name: 'VerifyPoints',
@@ -71,7 +74,7 @@ export default {
     },
     imgSize: {
       type: Object,
-      default() {
+      default () {
         return {
           width: '310px',
           height: '155px'
@@ -80,7 +83,7 @@ export default {
     },
     barSize: {
       type: Object,
-      default() {
+      default () {
         return {
           width: '310px',
           height: '40px'
@@ -88,9 +91,15 @@ export default {
       }
     }
   },
-  setup(props, context) {
-    const {mode, captchaType, vSpace, imgSize, barSize} = toRefs(props)
-    const {proxy} = getCurrentInstance()
+  setup (props, context) {
+    const {
+      mode,
+      captchaType,
+      vSpace,
+      imgSize,
+      barSize
+    } = toRefs(props)
+    const { proxy } = getCurrentInstance()
     const secretKey = ref('') // 后端返回的ase加密秘钥
     const checkNum = ref(3) // 默认需要点击的字数
     const fontPos = reactive([]) // 选中的坐标信息
@@ -119,7 +128,12 @@ export default {
       num.value = 1
       getPictrue()
       nextTick(() => {
-        const {imgHeight, imgWidth, barHeight, barWidth} = resetSize(proxy)
+        const {
+          imgHeight,
+          imgWidth,
+          barHeight,
+          barWidth
+        } = resetSize(proxy)
         setSize.imgHeight = imgHeight
         setSize.imgWidth = imgWidth
         setSize.barHeight = barHeight
@@ -165,7 +179,7 @@ export default {
                   refresh()
                 }, 1500)
               }
-              proxy.$parent.$emit('success', {captchaVerification})
+              proxy.$parent.$emit('success', { captchaVerification })
             } else {
               proxy.$parent.$emit('error', proxy)
               barAreaColor.value = '#d9534f'
@@ -186,7 +200,10 @@ export default {
     const getMousePos = function (obj, e) {
       const x = e.offsetX
       const y = e.offsetY
-      return {x, y}
+      return {
+        x,
+        y
+      }
     }
     // 创建坐标点
     const createPoint = function (pos) {
@@ -207,7 +224,7 @@ export default {
     }
 
     // 请求背景图片和验证图片
-    function getPictrue() {
+    function getPictrue () {
       const data = {
         captchaType: captchaType.value
       }
@@ -229,7 +246,10 @@ export default {
       const newPointArr = pointArr.map(p => {
         const x = Math.round(310 * p.x / parseInt(imgSize.imgWidth))
         const y = Math.round(155 * p.y / parseInt(imgSize.imgHeight))
-        return {x, y}
+        return {
+          x,
+          y
+        }
       })
       return newPointArr
     }

@@ -6,19 +6,19 @@ import request from './../utils/axios' // 组件内部封装的axios
 // import request from "@/api/axios.js"       //调用项目封装的axios
 
 // 获取验证图片  以及token
-export function reqGet(data) {
-    return request({
-        url: '/captcha/get',
-        method: 'post',
-        data
-    })
+export function reqGet (data) {
+  return request({
+    url: '/captcha/get',
+    method: 'post',
+    data
+  })
 }
 
 // 滑动或者点选验证
-export function reqCheck(data) {
-    return request({
-        url: '/captcha/check',
-        method: 'post',
-        data
-    })
+export function reqCheck (data) {
+  return request({
+    url: '/captcha/check',
+    method: 'post',
+    data
+  })
 }

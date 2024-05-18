@@ -63,9 +63,9 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
-import {ElMessage, ElMessageBox} from 'element-plus'
-import {tableOption} from '@/crud/prod/prodList.js'
+import { isAuth } from '@/utils'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { tableOption } from '@/crud/prod/prodList.js'
 
 const permission = reactive({
   delBtn: isAuth('prod:prod:delete')
@@ -95,7 +95,7 @@ const getDataList = (pageParam, params, done) => {
         )
     )
   })
-      .then(({data}) => {
+      .then(({ data }) => {
         dataList.value = data.records
         for (const key in dataList.value) {
           // eslint-disable-next-line no-prototype-builtins
@@ -117,7 +117,7 @@ const router = useRouter()
 const onAddOrUpdate = (id) => {
   router.push({
     path: '/prodInfo',
-    query: {prodId: id}
+    query: { prodId: id }
   })
 }
 /**

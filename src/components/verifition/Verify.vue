@@ -35,7 +35,7 @@
  * */
 import VerifySlide from './Verify/VerifySlide.vue'
 import VerifyPoints from './Verify/VerifyPoints.vue'
-import {computed, ref, toRefs, watchEffect} from 'vue'
+import { computed, ref, toRefs, watchEffect } from 'vue'
 
 export default {
   name: 'Vue2Verify',
@@ -66,7 +66,7 @@ export default {
     },
     imgSize: {
       type: Object,
-      default() {
+      default () {
         return {
           width: '310px',
           height: '155px'
@@ -80,8 +80,11 @@ export default {
       type: Object
     }
   },
-  setup(props) {
-    const {captchaType, mode,} = toRefs(props)
+  setup (props) {
+    const {
+      captchaType,
+      mode,
+    } = toRefs(props)
     const clickShow = ref(false)
     const verifyType = ref(undefined)
     const componentType = ref(undefined)
