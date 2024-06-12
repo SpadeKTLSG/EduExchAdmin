@@ -44,7 +44,7 @@
         </el-form>
       </div>
       <div class="bottom">
-        Copyright © 2019 广州市蓝海创新科技有限公司
+        Copyright © 2024 睡眠促进委员会
       </div>
     </div>
     <Verify

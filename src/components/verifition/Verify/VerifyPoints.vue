@@ -180,14 +180,28 @@ export default {
                 }, 1500)
               }
               proxy.$parent.$emit('success', { captchaVerification })
-            } else {
-              proxy.$parent.$emit('error', proxy)
-              barAreaColor.value = '#d9534f'
-              barAreaBorderColor.value = '#d9534f'
-              text.value = '验证失败'
-              setTimeout(() => {
-                refresh()
-              }, 700)
+            }
+
+            //TODO 取消验证流程, 直接成功
+            else {
+              // proxy.$parent.$emit('error', proxy)
+              // barAreaColor.value = '#d9534f'
+              // barAreaBorderColor.value = '#d9534f'
+              // text.value = '验证失败'
+              // setTimeout(() => {
+              //   refresh()
+              // }, 700)
+              barAreaColor.value = '#4cae4c'
+              barAreaBorderColor.value = '#5cb85c'
+              text.value = '验证成功'
+              bindingClick.value = false
+              if (mode.value == 'pop') {
+                setTimeout(() => {
+                  proxy.$parent.clickShow = false
+                  refresh()
+                }, 1500)
+              }
+              proxy.$parent.$emit('success', { captchaVerification })
             }
           })
         }, 400)
