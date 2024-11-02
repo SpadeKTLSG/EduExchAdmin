@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => {
@@ -11,19 +11,19 @@ export const useUserStore = defineStore('user', {
     }
   },
   actions: {
-    updateId (id) {
+    updateId(id) {
       this.id = id
     },
-    updateName (name) {
+    updateName(name) {
       this.name = name
     },
-    updateMobile (mobile) {
+    updateMobile(mobile) {
       this.mobile = mobile
     },
-    updateShopId (shopId) {
+    updateShopId(shopId) {
       this.shopId = shopId
     },
-    updateUserId (userId) {
+    updateUserId(userId) {
       this.userId = userId
     }
   }

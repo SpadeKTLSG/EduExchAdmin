@@ -1,52 +1,52 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.areaId ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.areaId ? '新增' : '修改'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="100px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="100px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          label="地区名称"
-          prop="areaName"
+        label="地区名称"
+        prop="areaName"
       >
         <el-input
-            v-model="dataForm.areaName"
-            placeholder="请输入地区名称"
-            maxlength="50"
-            show-word-limit
+          v-model="dataForm.areaName"
+          maxlength="50"
+          placeholder="请输入地区名称"
+          show-word-limit
         />
       </el-form-item>
       <el-form-item
-          label="上级地区"
-          prop="parentId"
+        label="上级地区"
+        prop="parentId"
       >
         <el-cascader
-            v-model="selectedOptions"
-            expand-trigger="hover"
-            :options="areaList"
-            :props="categoryTreeProps"
-            change-on-select
-            filterable
-            @change="handleChange"
+          v-model="selectedOptions"
+          :options="areaList"
+          :props="categoryTreeProps"
+          change-on-select
+          expand-trigger="hover"
+          filterable
+          @change="handleChange"
         />
       </el-form-item>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
         <el-button
-            @click="visible = false"
+          @click="visible = false"
         >
           取消
         </el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >
           确定
         </el-button>
@@ -56,9 +56,9 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { treeDataTranslate } from '@/utils'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {treeDataTranslate} from '@/utils'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const dataRule = reactive({
@@ -103,24 +103,24 @@ const init = (areaId) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({ data }) => {
-            dataForm.value = data
-            selectedOptions.value = dataForm.value.parentId
-            categoryTreeProps.areaId = dataForm.value.areaId
-            categoryTreeProps.areaName = dataForm.value.areaName
-          })
+        .then(({data}) => {
+          dataForm.value = data
+          selectedOptions.value = dataForm.value.parentId
+          categoryTreeProps.areaId = dataForm.value.areaId
+          categoryTreeProps.areaName = dataForm.value.areaName
+        })
     }
     http({
       url: http.adornUrl('/admin/area/list'),
       method: 'get',
       params: http.adornParams()
     })
-        .then(({ data }) => {
-          areaList.value = treeDataTranslate(data, 'areaId', 'parentId')
-        })
+      .then(({data}) => {
+        areaList.value = treeDataTranslate(data, 'areaId', 'parentId')
+      })
   })
 }
-defineExpose({ init })
+defineExpose({init})
 
 const page = {
   total: 0, // 总页数

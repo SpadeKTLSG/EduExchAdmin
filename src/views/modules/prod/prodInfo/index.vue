@@ -1,9 +1,9 @@
 <template>
   <div class="mod-prod-info">
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        label-width="100px"
+      ref="dataFormRef"
+      :model="dataForm"
+      label-width="100px"
     >
       <el-form-item label="产品图片">
         <mul-pic-upload v-model="dataForm.imgs"/>
@@ -19,70 +19,70 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item
-          label="产品分类"
-          :rules="[{ required: true, message: '请选择产品分类'}]"
-          prop="categoryId"
+        :rules="[{ required: true, message: '请选择产品分类'}]"
+        label="产品分类"
+        prop="categoryId"
       >
         <el-col :span="8">
           <el-cascader
-              v-model="category.selected"
-              expand-trigger="hover"
-              :options="category.list"
-              :props="category.props"
-              change-on-select
-              @change="handleCategoryChange"
+            v-model="category.selected"
+            :options="category.list"
+            :props="category.props"
+            change-on-select
+            expand-trigger="hover"
+            @change="handleCategoryChange"
           />
         </el-col>
       </el-form-item>
       <el-form-item
-          label="产品分组"
-          :rules="[{ required: true, message: '请选择产品分组'}]"
+        :rules="[{ required: true, message: '请选择产品分组'}]"
+        label="产品分组"
       >
         <el-col :span="8">
           <el-select
-              v-model="dataForm.tagList"
-              multiple
-              style="width: 250px"
-              placeholder="请选择"
+            v-model="dataForm.tagList"
+            multiple
+            placeholder="请选择"
+            style="width: 250px"
           >
             <el-option
-                v-for="item in tags"
-                :key="item.id"
-                :label="item.title"
-                :value="item.id"
+              v-for="item in tags"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
             />
           </el-select>
         </el-col>
       </el-form-item>
       <el-form-item
-          label="产品名称"
-          prop="prodName"
-          :rules="[
+        :rules="[
           { required: true, message: '产品名称不能为空'},
           { pattern: /\s\S+|S+\s|\S/, message: '请输入正确的产品名称', trigger: 'blur' }
         ]"
+        label="产品名称"
+        prop="prodName"
       >
         <el-col :span="8">
           <el-input
-              v-model="dataForm.prodName"
-              placeholder="产品名称"
-              maxlength="50"
+            v-model="dataForm.prodName"
+            maxlength="50"
+            placeholder="产品名称"
           />
         </el-col>
       </el-form-item>
       <el-form-item
-          label="产品卖点"
-          prop="brief"
-          :rules="[
+        :rules="[
           { required: false, pattern: /\s\S+|S+\s|\S/, message: '请输入正确的产品卖点', trigger: 'blur' }
         ]"
+        label="产品卖点"
+        prop="brief"
       >
         <el-col :span="8">
           <el-input
-              v-model="dataForm.brief"
-              type="textarea"
-              :autosize="{minRows: 2, maxRows: 4}"
-              placeholder="产品卖点"
+            v-model="dataForm.brief"
+            :autosize="{minRows: 2, maxRows: 4}"
+            placeholder="产品卖点"
+            type="textarea"
           />
         </el-col>
       </el-form-item>
@@ -95,33 +95,33 @@
         </el-checkbox>
       </el-form-item>
       <prod-transport
-          v-show="dataForm.deliveryMode.hasShopDelivery"
-          v-model="dataForm.deliveryTemplateId"
+        v-show="dataForm.deliveryMode.hasShopDelivery"
+        v-model="dataForm.deliveryTemplateId"
       />
       <sku-tag
-          ref="skuTagRef"
-          :sku-list="dataForm.skuList"
-          @change="skuTagChangeSkuHandler"
+        ref="skuTagRef"
+        :sku-list="dataForm.skuList"
+        @change="skuTagChangeSkuHandler"
       />
       <sku-table
-          ref="skuTableRef"
-          v-model="dataForm.skuList"
-          :prod-name="dataForm.prodName"
+        ref="skuTableRef"
+        v-model="dataForm.skuList"
+        :prod-name="dataForm.prodName"
       />
       <el-form-item
-          label="产品详情"
-          prop="content"
+        label="产品详情"
+        prop="content"
       >
         <tiny-mce
-            ref="contentRef"
-            v-model="dataForm.content"
-            style="width:1000px"
+          ref="contentRef"
+          v-model="dataForm.content"
+          style="width:1000px"
         />
       </el-form-item>
       <el-form-item>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >
           确定
         </el-button>
@@ -131,12 +131,12 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { idList, treeDataTranslate } from '@/utils'
+import {ElMessage} from 'element-plus'
+import {idList, treeDataTranslate} from '@/utils'
 import ProdTransport from './components/prod-transport.vue'
 import SkuTag from './components/sku-tag.vue'
 import SkuTable from './components/sku-table.vue'
-import { Debounce } from '@/utils/debounce'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 
@@ -188,14 +188,14 @@ const getDataList = () => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({ data }) => {
-            dataForm.value = data
-            dataForm.value.deliveryMode = JSON.parse(data.deliveryMode)
-            skuTagRef.value?.init(data.skuList)
-            skuTableRef.value?.init()
-            category.selected = idList(category.list, dataForm.value.categoryId, 'categoryId', 'children').reverse()
-            dataForm.value.tagList = data.tagList
-          })
+        .then(({data}) => {
+          dataForm.value = data
+          dataForm.value.deliveryMode = JSON.parse(data.deliveryMode)
+          skuTagRef.value?.init(data.skuList)
+          skuTableRef.value?.init()
+          category.selected = idList(category.list, dataForm.value.categoryId, 'categoryId', 'children').reverse()
+          dataForm.value.tagList = data.tagList
+        })
     } else {
       nextTick(() => {
         dataFormRef.value?.resetFields()
@@ -215,9 +215,9 @@ const getCategoryList = () => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({ data }) => {
-        category.list = treeDataTranslate(data, 'categoryId', 'parentId')
-      })
+    .then(({data}) => {
+      category.list = treeDataTranslate(data, 'categoryId', 'parentId')
+    })
 }
 /**
  * 选择分类改变事件
@@ -262,19 +262,19 @@ const onSubmit = Debounce(() => {
       method: param.prodId ? 'put' : 'post',
       data: http.adornData(param)
     })
-        .then(() => {
-          ElMessage({
-            message: '操作成功',
-            type: 'success',
-            duration: 1500,
-            onClose: () => {
-              router.push({
-                path: '/prod/prodList'
-              })
-              emit('refreshDataList')
-            }
-          })
+      .then(() => {
+        ElMessage({
+          message: '操作成功',
+          type: 'success',
+          duration: 1500,
+          onClose: () => {
+            router.push({
+              path: '/prod/prodList'
+            })
+            emit('refreshDataList')
+          }
         })
+      })
   })
 })
 
@@ -337,8 +337,8 @@ const getTagList = () => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({ data }) => {
-        tags.value = data
-      })
+    .then(({data}) => {
+      tags.value = data
+    })
 }
 </script>

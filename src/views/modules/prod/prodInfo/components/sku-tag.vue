@@ -11,8 +11,8 @@
         <span>{{ tag.tagName }}</span>
         <el-button
             class="button-new-tag"
-            type="text"
             icon="el-icon-delete"
+            type="text"
             @click="removeTag(tagIndex)"
         >
           删除
@@ -21,8 +21,8 @@
         <el-tag
             v-for="(tagItem, tagItemIndex) in tag.tagItems"
             :key="tagItem.valueId"
-            closable
             :disable-transitions="false"
+            closable
             @close="handleTagClose(tagIndex, tagItemIndex)"
         >
           {{ tagItem.propValue }}
@@ -32,8 +32,8 @@
             :ref="`saveTagInput${tagIndex}`"
             v-model="tagItemInputs[tagIndex].value"
             class="input-new-tag"
-            @keyup.enter="handleInputConfirm(tagIndex)"
             @blur="handleInputConfirm(tagIndex)"
+            @keyup.enter="handleInputConfirm(tagIndex)"
         />
         <el-button
             v-else
@@ -51,9 +51,9 @@
       <el-col :span="8">
         <el-select
             v-model="addTagInput.propName"
-            filterable
             allow-create
             default-first-option
+            filterable
             placeholder="请选择"
             @change="handleTagClick"
         >
@@ -73,10 +73,10 @@
       <el-col :span="8">
         <el-select
             v-model="addTagInput.selectValues"
-            multiple
-            filterable
             allow-create
             default-first-option
+            filterable
+            multiple
             placeholder="请选择"
         >
           <el-option
@@ -107,8 +107,8 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { scoreProdStore } from '@/stores/prod.js'
+import {ElMessage} from 'element-plus'
+import {scoreProdStore} from '@/stores/prod.js'
 
 const prod = scoreProdStore()
 const props = defineProps({

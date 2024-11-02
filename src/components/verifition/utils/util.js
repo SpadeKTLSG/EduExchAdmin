@@ -1,4 +1,4 @@
-export function resetSize (vm) {
+export function resetSize(vm) {
   let img_width, img_height, bar_width, bar_height	// 图片的宽度、高度，移动条的宽度、高度
 
   const parentWidth = vm.$el.parentNode.offsetWidth || window.offsetWidth

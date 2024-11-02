@@ -1,6 +1,6 @@
 <template>
   <el-config-provider
-      namespace="el"
+    namespace="el"
   >
     <router-view/>
   </el-config-provider>

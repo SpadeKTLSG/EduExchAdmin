@@ -1,60 +1,60 @@
 <template>
   <div class="mod-order-order">
     <el-form
-        :inline="true"
-        :model="dataForm"
-        @keyup.enter="getDataList(page)"
+      :inline="true"
+      :model="dataForm"
+      @keyup.enter="getDataList(page)"
     >
       <el-form-item label="订单编号:">
         <el-input
-            v-model="dataForm.orderNumber"
-            placeholder="订单编号"
-            clearable
+          v-model="dataForm.orderNumber"
+          clearable
+          placeholder="订单编号"
         />
       </el-form-item>
       <el-form-item label="下单时间:">
         <el-date-picker
-            v-model="dateRange"
-            type="datetimerange"
-            range-separator="至"
-            value-format="YYYY-MM-DD HH:mm:ss"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+          v-model="dateRange"
+          end-placeholder="结束日期"
+          range-separator="至"
+          start-placeholder="开始日期"
+          type="datetimerange"
+          value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>
       <el-form-item label="订单状态:">
         <el-select
-            v-model="dataForm.status"
-            clearable
-            placeholder="请选择订单状态"
+          v-model="dataForm.status"
+          clearable
+          placeholder="请选择订单状态"
         >
           <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button
-            type="primary"
-            icon="el-icon-search"
-            @click="getDataList()"
+          icon="el-icon-search"
+          type="primary"
+          @click="getDataList()"
         >
           查询
         </el-button>
         <el-button
-            v-if="isAuth('order:order:waitingConsignmentExcel')"
-            type="primary"
-            @click="showConsignmentInfo()"
+          v-if="isAuth('order:order:waitingConsignmentExcel')"
+          type="primary"
+          @click="showConsignmentInfo()"
         >
           导出待发货订单
         </el-button>
         <el-button
-            v-if="isAuth('order:order:soldExcel')"
-            type="primary"
-            @click="getSoldExcel()"
+          v-if="isAuth('order:order:soldExcel')"
+          type="primary"
+          @click="getSoldExcel()"
         >
           导出销售记录
         </el-button>
@@ -88,9 +88,9 @@
           </el-row>
         </div>
         <div
-            v-for="order in dataList"
-            :key="order.orderId"
-            class="prod"
+          v-for="order in dataList"
+          :key="order.orderId"
+          class="prod"
         >
           <div class="prod-tit">
             <span>订单编号：{{ order.orderNumber }}</span>
@@ -101,15 +101,15 @@
               <el-col :span="12">
                 <div class="prod-item">
                   <div
-                      v-for="orderItem in order.orderItems"
-                      :key="orderItem.orderItemId"
-                      class="items name"
+                    v-for="orderItem in order.orderItems"
+                    :key="orderItem.orderItemId"
+                    class="items name"
                   >
                     <div class="prod-image">
                       <img
-                          alt=""
-                          :src="resourcesUrl + orderItem.pic"
-                          style="height:100px;width: 100px;"
+                        :src="resourcesUrl + orderItem.pic"
+                        alt=""
+                        style="height:100px;width: 100px;"
                       >
                     </div>
                     <div class="prod-name">
@@ -124,8 +124,8 @@
                 </div>
               </el-col>
               <el-col
-                  :span="3"
-                  style="height: 100%;"
+                :span="3"
+                style="height: 100%;"
               >
                 <div class="item">
                   <div>
@@ -136,8 +136,8 @@
                 </div>
               </el-col>
               <el-col
-                  :span="3"
-                  style="height: 100%;"
+                :span="3"
+                style="height: 100%;"
               >
                 <div class="item">
                   <div>
@@ -148,45 +148,45 @@
                 </div>
               </el-col>
               <el-col
-                  :span="3"
-                  style="height: 100%;"
+                :span="3"
+                style="height: 100%;"
               >
                 <div class="item">
                   <span
-                      v-if="order.status === 1"
-                      type="danger"
+                    v-if="order.status === 1"
+                    type="danger"
                   >待付款</span>
                   <span
-                      v-else-if="order.status === 2"
-                      type="danger"
+                    v-else-if="order.status === 2"
+                    type="danger"
                   >待发货</span>
                   <span
-                      v-else-if="order.status === 3"
-                      type="danger"
+                    v-else-if="order.status === 3"
+                    type="danger"
                   >待收货</span>
                   <span
-                      v-else-if="order.status === 4"
-                      type="danger"
+                    v-else-if="order.status === 4"
+                    type="danger"
                   >待评价</span>
                   <span
-                      v-else-if="order.status === 5"
-                      type="danger"
+                    v-else-if="order.status === 5"
+                    type="danger"
                   >成功</span>
                   <span
-                      v-else
+                    v-else
                   >失败</span>
                 </div>
               </el-col>
               <el-col
-                  :span="3"
-                  style="height: 100%;"
+                :span="3"
+                style="height: 100%;"
               >
                 <div class="item">
                   <div class="operate">
                     <el-button
-                        v-if="isAuth('order:order:update')"
-                        type="text"
-                        @click="onAddOrUpdate(order.orderNumber)"
+                      v-if="isAuth('order:order:update')"
+                      type="text"
+                      @click="onAddOrUpdate(order.orderNumber)"
                     >
                       查看
                     </el-button>
@@ -205,30 +205,30 @@
     </div>
     <!-- 空 -->
     <div
-        v-if="!dataList.length"
-        class="empty-tips"
+      v-if="!dataList.length"
+      class="empty-tips"
     >
       暂无数据
     </div>
     <el-pagination
-        :current-page="page.pageIndex"
-        :page-sizes="[10, 20, 50, 100]"
-        :page-size="page.pageSize"
-        :total="page.total"
-        layout="total, sizes, prev, pager, next, jumper"
-        @size-change="sizeChangeHandle"
-        @current-change="currentChangeHandle"
+      :current-page="page.pageIndex"
+      :page-size="page.pageSize"
+      :page-sizes="[10, 20, 50, 100]"
+      :total="page.total"
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="sizeChangeHandle"
+      @current-change="currentChangeHandle"
     />
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
     <consignment-info
-        v-if="consignmentInfoVisible"
-        ref="consignmentInfoRef"
-        @input-callback="getWaitingConsignmentExcel"
+      v-if="consignmentInfoVisible"
+      ref="consignmentInfoRef"
+      @input-callback="getWaitingConsignmentExcel"
     />
   </div>
 </template>
@@ -236,7 +236,7 @@
 <script setup>
 import AddOrUpdate from './components/order-info.vue'
 import ConsignmentInfo from './components/consignment-info.vue'
-import { isAuth } from '@/utils'
+import {isAuth} from '@/utils'
 
 const resourcesUrl = import.meta.env.VITE_APP_RESOURCES_URL
 const dataForm = ref({})
@@ -284,24 +284,24 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/order/order/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize,
-              orderNumber: dataForm.value.orderNumber,
-              status: dataForm.value.status,
-              startTime: dateRange.value === null ? null : dateRange.value[0], // 开始时间
-              endTime: dateRange.value === null ? null : dateRange.value[1] // 结束时间
-            },
-            params
-        ), false
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize,
+          orderNumber: dataForm.value.orderNumber,
+          status: dataForm.value.status,
+          startTime: dateRange.value === null ? null : dateRange.value[0], // 开始时间
+          endTime: dateRange.value === null ? null : dateRange.value[1] // 结束时间
+        },
+        params
+      ), false
     )
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.total = data.total
-        if (done) done()
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.total = data.total
+      if (done) done()
+    })
 }
 /**
  * 清除数据
@@ -362,22 +362,22 @@ const getWaitingConsignmentExcel = (consignmentInfo) => {
     }),
     responseType: 'blob' // 解决文件下载乱码问题
   })
-      .then(({ data }) => {
-        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
-        const fileName = '待发货信息整理.xls'
-        const elink = document.createElement('a')
-        if ('download' in elink) { // 非IE下载
-          elink.download = fileName
-          elink.style.display = 'none'
-          elink.href = URL.createObjectURL(blob)
-          document.body.appendChild(elink)
-          elink.click()
-          URL.revokeObjectURL(elink.href) // 释放URL 对象
-          document.body.removeChild(elink)
-        } else { // IE10+下载
-          navigator.msSaveBlob(blob, fileName)
-        }
-      })
+    .then(({data}) => {
+      const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
+      const fileName = '待发货信息整理.xls'
+      const elink = document.createElement('a')
+      if ('download' in elink) { // 非IE下载
+        elink.download = fileName
+        elink.style.display = 'none'
+        elink.href = URL.createObjectURL(blob)
+        document.body.appendChild(elink)
+        elink.click()
+        URL.revokeObjectURL(elink.href) // 释放URL 对象
+        document.body.removeChild(elink)
+      } else { // IE10+下载
+        navigator.msSaveBlob(blob, fileName)
+      }
+    })
 }
 
 const getSoldExcel = () => {
@@ -390,22 +390,22 @@ const getSoldExcel = () => {
     }),
     responseType: 'blob' // 解决文件下载乱码问题
   })
-      .then(({ data }) => {
-        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
-        const fileName = '销售信息整理.xls'
-        const elink = document.createElement('a')
-        if ('download' in elink) { // 非IE下载
-          elink.download = fileName
-          elink.style.display = 'none'
-          elink.href = URL.createObjectURL(blob)
-          document.body.appendChild(elink)
-          elink.click()
-          URL.revokeObjectURL(elink.href) // 释放URL 对象
-          document.body.removeChild(elink)
-        } else { // IE10+下载
-          navigator.msSaveBlob(blob, fileName)
-        }
-      })
+    .then(({data}) => {
+      const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
+      const fileName = '销售信息整理.xls'
+      const elink = document.createElement('a')
+      if ('download' in elink) { // 非IE下载
+        elink.download = fileName
+        elink.style.display = 'none'
+        elink.href = URL.createObjectURL(blob)
+        document.body.appendChild(elink)
+        elink.click()
+        URL.revokeObjectURL(elink.href) // 释放URL 对象
+        document.body.removeChild(elink)
+      } else { // IE10+下载
+        navigator.msSaveBlob(blob, fileName)
+      }
+    })
 }
 </script>
 

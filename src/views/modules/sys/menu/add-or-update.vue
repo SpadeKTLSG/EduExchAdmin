@@ -1,125 +1,125 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.id ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.id ? '新增' : '修改'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          label="类型"
-          prop="type"
+        label="类型"
+        prop="type"
       >
         <el-radio-group v-model="dataForm.type">
           <el-radio
-              v-for="(type, index) in dataForm.typeList"
-              :key="index"
-              :label="index"
+            v-for="(type, index) in dataForm.typeList"
+            :key="index"
+            :label="index"
           >
             {{ type }}
           </el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item
-          :label="dataForm.typeList[dataForm.type] + '名称'"
-          prop="name"
+        :label="dataForm.typeList[dataForm.type] + '名称'"
+        prop="name"
       >
         <el-input
-            v-model="dataForm.name"
-            :placeholder="dataForm.typeList[dataForm.type] + '名称'"
+          v-model="dataForm.name"
+          :placeholder="dataForm.typeList[dataForm.type] + '名称'"
         />
       </el-form-item>
       <el-form-item label="上级菜单">
         <el-cascader
-            v-model="selectedMenu"
-            expand-trigger="hover"
-            :options="menuList"
-            :props="menuListTreeProps"
-            change-on-select
-            :clearable="true"
-            @change="handleSelectMenuChange"
+          v-model="selectedMenu"
+          :clearable="true"
+          :options="menuList"
+          :props="menuListTreeProps"
+          change-on-select
+          expand-trigger="hover"
+          @change="handleSelectMenuChange"
         />
       </el-form-item>
       <el-form-item
-          v-if="dataForm.type === 1"
-          label="菜单路由"
-          prop="url"
+        v-if="dataForm.type === 1"
+        label="菜单路由"
+        prop="url"
       >
         <el-input
-            v-model="dataForm.url"
-            placeholder="菜单路由"
+          v-model="dataForm.url"
+          placeholder="菜单路由"
         />
       </el-form-item>
       <el-form-item
-          v-if="dataForm.type !== 0"
-          label="授权标识"
-          prop="perms"
+        v-if="dataForm.type !== 0"
+        label="授权标识"
+        prop="perms"
       >
         <el-input
-            v-model="dataForm.perms"
-            placeholder="多个用逗号分隔, 如: user:list,user:create"
+          v-model="dataForm.perms"
+          placeholder="多个用逗号分隔, 如: user:list,user:create"
         />
       </el-form-item>
       <el-form-item
-          v-if="dataForm.type !== 2"
-          label="排序号"
-          prop="orderNum"
+        v-if="dataForm.type !== 2"
+        label="排序号"
+        prop="orderNum"
       >
         <el-input-number
-            v-model="dataForm.orderNum"
-            controls-position="right"
-            :min="0"
-            label="排序号"
+          v-model="dataForm.orderNum"
+          :min="0"
+          controls-position="right"
+          label="排序号"
         />
       </el-form-item>
       <el-form-item
-          v-if="dataForm.type !== 2"
-          label="菜单图标"
-          prop="icon"
+        v-if="dataForm.type !== 2"
+        label="菜单图标"
+        prop="icon"
       >
         <el-row>
           <el-col :span="22">
             <el-input
-                ref="iconInputRef"
-                v-model="dataForm.icon"
-                :virtual-ref="iconListPopoverRef"
-                placeholder="菜单图标名称"
-                clearable
+              ref="iconInputRef"
+              v-model="dataForm.icon"
+              :virtual-ref="iconListPopoverRef"
+              clearable
+              placeholder="菜单图标名称"
             />
             <el-popover
-                ref="iconListPopoverRef"
-                style="width: 390px"
-                :virtual-ref="iconInputRef"
-                placement="bottom-start"
-                trigger="click"
-                :popper-style="iconPopoverClass"
-                virtual-triggering
+              ref="iconListPopoverRef"
+              :popper-style="iconPopoverClass"
+              :virtual-ref="iconInputRef"
+              placement="bottom-start"
+              style="width: 390px"
+              trigger="click"
+              virtual-triggering
             >
               <el-button
-                  v-for="(item, index) in iconList"
-                  :key="index"
-                  style="padding: 8px; margin: 8px 0 0 8px"
-                  :class="{ 'is-active': item === dataForm.icon }"
-                  @click="iconActiveHandle(item)"
+                v-for="(item, index) in iconList"
+                :key="index"
+                :class="{ 'is-active': item === dataForm.icon }"
+                style="padding: 8px; margin: 8px 0 0 8px"
+                @click="iconActiveHandle(item)"
               >
                 <svg-icon
-                    :icon-class="`${item}`"
+                  :icon-class="`${item}`"
                 />
               </el-button>
             </el-popover>
           </el-col>
           <el-col
-              :span="2"
-              class="icon-list__tips"
+            :span="2"
+            class="icon-list__tips"
           >
             <el-tooltip
-                placement="top"
-                effect="light"
+              effect="light"
+              placement="top"
             >
               <template #content>
                 <div>全站推荐使用SVG Sprite, 详细请参考:icons/index.js 描述</div>
@@ -134,8 +134,8 @@
       <span class="dialog-footer">
         <el-button @click="visible = false">取消</el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >
           确定
         </el-button>
@@ -145,8 +145,8 @@
 </template>
 
 <script setup>
-import { idList, treeDataTranslate } from '@/utils'
-import { ElMessage } from 'element-plus'
+import {idList, treeDataTranslate} from '@/utils'
+import {ElMessage} from 'element-plus'
 
 const emit = defineEmits(['refreshDataList'])
 const iconInputRef = ref(null)
@@ -230,39 +230,39 @@ const init = (id) => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({ data }) => {
-        menuList.value = treeDataTranslate(data, 'menuId')
+    .then(({data}) => {
+      menuList.value = treeDataTranslate(data, 'menuId')
+    })
+    .then(() => {
+      visible.value = true
+      nextTick(() => {
+        dataFormRef.value?.resetFields()
       })
-      .then(() => {
-        visible.value = true
-        nextTick(() => {
-          dataFormRef.value?.resetFields()
+    })
+    .then(() => {
+      if (dataForm.id) {
+        // 修改
+        http({
+          url: http.adornUrl(`/sys/menu/info/${dataForm.id}`),
+          method: 'get',
+          params: http.adornParams()
+        }).then(({data}) => {
+          dataForm.id = data.menuId
+          dataForm.type = data.type
+          dataForm.name = data.name
+          dataForm.parentId = data.parentId
+          dataForm.url = data.url
+          dataForm.perms = data.perms
+          dataForm.orderNum = data.orderNum
+          dataForm.icon = data.icon
+          selectedMenu.value = idList(menuList.value, data.parentId, 'menuId', 'children').reverse()
         })
-      })
-      .then(() => {
-        if (dataForm.id) {
-          // 修改
-          http({
-            url: http.adornUrl(`/sys/menu/info/${dataForm.id}`),
-            method: 'get',
-            params: http.adornParams()
-          }).then(({ data }) => {
-            dataForm.id = data.menuId
-            dataForm.type = data.type
-            dataForm.name = data.name
-            dataForm.parentId = data.parentId
-            dataForm.url = data.url
-            dataForm.perms = data.perms
-            dataForm.orderNum = data.orderNum
-            dataForm.icon = data.icon
-            selectedMenu.value = idList(menuList.value, data.parentId, 'menuId', 'children').reverse()
-          })
-        } else {
-          selectedMenu.value = []
-        }
-      })
+      } else {
+        selectedMenu.value = []
+      }
+    })
 }
-defineExpose({ init })
+defineExpose({init})
 
 const handleSelectMenuChange = (val) => {
   dataForm.parentId = val[val.length - 1]
@@ -294,17 +294,17 @@ const onSubmit = Debounce(() => {
           icon: dataForm.icon
         })
       })
-          .then(() => {
-            ElMessage({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                visible.value = false
-                emit('refreshDataList')
-              }
-            })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              visible.value = false
+              emit('refreshDataList')
+            }
           })
+        })
     }
   })
 })

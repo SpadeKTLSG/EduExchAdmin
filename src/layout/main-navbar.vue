@@ -3,8 +3,8 @@
     <nav class="site-navbar">
       <!--左侧-->
       <div
-          class="site-navbar-header"
           :style="{ 'margin-right': sidebarFold ? 0 : '20px' }"
+          class="site-navbar-header"
       >
         <!--        <img-->
         <!--          class="menu-image-logo"-->
@@ -19,8 +19,8 @@
         </span>
         <span
             v-else
-            class="site-navbar-mini"
             :style="fontCloseSize"
+            class="site-navbar-mini"
         >
           mall4j
         </span>
@@ -37,8 +37,8 @@
 
         <div class="navbar-content-right">
           <el-dropdown
-              class="content-right-item"
               :show-timeout="0"
+              class="content-right-item"
               placement="bottom"
           >
             <span class="el-dropdown-link">{{ userName }}</span>
@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { ElMessageBox } from 'element-plus'
+import {ElMessageBox} from 'element-plus'
 import UpdatePassword from './main-navbar-update-password.vue'
 
 const route = useRoute()

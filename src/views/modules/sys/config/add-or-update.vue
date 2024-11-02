@@ -1,41 +1,41 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.id ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.id ? '新增' : '修改'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          label="参数名"
-          prop="paramKey"
+        label="参数名"
+        prop="paramKey"
       >
         <el-input
-            v-model="dataForm.paramKey"
-            placeholder="参数名"
+          v-model="dataForm.paramKey"
+          placeholder="参数名"
         />
       </el-form-item>
       <el-form-item
-          label="参数值"
-          prop="paramValue"
+        label="参数值"
+        prop="paramValue"
       >
         <el-input
-            v-model="dataForm.paramValue"
-            placeholder="参数值"
+          v-model="dataForm.paramValue"
+          placeholder="参数值"
         />
       </el-form-item>
       <el-form-item
-          label="备注"
-          prop="remark"
+        label="备注"
+        prop="remark"
       >
         <el-input
-            v-model="dataForm.remark"
-            placeholder="备注"
+          v-model="dataForm.remark"
+          placeholder="备注"
         />
       </el-form-item>
     </el-form>
@@ -43,8 +43,8 @@
       <span class="dialog-footer">
         <el-button @click="visible = false">取消</el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >确定</el-button>
       </span>
     </template>
@@ -52,8 +52,8 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -100,7 +100,7 @@ const init = (id) => {
         url: http.adornUrl(`/sys/config/info/${dataForm.id}`),
         method: 'get',
         params: http.adornParams()
-      }).then(({ data }) => {
+      }).then(({data}) => {
         dataForm.paramKey = data.paramKey
         dataForm.paramValue = data.paramValue
         dataForm.remark = data.remark
@@ -108,7 +108,7 @@ const init = (id) => {
     }
   })
 }
-defineExpose({ init })
+defineExpose({init})
 /**
  * 表单提交
  */

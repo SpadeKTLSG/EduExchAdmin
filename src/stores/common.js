@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 import router from '@/router'
 
 export const useCommonStore = defineStore('common', {
@@ -26,55 +26,55 @@ export const useCommonStore = defineStore('common', {
     }
   },
   actions: {
-    updateDocumentClientHeight (height) {
+    updateDocumentClientHeight(height) {
       this.documentClientHeight = height
     },
-    updateSidebarFold (fold) {
+    updateSidebarFold(fold) {
       this.sidebarFold = fold
     },
-    updateMenuList (list) {
+    updateMenuList(list) {
       this.menuList = list
     },
-    updateMenuActiveName (name) {
+    updateMenuActiveName(name) {
       this.menuActiveName = name
     },
-    updateMainTabs (tabs) {
+    updateMainTabs(tabs) {
       this.mainTabs = tabs
     },
-    updateMainTabsActiveName (name) {
+    updateMainTabsActiveName(name) {
       this.mainTabsActiveName = name
     },
-    updateRouteList (list) {
+    updateRouteList(list) {
       this.routeList = list
     },
-    updateSelectMenu (list) {
+    updateSelectMenu(list) {
       this.selectMenu = list
     },
-    updateSelectLeftId (id) {
+    updateSelectLeftId(id) {
       this.selectLeftId = id
     },
-    updateSelectRightId (id) {
+    updateSelectRightId(id) {
       this.selectRightId = id
     },
-    replaceSelectMenu (title) {
+    replaceSelectMenu(title) {
       this.selectMenu.splice(this.selectMenu.length - 1, 1, title)
     },
-    updateMenuIds (list) {
+    updateMenuIds(list) {
       this.menuIds = []
       list.forEach(menu => {
         this.menuIds.push(String(menu.menuId + ''))
       })
     },
-    removeMainActiveTab () {
+    removeMainActiveTab() {
       this.mainTabs = this.mainTabs.filter(item => item.name !== this.mainTabsActiveName)
       if (this.mainTabs.length >= 1) {
         // 当前选中tab被删除
-        router.push({ name: this.mainTabs[this.mainTabs.length - 1].name }, () => {
+        router.push({name: this.mainTabs[this.mainTabs.length - 1].name}, () => {
           this.mainTabsActiveName = this.mainTabs[this.mainTabs.length - 1].name
         })
       } else {
         this.menuActiveName = ''
-        router.push({ name: 'home' })
+        router.push({name: 'home'})
       }
     }
   }

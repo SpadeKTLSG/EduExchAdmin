@@ -1,82 +1,82 @@
 <template>
   <div class="mod-prod-prod-transport">
     <el-form-item
-        label="运费设置"
-        :rules="[{ required: true, message: '运费模板不能为空'}]"
+      :rules="[{ required: true, message: '运费模板不能为空'}]"
+      label="运费设置"
     >
       <el-select
-          v-model="transportId"
-          placeholder="请选择"
-          @change="changeTransport"
+        v-model="transportId"
+        placeholder="请选择"
+        @change="changeTransport"
       >
         <el-option
-            v-for="transport in transportList"
-            :key="transport.transportId"
-            :label="transport.transName"
-            :value="transport.transportId"
+          v-for="transport in transportList"
+          :key="transport.transportId"
+          :label="transport.transName"
+          :value="transport.transportId"
         />
       </el-select>
     </el-form-item>
     <el-form-item>
       <el-table
-          v-if="transportInfo.transfees"
-          :data="transportInfo.transfees"
-          style="width: 100%"
+        v-if="transportInfo.transfees"
+        :data="transportInfo.transfees"
+        style="width: 100%"
       >
         <el-table-column
-            label="配送区域"
-            width="350"
+          label="配送区域"
+          width="350"
         >
           <template #default="scope">
             <span v-if="!scope.row.cityList.length">所有地区</span>
             <el-tag
-                v-for="city in scope.row.cityList"
-                v-else
-                :key="city.areaId"
+              v-for="city in scope.row.cityList"
+              v-else
+              :key="city.areaId"
             >
               {{ city.areaName }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column
-            prop="firstPiece"
-            :label="tableTitle[0]"
+          :label="tableTitle[0]"
+          prop="firstPiece"
         />
         <el-table-column
-            prop="firstFee"
-            :label="tableTitle[1]"
+          :label="tableTitle[1]"
+          prop="firstFee"
         />
         <el-table-column
-            prop="continuousPiece"
-            :label="tableTitle[2]"
+          :label="tableTitle[2]"
+          prop="continuousPiece"
         />
         <el-table-column
-            prop="continuousFee"
-            :label="tableTitle[3]"
+          :label="tableTitle[3]"
+          prop="continuousFee"
         />
       </el-table>
     </el-form-item>
     <el-form-item v-if="transportInfo.hasFreeCondition === 1">
       <el-table
-          :data="transportInfo.transfeeFrees"
-          style="width: 100%"
+        :data="transportInfo.transfeeFrees"
+        style="width: 100%"
       >
         <el-table-column
-            label="指定区域"
-            width="350"
+          label="指定区域"
+          width="350"
         >
           <template #default="scope">
             <el-tag
-                v-for="city in scope.row.freeCityList"
-                :key="city.areaId"
+              v-for="city in scope.row.freeCityList"
+              :key="city.areaId"
             >
               {{ city.areaName }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column
-            prop="freeType"
-            label="包邮条件"
+          label="包邮条件"
+          prop="freeType"
         >
           <template #default="scope">
             <span v-if="scope.row.freeType === 0">满件/重量/体积包邮</span>
@@ -114,10 +114,10 @@ const tableTitle = computed(() => {
 })
 
 watch(
-    () => props.modelValue,
-    (id) => {
-      transportId.value = id
-    })
+  () => props.modelValue,
+  (id) => {
+    transportId.value = id
+  })
 
 onMounted(() => {
   getTransportList()
@@ -133,13 +133,13 @@ const getTransportList = () => {
     method: 'get',
     params: http.adornParams({})
   })
-      .then(({ data }) => {
-        transportList.value = data
-      })
+    .then(({data}) => {
+      transportList.value = data
+    })
 }
 const transportInfo = ref({
   hasFreeCondition: false,
-  transfeeFrees: [{ freeCityList: [] }]
+  transfeeFrees: [{freeCityList: []}]
 })
 const changeTransport = (id) => {
   emit('update:modelValue', id)
@@ -151,9 +151,9 @@ const changeTransport = (id) => {
     method: 'get',
     params: http.adornParams({})
   })
-      .then(({ data }) => {
-        transportInfo.value = data
-      })
+    .then(({data}) => {
+      transportInfo.value = data
+    })
 }
 
 </script>

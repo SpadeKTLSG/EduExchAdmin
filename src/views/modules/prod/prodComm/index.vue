@@ -1,15 +1,15 @@
 <template>
   <div class="mod-prod-prodComm">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :table-loading="dataListLoading"
-        :option="tableOption"
-        @search-change="onSearch"
-        @on-load="getDataList"
-        @refresh-change="refreshChange"
-        @row-del="rowDel"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      :table-loading="dataListLoading"
+      @search-change="onSearch"
+      @on-load="getDataList"
+      @refresh-change="refreshChange"
+      @row-del="rowDel"
     >
       <template #nickName="scope">
         {{ scope.row.user.nickName }}
@@ -20,33 +20,33 @@
 
       <template #menu="scope">
         <el-button
-            type="primary"
-            icon="el-icon-edit"
-            @click="onAddOrUpdate(scope.row.prodCommId,true)"
+          icon="el-icon-edit"
+          type="primary"
+          @click="onAddOrUpdate(scope.row.prodCommId,true)"
         >
           编辑
         </el-button>
 
         <el-button
-            type="success"
-            icon="el-icon-view"
-            @click="onAddOrUpdate(scope.row.prodCommId,false)"
+          icon="el-icon-view"
+          type="success"
+          @click="onAddOrUpdate(scope.row.prodCommId,false)"
         >
           查看
         </el-button>
       </template>
     </avue-crud>
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="refreshChange"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="refreshChange"
     />
   </div>
 </template>
 
 <script setup>
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { tableOption } from '@/crud/prod/prodComm.js'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {tableOption} from '@/crud/prod/prodComm.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -67,12 +67,12 @@ const getDataList = (pageParam, params, done) => {
       size: pageParam == null ? page.pageSize : pageParam.pageSize
     }, params))
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.total = data.total
-        dataListLoading.value = false
-        if (done) done()
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.total = data.total
+      dataListLoading.value = false
+      if (done) done()
+    })
 }
 
 const addOrUpdateVisible = ref(false)
@@ -92,23 +92,23 @@ const rowDel = (row) => {
     cancelButtonText: '取消',
     type: 'warning'
   })
-      .then(() => {
-        http({
-          url: http.adornUrl('/prod/prodComm/' + row.prodCommId),
-          method: 'delete',
-          data: http.adornData({})
+    .then(() => {
+      http({
+        url: http.adornUrl('/prod/prodComm/' + row.prodCommId),
+        method: 'delete',
+        data: http.adornData({})
+      })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList()
+            }
+          })
         })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList()
-                }
-              })
-            })
-      }).catch(() => {
+    }).catch(() => {
   })
 }
 /**

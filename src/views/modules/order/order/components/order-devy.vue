@@ -1,39 +1,39 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :modal="false"
-      title="选择发货地址"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :modal="false"
+    title="选择发货地址"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item label="快递公司">
         <el-select
-            v-model="dataForm.dvyId"
-            placeholder="请选择"
+          v-model="dataForm.dvyId"
+          placeholder="请选择"
         >
           <el-option
-              v-for="item in dataForm.dvyNames"
-              :key="item.dvyId"
-              :label="item.dvyName"
-              :value="item.dvyId"
+            v-for="item in dataForm.dvyNames"
+            :key="item.dvyId"
+            :label="item.dvyName"
+            :value="item.dvyId"
           />
         </el-select>
       </el-form-item>
       <el-form-item
-          label="快递单号"
-          prop="dvyFlowId"
+        label="快递单号"
+        prop="dvyFlowId"
       >
         <el-input
-            v-model="dataForm.dvyFlowId"
-            controls-position="right"
-            :min="0"
-            label="快递单号"
+          v-model="dataForm.dvyFlowId"
+          :min="0"
+          controls-position="right"
+          label="快递单号"
         />
       </el-form-item>
     </el-form>
@@ -41,15 +41,15 @@
       <span class="dialog-footer">
         <el-button @click="visible = false">取消</el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >确定</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 <script setup>
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
 
 const emit = defineEmits(['refreshDataList'])
 
@@ -92,11 +92,11 @@ const init = (orderNumber, dvyId, dvyFlowId) => {
     url: http.adornUrl('/admin/delivery/list'),
     method: 'get',
     params: http.adornParams()
-  }).then(({ data }) => {
+  }).then(({data}) => {
     dataForm.dvyNames = data
   })
 }
-defineExpose({ init })
+defineExpose({init})
 
 const dataFormRef = ref(null)
 /**
@@ -114,17 +114,17 @@ const onSubmit = () => {
           dvyFlowId: dataForm.dvyFlowId
         })
       })
-          .then(() => {
-            ElMessage({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                visible.value = false
-                emit('refreshDataList')
-              }
-            })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              visible.value = false
+              emit('refreshDataList')
+            }
           })
+        })
     }
   })
 }

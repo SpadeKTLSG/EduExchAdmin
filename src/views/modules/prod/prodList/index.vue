@@ -1,31 +1,31 @@
 <template>
   <div class="mod-prod">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :table-loading="dataListLoading"
-        :permission="permission"
-        :option="tableOption"
-        @search-change="onSearch"
-        @selection-change="selectionChange"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      :permission="permission"
+      :table-loading="dataListLoading"
+      @search-change="onSearch"
+      @selection-change="selectionChange"
+      @on-load="getDataList"
     >
       <template #menu-left>
         <el-button
-            v-if="isAuth('shop:pickAddr:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click.stop="onAddOrUpdate()"
+          v-if="isAuth('shop:pickAddr:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click.stop="onAddOrUpdate()"
         >
           新增
         </el-button>
 
         <el-button
-            v-if="isAuth('shop:pickAddr:delete')"
-            type="danger"
-            :disabled="dataListSelections.length <= 0"
-            @click="onDelete()"
+          v-if="isAuth('shop:pickAddr:delete')"
+          :disabled="dataListSelections.length <= 0"
+          type="danger"
+          @click="onDelete()"
         >
           批量删除
         </el-button>
@@ -42,18 +42,18 @@
 
       <template #menu="scope">
         <el-button
-            v-if="isAuth('prod:prod:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click="onAddOrUpdate(scope.row.prodId)"
+          v-if="isAuth('prod:prod:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click="onAddOrUpdate(scope.row.prodId)"
         >
           修改
         </el-button>
         <el-button
-            v-if="isAuth('prod:prod:delete')"
-            type="danger"
-            icon="el-icon-delete"
-            @click="onDelete(scope.row.prodId)"
+          v-if="isAuth('prod:prod:delete')"
+          icon="el-icon-delete"
+          type="danger"
+          @click="onDelete(scope.row.prodId)"
         >
           删除
         </el-button>
@@ -63,9 +63,9 @@
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { tableOption } from '@/crud/prod/prodList.js'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {tableOption} from '@/crud/prod/prodList.js'
 
 const permission = reactive({
   delBtn: isAuth('prod:prod:delete')
@@ -86,28 +86,28 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/prod/prod/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        for (const key in dataList.value) {
-          // eslint-disable-next-line no-prototype-builtins
-          if (dataList.value.hasOwnProperty(key)) {
-            const element = dataList.value[key]
-            element.imgs = element.imgs.split(',')[0]
-          }
+    .then(({data}) => {
+      dataList.value = data.records
+      for (const key in dataList.value) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (dataList.value.hasOwnProperty(key)) {
+          const element = dataList.value[key]
+          element.imgs = element.imgs.split(',')[0]
         }
-        page.total = data.total
-        dataListLoading.value = false
-        if (done) done()
-      })
+      }
+      page.total = data.total
+      dataListLoading.value = false
+      if (done) done()
+    })
 }
 const router = useRouter()
 /**
@@ -117,7 +117,7 @@ const router = useRouter()
 const onAddOrUpdate = (id) => {
   router.push({
     path: '/prodInfo',
-    query: { prodId: id }
+    query: {prodId: id}
   })
 }
 /**
@@ -134,25 +134,25 @@ const onDelete = (id) => {
     cancelButtonText: '取消',
     type: 'warning'
   })
-      .then(() => {
-        http({
-          url: http.adornUrl('/prod/prod'),
-          method: 'delete',
-          data: http.adornData(prodIds, false)
+    .then(() => {
+      http({
+        url: http.adornUrl('/prod/prod'),
+        method: 'delete',
+        data: http.adornData(prodIds, false)
+      })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList(page)
+            }
+          })
         })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList(page)
-                }
-              })
-            })
-      })
-      .catch(() => {
-      })
+    })
+    .catch(() => {
+    })
 }
 /**
  * 条件查询

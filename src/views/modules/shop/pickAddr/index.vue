@@ -1,30 +1,30 @@
 <template>
   <div class="mod-pickAddr">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :option="tableOption"
-        :permission="permission"
-        @search-change="onSearch"
-        @selection-change="selectionChange"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      :permission="permission"
+      @search-change="onSearch"
+      @selection-change="selectionChange"
+      @on-load="getDataList"
     >
       <template #menu-left>
         <el-button
-            v-if="isAuth('shop:pickAddr:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click.stop="onAddOrUpdate()"
+          v-if="isAuth('shop:pickAddr:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click.stop="onAddOrUpdate()"
         >
           新增
         </el-button>
 
         <el-button
-            v-if="isAuth('shop:pickAddr:delete')"
-            type="danger"
-            :disabled="dataListSelections.length <= 0"
-            @click="onDelete()"
+          v-if="isAuth('shop:pickAddr:delete')"
+          :disabled="dataListSelections.length <= 0"
+          type="danger"
+          @click="onDelete()"
         >
           批量删除
         </el-button>
@@ -32,19 +32,19 @@
 
       <template #menu="scope">
         <el-button
-            v-if="isAuth('shop:pickAddr:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click.stop="onAddOrUpdate(scope.row.addrId)"
+          v-if="isAuth('shop:pickAddr:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click.stop="onAddOrUpdate(scope.row.addrId)"
         >
           编辑
         </el-button>
 
         <el-button
-            v-if="isAuth('shop:pickAddr:delete')"
-            type="danger"
-            icon="el-icon-delete"
-            @click.stop="onDelete(scope.row.addrId)"
+          v-if="isAuth('shop:pickAddr:delete')"
+          icon="el-icon-delete"
+          type="danger"
+          @click.stop="onDelete(scope.row.addrId)"
         >
           删除
         </el-button>
@@ -53,18 +53,18 @@
 
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
-import { tableOption } from '@/crud/shop/pickAddr.js'
+import {tableOption} from '@/crud/shop/pickAddr.js'
 
 const permission = {
   delBtn: isAuth('prod:prod:delete')
@@ -84,20 +84,20 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/shop/pickAddr/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.total = data.total
-        if (done) done()
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.total = data.total
+      if (done) done()
+    })
 }
 
 const addOrUpdateVisible = ref(false)
@@ -122,32 +122,32 @@ const onDelete = (id) => {
     return item.addrId
   })
   ElMessageBox.confirm(
-      '确定进行删除操作?', '提示',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }
+    '确定进行删除操作?', '提示',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }
   )
-      .then(() => {
-        http({
-          url: http.adornUrl('/shop/pickAddr'),
-          method: 'delete',
-          data: http.adornData(ids, false)
+    .then(() => {
+      http({
+        url: http.adornUrl('/shop/pickAddr'),
+        method: 'delete',
+        data: http.adornData(ids, false)
+      })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList(page)
+            }
+          })
         })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList(page)
-                }
-              })
-            })
-      })
-      .catch(() => {
-      })
+    })
+    .catch(() => {
+    })
 }
 
 /**

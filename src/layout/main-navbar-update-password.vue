@@ -1,44 +1,44 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="'修改密码'"
-      :append-to-body="true"
+    v-model="visible"
+    :append-to-body="true"
+    :title="'修改密码'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit(dataFormRef)"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit(dataFormRef)"
     >
       <el-form-item label="账号">
         <span>{{ userName }}</span>
       </el-form-item>
       <el-form-item
-          label="原密码"
-          prop="password"
+        label="原密码"
+        prop="password"
       >
         <el-input
-            v-model="dataForm.password"
-            type="password"
+          v-model="dataForm.password"
+          type="password"
         />
       </el-form-item>
       <el-form-item
-          label="新密码"
-          prop="newPassword"
+        label="新密码"
+        prop="newPassword"
       >
         <el-input
-            v-model="dataForm.newPassword"
-            type="password"
+          v-model="dataForm.newPassword"
+          type="password"
         />
       </el-form-item>
       <el-form-item
-          label="确定密码"
-          prop="confirmPassword"
+        label="确定密码"
+        prop="confirmPassword"
       >
         <el-input
-            v-model="dataForm.confirmPassword"
-            type="password"
+          v-model="dataForm.confirmPassword"
+          type="password"
         />
       </el-form-item>
     </el-form>
@@ -46,8 +46,8 @@
       <span class="dialog-footer">
         <el-button @click="visible = false">取消</el-button>
         <el-button
-            type="primary"
-            @click="onSubmit(dataFormRef)"
+          type="primary"
+          @click="onSubmit(dataFormRef)"
         >确定</el-button>
       </span>
     </template>
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
 
 const visible = ref(false)
 const dataForm = reactive({
@@ -124,7 +124,7 @@ const onSubmit = async formEl => {
             visible.value = false
             nextTick(() => {
               clearLoginInfo()
-              router.replace({ name: 'login' })
+              router.replace({name: 'login'})
             })
           }
         })
@@ -133,5 +133,5 @@ const onSubmit = async formEl => {
   })
 }
 
-defineExpose({ init })
+defineExpose({init})
 </script>

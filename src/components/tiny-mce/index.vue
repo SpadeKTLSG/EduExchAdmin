@@ -1,30 +1,30 @@
 <template>
   <div class="components-tiny-mce">
     <div
-        class="tinymce-container"
-        :class="{ 'tox-fullscreen': toxFullscreen }"
+      :class="{ 'tox-fullscreen': toxFullscreen }"
+      class="tinymce-container"
     >
       <Editor
-          :id="props.id"
-          :init="init"
-          api-key="i6mv006qcwsfu1t7ebisntg5w261vpowkwirnx9cnse3ho5o"
+        :id="props.id"
+        :init="init"
+        api-key="i6mv006qcwsfu1t7ebisntg5w261vpowkwirnx9cnse3ho5o"
       />
       <!-- 增加图片区域 -->
       <div
-          class="add-or-upload"
+        class="add-or-upload"
       >
         <el-upload
-            class="upload-demo"
-            list-type="picture"
-            :action="uploadAction"
-            :headers="uploadHeaders"
-            :on-success="imageSuccessCBK"
-            :show-file-list="false"
-            :before-upload="beforeAvatarUpload"
+          :action="uploadAction"
+          :before-upload="beforeAvatarUpload"
+          :headers="uploadHeaders"
+          :on-success="imageSuccessCBK"
+          :show-file-list="false"
+          class="upload-demo"
+          list-type="picture"
         >
           <el-button
-              size="small"
-              type="primary"
+            size="small"
+            type="primary"
           >
             点击上传图片
           </el-button>
@@ -38,7 +38,7 @@
 import Editor from '@tinymce/tinymce-vue'
 import $cookie from 'vue-cookies'
 
-const uploadHeaders = { Authorization: $cookie.get('Authorization') }
+const uploadHeaders = {Authorization: $cookie.get('Authorization')}
 const uploadAction = http.adornUrl('/admin/file/upload/element')
 
 const props = defineProps({
@@ -68,12 +68,12 @@ const toxFullscreen = ref(false)
 const hasChange = ref(false)
 const hasInit = ref(false)
 watch(
-    () => props.modelValue,
-    val => {
-      if (!hasChange.value && hasInit.value) {
-        nextTick(() => window.tinymce.get(props.id).setContent(val || ''))
-      }
+  () => props.modelValue,
+  val => {
+    if (!hasChange.value && hasInit.value) {
+      nextTick(() => window.tinymce.get(props.id).setContent(val || ''))
     }
+  }
 )
 
 const language = computed(() => {
@@ -111,7 +111,7 @@ const init = reactive({
       emit('update:modelValue', editor.getContent())
     })
   },
-  setup (editor) {
+  setup(editor) {
     const addOrupload = document.querySelectorAll('.components-tiny-mce .tinymce-container .add-or-upload')
     addOrupload.forEach(v => {
       v.style.zIndex = 10

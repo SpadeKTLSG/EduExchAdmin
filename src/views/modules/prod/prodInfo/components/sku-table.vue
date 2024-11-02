@@ -17,8 +17,8 @@
         </el-table-column>
         <el-table-column
             v-if="tableLeftTitles.length"
-            prop="pic"
             label="sku图片"
+            prop="pic"
             width="180"
         >
           <template #default="scope">
@@ -27,92 +27,92 @@
         </el-table-column>
         <el-table-column
             v-if="tableLeftTitles.length"
-            prop="prodName"
             label="商品名称"
+            prop="prodName"
             width="250"
         >
           <template #default="scope">
             <el-input
                 v-model="scope.row.prodName"
-                type="textarea"
                 :disabled="!scope.row.status"
+                type="textarea"
             />
           </template>
         </el-table-column>
         <el-table-column
-            prop="price"
             label="销售价"
+            prop="price"
             width="160"
         >
           <template #default="scope">
             <el-input-number
                 v-model="scope.row.price"
-                controls-position="right"
-                :precision="2"
+                :disabled="!scope.row.status"
                 :max="1000000000"
                 :min="0.01"
-                :disabled="!scope.row.status"
+                :precision="2"
+                controls-position="right"
             />
           </template>
         </el-table-column>
         <el-table-column
-            prop="oriPrice"
             label="市场价"
+            prop="oriPrice"
             width="160"
         >
           <template #default="scope">
             <el-input-number
                 v-model="scope.row.oriPrice"
-                controls-position="right"
-                :precision="2"
+                :disabled="!scope.row.status"
                 :max="1000000000"
                 :min="0.01"
-                :disabled="!scope.row.status"
+                :precision="2"
+                controls-position="right"
             />
           </template>
         </el-table-column>
         <el-table-column
-            prop="stocks"
             label="库存"
+            prop="stocks"
             width="160"
         >
           <template #default="scope">
             <el-input-number
                 v-model="scope.row.stocks"
+                :disabled="!scope.row.status"
                 :min="0"
                 controls-position="right"
                 type="number"
-                :disabled="!scope.row.status"
             />
           </template>
         </el-table-column>
         <el-table-column
-            prop="weight"
             label="商品重量(kg)"
+            prop="weight"
             width="210"
         >
           <template #default="scope">
             <el-input-number
                 v-model="scope.row.weight"
-                :precision="2"
-                :min="0"
-                controls-position="right"
                 :disabled="!scope.row.status"
+                :min="0"
+                :precision="2"
+                controls-position="right"
             />
           </template>
         </el-table-column>
         <el-table-column
-            prop="volume"
             label="商品体积(m³)"
+            prop="volume"
             width="210"
         >
           <template #default="scope">
             <el-input-number
                 v-model="scope.row.volume"
-                :precision="2"
-                :min="0"
-                controls-position="right"
                 :disabled="!scope.row.status"
+                :min="0"
+                :precision="2"
+                controls-position="right"
             />
           </template>
         </el-table-column>
@@ -142,7 +142,7 @@
 </template>
 
 <script setup>
-import { scoreProdStore } from '@/stores/prod.js'
+import {scoreProdStore} from '@/stores/prod.js'
 
 const props = defineProps({
   modelValue: {

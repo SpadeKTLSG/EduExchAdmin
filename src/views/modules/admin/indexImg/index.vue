@@ -1,30 +1,30 @@
 <template>
   <div class="mod-prod">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :table-loading="dataListLoading"
-        :option="tableOption"
-        @search-change="onSearch"
-        @selection-change="selectionChange"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      :table-loading="dataListLoading"
+      @search-change="onSearch"
+      @selection-change="selectionChange"
+      @on-load="getDataList"
     >
       <template #menu-left>
         <el-button
-            v-if="isAuth('admin:indexImg:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click.stop="onAddOrUpdate()"
+          v-if="isAuth('admin:indexImg:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click.stop="onAddOrUpdate()"
         >
           新增
         </el-button>
 
         <el-button
-            v-if="isAuth('admin:indexImg:delete')"
-            type="danger"
-            :disabled="dataListSelections.length <= 0"
-            @click="onDelete()"
+          v-if="isAuth('admin:indexImg:delete')"
+          :disabled="dataListSelections.length <= 0"
+          type="danger"
+          @click="onDelete()"
         >
           批量删除
         </el-button>
@@ -32,34 +32,34 @@
 
       <template #imgUrl="scope">
         <img
-            v-if="scope.row.imgUrl"
-            alt=""
-            :src="scope.row.imgUrl"
-            width="100"
-            height="100"
+          v-if="scope.row.imgUrl"
+          :src="scope.row.imgUrl"
+          alt=""
+          height="100"
+          width="100"
         >
         <img
-            v-else
-            alt=""
-            src="~@/assets/img/def.png"
-            width="100"
-            height="100"
+          v-else
+          alt=""
+          height="100"
+          src="~@/assets/img/def.png"
+          width="100"
         >
       </template>
       <template #menu="scope">
         <el-button
-            v-if="isAuth('admin:indexImg:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click="onAddOrUpdate(scope.row.imgId)"
+          v-if="isAuth('admin:indexImg:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click="onAddOrUpdate(scope.row.imgId)"
         >
           修改
         </el-button>
         <el-button
-            v-if="isAuth('admin:indexImg:delete')"
-            type="danger"
-            icon="el-icon-delete"
-            @click="onDelete(scope.row.imgId)"
+          v-if="isAuth('admin:indexImg:delete')"
+          icon="el-icon-delete"
+          type="danger"
+          @click="onDelete(scope.row.imgId)"
         >
           删除
         </el-button>
@@ -68,18 +68,18 @@
 
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
-import { tableOption } from '@/crud/admin/indexImg.js'
+import {tableOption} from '@/crud/admin/indexImg.js'
 
 const dataList = ref([])
 const dataListLoading = ref(false)
@@ -99,24 +99,24 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/admin/indexImg/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
   })
-      .then(({ data }) => {
-        data.records.forEach(item => {
-          item.imgUrl = item.imgUrl ? resourcesUrl + item.imgUrl : ''
-        })
-        dataList.value = data.records
-        page.total = data.total
-        dataListLoading.value = false
-        if (done) done()
+    .then(({data}) => {
+      data.records.forEach(item => {
+        item.imgUrl = item.imgUrl ? resourcesUrl + item.imgUrl : ''
       })
+      dataList.value = data.records
+      page.total = data.total
+      dataListLoading.value = false
+      if (done) done()
+    })
 }
 
 const addOrUpdateVisible = ref(false)
@@ -144,23 +144,23 @@ const onDelete = (id) => {
     cancelButtonText: '取消',
     type: 'warning'
   })
-      .then(() => {
-        http({
-          url: http.adornUrl('/admin/indexImg'),
-          method: 'delete',
-          data: http.adornData(ids, false)
-        })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList()
-                }
-              })
-            })
+    .then(() => {
+      http({
+        url: http.adornUrl('/admin/indexImg'),
+        method: 'delete',
+        data: http.adornData(ids, false)
       })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList()
+            }
+          })
+        })
+    })
 }
 /**
  * 条件查询

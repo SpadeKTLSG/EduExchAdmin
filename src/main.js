@@ -1,6 +1,6 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
 import ElementPlus from 'element-plus'
 import moment from 'moment'
 import 'element-plus/dist/index.css'
@@ -42,7 +42,7 @@ app.component('SvgIcon', svgIcon)
 // Avue
 app.use(Avue)
 // element-plus
-app.use(ElementPlus, { locale })
+app.use(ElementPlus, {locale})
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

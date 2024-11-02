@@ -1,25 +1,25 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.id ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.id ? '新增' : '修改'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          label="公告标题"
-          prop="title"
+        label="公告标题"
+        prop="title"
       >
         <el-input v-model="dataForm.title"/>
       </el-form-item>
       <el-form-item
-          label="状态"
-          prop="status"
+        label="状态"
+        prop="status"
       >
         <el-radio-group v-model="dataForm.status">
           <el-radio :label="1">
@@ -31,8 +31,8 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item
-          label="置顶"
-          prop="isTop"
+        label="置顶"
+        prop="isTop"
       >
         <el-radio-group v-model="dataForm.isTop">
           <el-radio :label="1">
@@ -44,24 +44,24 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item
-          label="公告内容"
-          prop="content"
+        label="公告内容"
+        prop="content"
       >
         <TinyMce
-            ref="contentEnRef"
-            v-model="dataForm.content"
+          ref="contentEnRef"
+          v-model="dataForm.content"
         />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button
-            @click="visible = false"
+          @click="visible = false"
         >取消</el-button>
         <el-button
 
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >确定</el-button>
       </span>
     </template>
@@ -69,8 +69,8 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -118,13 +118,13 @@ const init = (id) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({ data }) => {
-            dataForm.value = data
-          })
+        .then(({data}) => {
+          dataForm.value = data
+        })
     }
   })
 }
-defineExpose({ init })
+defineExpose({init})
 
 /**
  * 表单提交
@@ -137,18 +137,18 @@ const onSubmit = Debounce(() => {
         method: dataForm.value.id ? 'put' : 'post',
         data: http.adornData(dataForm.value)
       })
-          .then(() => {
-            ElMessage({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                visible.value = false
-                emit('refreshDataList')
-                dataForm.value.content = ''
-              }
-            })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              visible.value = false
+              emit('refreshDataList')
+              dataForm.value.content = ''
+            }
           })
+        })
     }
   })
 })

@@ -7,8 +7,8 @@
       >
         <template #title>
           <span
-              style="font-size: 14px"
               :title="expandMenu.name.length > 4 ? expandMenu.name : ''"
+              style="font-size: 14px"
           >{{ expandMenu.name }}</span>
         </template>
         <el-menu-item-group class="menu-right-el-item">
@@ -16,14 +16,14 @@
             <el-menu-item
                 v-if="!menu.hidden"
                 :key="menu.menuId"
+                :class="{ 'menu-active': selectRightId === menu.menuId }"
+                class="menu-right-el-item is-active item-text"
                 style="
                 font-size: 14px !important;
                 line-height: 40px;
                 padding-left: 30px !important;
                 padding-right: 10px !important;
               "
-                class="menu-right-el-item is-active item-text"
-                :class="{ 'menu-active': selectRightId === menu.menuId }"
                 @click="gotoRouteHandle(menu)"
             >
               <span :title="menu.name.length > 4 ? menu.name : ''">{{ menu.name }}</span>
@@ -40,9 +40,9 @@
       <el-menu-item
           v-if="!expandMenu.hidden"
           :key="expandMenu.menuId"
-          style="font-size: 14px !important; padding-left: 15px !important; line-height: 40px"
-          class="menu-right-el-item is-active item-text"
           :class="{ 'menu-active': selectRightId === expandMenu.menuId }"
+          class="menu-right-el-item is-active item-text"
+          style="font-size: 14px !important; padding-left: 15px !important; line-height: 40px"
           @click="gotoRouteHandle(expandMenu)"
       >
         <span :title="expandMenu.name.length > 4 ? expandMenu.name : ''">{{

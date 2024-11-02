@@ -1,29 +1,29 @@
 <template>
   <div class="mod-role">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :option="tableOption"
-        @search-change="onSearch"
-        @selection-change="selectionChange"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      @search-change="onSearch"
+      @selection-change="selectionChange"
+      @on-load="getDataList"
     >
       <template #menu-left>
         <el-button
-            v-if="isAuth('sys:role:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click.stop="onAddOrUpdate()"
+          v-if="isAuth('sys:role:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click.stop="onAddOrUpdate()"
         >
           新增
         </el-button>
 
         <el-button
-            v-if="isAuth('sys:role:delete')"
-            type="danger"
-            :disabled="dataListSelections.length <= 0"
-            @click="onDelete()"
+          v-if="isAuth('sys:role:delete')"
+          :disabled="dataListSelections.length <= 0"
+          type="danger"
+          @click="onDelete()"
         >
           批量删除
         </el-button>
@@ -31,19 +31,19 @@
 
       <template #menu="scope">
         <el-button
-            v-if="isAuth('sys:role:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click.stop="onAddOrUpdate(scope.row.roleId)"
+          v-if="isAuth('sys:role:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click.stop="onAddOrUpdate(scope.row.roleId)"
         >
           编辑
         </el-button>
 
         <el-button
-            v-if="isAuth('sys:role:delete')"
-            type="danger"
-            icon="el-icon-delete"
-            @click.stop="onDelete(scope.row.roleId)"
+          v-if="isAuth('sys:role:delete')"
+          icon="el-icon-delete"
+          type="danger"
+          @click.stop="onDelete(scope.row.roleId)"
         >
           删除
         </el-button>
@@ -52,17 +52,17 @@
 
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { tableOption } from '@/crud/sys/role.js'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {tableOption} from '@/crud/sys/role.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -81,22 +81,22 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/sys/role/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.total = data.total
-        if (done) {
-          done()
-        }
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.total = data.total
+      if (done) {
+        done()
+      }
+    })
 }
 /**
  * 条件查询
@@ -133,23 +133,23 @@ const onDelete = (id) => {
     cancelButtonText: '取消',
     type: 'warning'
   })
-      .then(() => {
-        http({
-          url: http.adornUrl('/sys/role'),
-          method: 'delete',
-          data: http.adornData(ids, false)
+    .then(() => {
+      http({
+        url: http.adornUrl('/sys/role'),
+        method: 'delete',
+        data: http.adornData(ids, false)
+      })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList()
+            }
+          })
         })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList()
-                }
-              })
-            })
-      }).catch(() => {
+    }).catch(() => {
   })
 }
 </script>

@@ -4,40 +4,40 @@
       <div class="top">
         <div class="logo">
           <img
-              src="~@/assets/img/login-logo.png"
-              alt=""
+            alt=""
+            src="~@/assets/img/login-logo.png"
           >
         </div>
       </div>
       <div class="mid">
         <el-form
-            ref="dataFormRef"
-            :model="dataForm"
-            :rules="dataRule"
-            status-icon
-            @keyup.enter="dataFormSubmit()"
+          ref="dataFormRef"
+          :model="dataForm"
+          :rules="dataRule"
+          status-icon
+          @keyup.enter="dataFormSubmit()"
         >
           <el-form-item prop="userName">
             <el-input
-                v-model="dataForm.userName"
-                class="info"
-                placeholder="帐号"
+              v-model="dataForm.userName"
+              class="info"
+              placeholder="帐号"
             />
           </el-form-item>
           <el-form-item prop="password">
             <el-input
-                v-model="dataForm.password"
-                class="info"
-                type="password"
-                placeholder="密码"
+              v-model="dataForm.password"
+              class="info"
+              placeholder="密码"
+              type="password"
             />
           </el-form-item>
           <el-form-item>
             <div class="item-btn">
               <input
-                  type="button"
-                  value="登录"
-                  @click="dataFormSubmit()"
+                type="button"
+                value="登录"
+                @click="dataFormSubmit()"
               >
             </div>
           </el-form-item>
@@ -48,17 +48,17 @@
       </div>
     </div>
     <Verify
-        ref="verifyRef"
-        :captcha-type="'blockPuzzle'"
-        :img-size="{width:'400px',height:'200px'}"
-        @success="login"
+      ref="verifyRef"
+      :captcha-type="'blockPuzzle'"
+      :img-size="{width:'400px',height:'200px'}"
+      @success="login"
     />
   </div>
 </template>
 
 <script setup>
-import { encrypt } from '@/utils/crypto'
-import { getUUID } from '@/utils'
+import {encrypt} from '@/utils/crypto'
+import {getUUID} from '@/utils'
 import Verify from '@/components/verifition/Verify.vue'
 import cookie from 'vue-cookies'
 
@@ -134,9 +134,9 @@ const login = (verifyResult) => {
       passWord: encrypt(dataForm.value.password),
       captchaVerification: verifyResult.captchaVerification
     })
-  }).then(({ data }) => {
+  }).then(({data}) => {
     cookie.set('Authorization', data.accessToken)
-    router.replace({ name: 'home' })
+    router.replace({name: 'home'})
   }).catch(() => {
     isSubmit = false
   })

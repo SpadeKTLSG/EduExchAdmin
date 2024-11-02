@@ -1,8 +1,8 @@
 <template>
   <el-dialog
       v-model="visible"
-      :title="!dataList[0].propId ? '新增' : '修改'"
       :close-on-click-modal="false"
+      :title="!dataList[0].propId ? '新增' : '修改'"
   >
     <el-table
         :data="dataList"
@@ -10,26 +10,26 @@
         style="width: 100%;"
     >
       <el-table-column
-          prop="propName"
-          header-align="center"
           align="center"
+          header-align="center"
           label="属性名称"
+          prop="propName"
       >
         <template #default="scope">
           <el-input
               v-model="scope.row.propName"
-              placeholder="请输入内容"
-              maxlength="10"
-              show-word-limit
               clearable
+              maxlength="10"
+              placeholder="请输入内容"
+              show-word-limit
           />
         </template>
       </el-table-column>
       <el-table-column
-          prop="prodPropValues"
-          header-align="center"
           align="center"
+          header-align="center"
           label="属性值"
+          prop="prodPropValues"
       >
         <template #default="scope">
           <el-col
@@ -39,20 +39,20 @@
           >
             <el-input
                 v-model="item.propValue"
-                placeholder="请输入内容"
                 class="prop-value-input"
-                maxlength="20"
-                show-word-limit
                 clearable
+                maxlength="20"
+                placeholder="请输入内容"
+                show-word-limit
                 @clear="clearProdPropValues"
             />
           </el-col>
           <el-col :span="4">
             <el-button
                 v-show="scope.row.prodPropValues[scope.row.prodPropValues.length-1].propValue"
-                type="primary"
                 class="add-input"
                 icon="el-icon-circle-plus"
+                type="primary"
                 @click="addInput()"
             />
           </el-col>
@@ -75,8 +75,8 @@
   </el-dialog>
 </template>
 <script setup>
-import { ElMessage } from 'element-plus'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 
@@ -189,7 +189,7 @@ const addInput = () => {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .prop-value-input {
   padding: 3px;
 }

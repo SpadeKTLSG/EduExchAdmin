@@ -1,61 +1,61 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.currentId ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.currentId ? '新增' : '修改'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          v-if="dataForm.type !== 2"
-          label="分类图片"
-          prop="pic"
+        v-if="dataForm.type !== 2"
+        label="分类图片"
+        prop="pic"
       >
         <pic-upload v-model="dataForm.pic"/>
       </el-form-item>
       <el-form-item
-          v-if="dataForm.type !== 2"
-          label="分类名称"
-          prop="categoryName"
+        v-if="dataForm.type !== 2"
+        label="分类名称"
+        prop="categoryName"
       >
         <el-input
-            v-model="dataForm.categoryName"
-            controls-position="right"
-            :min="0"
-            label="分类名称"
+          v-model="dataForm.categoryName"
+          :min="0"
+          controls-position="right"
+          label="分类名称"
         />
       </el-form-item>
       <el-form-item label="上级分类">
         <el-cascader
-            v-model="selectedCategory"
-            expand-trigger="hover"
-            :options="categoryList"
-            :props="categoryTreeProps"
-            change-on-select
-            :clearable="true"
-            @change="handleChange"
+          v-model="selectedCategory"
+          :clearable="true"
+          :options="categoryList"
+          :props="categoryTreeProps"
+          change-on-select
+          expand-trigger="hover"
+          @change="handleChange"
         />
       </el-form-item>
       <el-form-item
-          v-if="dataForm.type !== 2"
-          label="排序号"
-          prop="seq"
+        v-if="dataForm.type !== 2"
+        label="排序号"
+        prop="seq"
       >
         <el-input-number
-            v-model="dataForm.seq"
-            controls-position="right"
-            :min="0"
-            label="排序号"
+          v-model="dataForm.seq"
+          :min="0"
+          controls-position="right"
+          label="排序号"
         />
       </el-form-item>
       <el-form-item
-          label="状态"
-          prop="status"
+        label="状态"
+        prop="status"
       >
         <el-radio-group v-model="dataForm.status">
           <el-radio :label="0">
@@ -73,8 +73,8 @@
           取消
         </el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >
           确定
         </el-button>
@@ -84,9 +84,9 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { idList, treeDataTranslate } from '@/utils'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {idList, treeDataTranslate} from '@/utils'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -138,37 +138,37 @@ const init = (id) => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({ data }) => {
-        categoryList.value = treeDataTranslate(data, 'categoryId', 'parentId')
+    .then(({data}) => {
+      categoryList.value = treeDataTranslate(data, 'categoryId', 'parentId')
+    })
+    .then(() => {
+      visible.value = true
+      nextTick(() => {
+        dataFormRef.value?.resetFields()
+        selectedCategory.value = []
       })
-      .then(() => {
-        visible.value = true
-        nextTick(() => {
-          dataFormRef.value?.resetFields()
-          selectedCategory.value = []
+    })
+    .then(() => {
+      if (dataForm.categoryId) {
+        // 修改
+        http({
+          url: http.adornUrl(`/prod/category/info/${dataForm.categoryId}`),
+          method: 'get',
+          params: http.adornParams()
         })
-      })
-      .then(() => {
-        if (dataForm.categoryId) {
-          // 修改
-          http({
-            url: http.adornUrl(`/prod/category/info/${dataForm.categoryId}`),
-            method: 'get',
-            params: http.adornParams()
+          .then(({data}) => {
+            dataForm.categoryId = data.categoryId
+            dataForm.categoryName = data.categoryName
+            dataForm.seq = data.seq
+            dataForm.pic = data.pic
+            dataForm.parentId = data.parentId
+            dataForm.status = data.status
+            selectedCategory.value = idList(categoryList.value, data.parentId, 'categoryId', 'children').reverse()
           })
-              .then(({ data }) => {
-                dataForm.categoryId = data.categoryId
-                dataForm.categoryName = data.categoryName
-                dataForm.seq = data.seq
-                dataForm.pic = data.pic
-                dataForm.parentId = data.parentId
-                dataForm.status = data.status
-                selectedCategory.value = idList(categoryList.value, data.parentId, 'categoryId', 'children').reverse()
-              })
-        }
-      })
+      }
+    })
 }
-defineExpose({ init })
+defineExpose({init})
 
 const handleChange = (val) => {
   dataForm.parentId = val[val.length - 1]
@@ -203,18 +203,18 @@ const onSubmit = Debounce(() => {
           pic: dataForm.pic
         })
       })
-          .then(() => {
-            ElMessage({
-              message: '操作成功',
-              type: 'success',
-              duration: 1000,
-              onClose: () => {
-                isSubmit.value = false
-                visible.value = false
-                emit('refreshDataList')
-              }
-            })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            onClose: () => {
+              isSubmit.value = false
+              visible.value = false
+              emit('refreshDataList')
+            }
           })
+        })
     }
   })
 })

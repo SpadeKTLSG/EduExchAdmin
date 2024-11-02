@@ -7,9 +7,9 @@
 
     <figure>
       <table
-          border="1"
-          cellspacing="0"
-          cellpadding="5px"
+        border="1"
+        cellpadding="5px"
+        cellspacing="0"
       >
         <thead>
         <tr>

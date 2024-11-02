@@ -1,21 +1,21 @@
 <template>
   <div class="mod-prod-prodTag">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :table-loading="dataListLoading"
-        :option="tableOption"
-        @search-change="onSearch"
-        @on-load="getDataList"
-        @refresh-change="refreshChange"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      :table-loading="dataListLoading"
+      @search-change="onSearch"
+      @on-load="getDataList"
+      @refresh-change="refreshChange"
     >
       <template #menu-left>
         <el-button
-            v-if="isAuth('prod:prodTag:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click="onAddOrUpdate()"
+          v-if="isAuth('prod:prodTag:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click="onAddOrUpdate()"
         >
           新增
         </el-button>
@@ -25,8 +25,8 @@
       </template>
       <template #status="scope">
         <el-tag
-            v-if="scope.row.status === 0"
-            type="danger"
+          v-if="scope.row.status === 0"
+          type="danger"
         >
           禁用
         </el-tag>
@@ -46,35 +46,35 @@
 
       <template #menu="scope">
         <el-button
-            v-if="isAuth('prod:prodTag:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click="onAddOrUpdate(scope.row.id)"
+          v-if="isAuth('prod:prodTag:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click="onAddOrUpdate(scope.row.id)"
         >
           修改
         </el-button>
         <el-button
-            v-if="isAuth('prod:prodTag:delete')"
-            type="danger"
-            icon="el-icon-delete"
-            @click.stop="onDelete(scope.row.id)"
+          v-if="isAuth('prod:prodTag:delete')"
+          icon="el-icon-delete"
+          type="danger"
+          @click.stop="onDelete(scope.row.id)"
         >
           删除
         </el-button>
       </template>
     </avue-crud>
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="refreshChange"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="refreshChange"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { tableOption } from '@/crud/prod/prodTag.js'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {tableOption} from '@/crud/prod/prodTag.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -95,12 +95,12 @@ const getDataList = (pageParam, params, done) => {
       size: pageParam == null ? page.pageSize : pageParam.pageSize
     }, params))
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.total = data.total
-        dataListLoading.value = false
-        if (done) done()
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.total = data.total
+      dataListLoading.value = false
+      if (done) done()
+    })
 }
 
 const addOrUpdateVisible = ref(false)
@@ -122,23 +122,23 @@ const onDelete = (id) => {
     cancelButtonText: '取消',
     type: 'warning'
   })
-      .then(() => {
-        http({
-          url: http.adornUrl('/prod/prodTag/' + id),
-          method: 'delete',
-          data: http.adornData({})
+    .then(() => {
+      http({
+        url: http.adornUrl('/prod/prodTag/' + id),
+        method: 'delete',
+        data: http.adornData({})
+      })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList(page)
+            }
+          })
         })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList(page)
-                }
-              })
-            })
-      }).catch(() => {
+    }).catch(() => {
   })
 }
 /**

@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-upload
-        :action="uploadAction"
-        :headers="uploadHeaders"
-        list-type="picture-card"
-        :on-preview="handlePictureCardPreview"
-        :on-remove="handleRemove"
-        :on-success="handleUploadSuccess"
-        :file-list="imageList"
-        :before-upload="beforeAvatarUpload"
+      :action="uploadAction"
+      :before-upload="beforeAvatarUpload"
+      :file-list="imageList"
+      :headers="uploadHeaders"
+      :on-preview="handlePictureCardPreview"
+      :on-remove="handleRemove"
+      :on-success="handleUploadSuccess"
+      list-type="picture-card"
     >
       <el-icon>
         <Plus/>
@@ -16,9 +16,9 @@
     </el-upload>
     <el-dialog v-model="dialogVisible">
       <img
-          width="100%"
-          :src="dialogImageUrl"
-          alt=""
+        :src="dialogImageUrl"
+        alt=""
+        width="100%"
       >
     </el-dialog>
   </div>
@@ -26,9 +26,9 @@
 
 <script setup>
 import $cookie from 'vue-cookies'
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
 
-const uploadHeaders = { Authorization: $cookie.get('Authorization') }
+const uploadHeaders = {Authorization: $cookie.get('Authorization')}
 const uploadAction = http.adornUrl('/admin/file/upload/element')
 const props = defineProps({
   modelValue: {

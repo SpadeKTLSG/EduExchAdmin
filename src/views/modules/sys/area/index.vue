@@ -1,40 +1,40 @@
 <template>
   <div class="mod-sys-area">
     <el-input
-        v-model="areaName"
-        class="area-search-input"
-        placeholder="地区关键词"
+      v-model="areaName"
+      class="area-search-input"
+      placeholder="地区关键词"
     />
     <el-button
-        type="primary"
-        class="area-add-btn"
-        @click="onAddOrUpdate()"
+      class="area-add-btn"
+      type="primary"
+      @click="onAddOrUpdate()"
     >
       新增
     </el-button>
 
     <el-tree
-        ref="tree2Ref"
-        :data="areaTreeData"
-        node-key="areaId"
-        :filter-node-method="filterNode"
-        :props="props"
-        :expand-on-click-node="false"
+      ref="tree2Ref"
+      :data="areaTreeData"
+      :expand-on-click-node="false"
+      :filter-node-method="filterNode"
+      :props="props"
+      node-key="areaId"
     >
       <template #default="{ node, data }">
         <span class="addr-name">{{ node.label }}</span>
         <span>
           <el-button
-              type="text"
-              icon="el-icon-edit"
-              @click="() => update(node, data)"
+            icon="el-icon-edit"
+            type="text"
+            @click="() => update(node, data)"
           >
             修改
           </el-button>
           <el-button
-              type="text"
-              icon="el-icon-delete"
-              @click="() => remove(node, data)"
+            icon="el-icon-delete"
+            type="text"
+            @click="() => remove(node, data)"
           >
             删除
           </el-button>
@@ -43,18 +43,18 @@
     </el-tree>
 
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
-        @close="addOrUpdateVisible=false"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @close="addOrUpdateVisible=false"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
-import { treeDataTranslate } from '@/utils'
+import {treeDataTranslate} from '@/utils'
 
 const areaName = ref('')
 const props = {
@@ -65,10 +65,10 @@ const props = {
 
 const tree2Ref = ref(null)
 watch(
-    () => areaName,
-    (val) => {
-      tree2Ref.value?.filter(val)
-    }
+  () => areaName,
+  (val) => {
+    tree2Ref.value?.filter(val)
+  }
 )
 
 onMounted(() => {
@@ -89,7 +89,7 @@ const getDataList = (pageParam, params) => {
       current: pageParam == null ? page.currentPage : pageParam.currentPage,
       size: pageParam == null ? page.pageSize : pageParam.pageSize
     }, params))
-  }).then(({ data }) => {
+  }).then(({data}) => {
     areaTreeData.value = treeDataTranslate(data, 'areaId', 'parentId')
   })
 }

@@ -7,7 +7,7 @@
   </svg>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 const props = defineProps({
   iconClass: {
     type: String,
@@ -28,7 +28,7 @@ const svgClass = computed(() => {
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .sub-el-icon,
 .nav-icon {
   display: inline-block;

@@ -1,51 +1,51 @@
 <template>
   <div class="mod-user">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :option="tableOption"
-        @search-change="onSearch"
-        @selection-change="selectionChange"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      @search-change="onSearch"
+      @selection-change="selectionChange"
+      @on-load="getDataList"
     >
       <template #menu-left>
         <el-button
-            v-if="isAuth('sys:user:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click.stop="onAddOrUpdate()"
+          v-if="isAuth('sys:user:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click.stop="onAddOrUpdate()"
         >
           新增
         </el-button>
 
         <el-button
-            v-if="isAuth('sys:user:delete')"
-            type="danger"
+          v-if="isAuth('sys:user:delete')"
+          :disabled="dataListSelections.length <= 0"
 
-            :disabled="dataListSelections.length <= 0"
-            @click="onDelete()"
+          type="danger"
+          @click="onDelete()"
         >
           批量删除
         </el-button>
       </template>
       <template
-          #menu="scope"
+        #menu="scope"
       >
         <el-button
-            v-if="isAuth('sys:user:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click.stop="onAddOrUpdate(scope.row.userId)"
+          v-if="isAuth('sys:user:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click.stop="onAddOrUpdate(scope.row.userId)"
         >
           编辑
         </el-button>
 
         <el-button
-            v-if="isAuth('sys:user:delete')"
-            type="danger"
-            icon="el-icon-delete"
-            @click.stop="onDelete(scope.row.userId)"
+          v-if="isAuth('sys:user:delete')"
+          icon="el-icon-delete"
+          type="danger"
+          @click.stop="onDelete(scope.row.userId)"
         >
           删除
         </el-button>
@@ -54,17 +54,17 @@
 
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { tableOption } from '@/crud/sys/user.js'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {tableOption} from '@/crud/sys/user.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -86,15 +86,15 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/sys/user/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
-  }).then(({ data }) => {
+  }).then(({data}) => {
     dataList.value = data.records
     page.total = data.total
     dataListLoading.value = false

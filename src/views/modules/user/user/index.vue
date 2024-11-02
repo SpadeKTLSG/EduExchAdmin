@@ -1,18 +1,18 @@
 <template>
   <div class="mod-user">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :option="tableOption"
-        @search-change="onSearch"
-        @selection-change="selectionChange"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      @search-change="onSearch"
+      @selection-change="selectionChange"
+      @on-load="getDataList"
     >
       <template #pic="scope">
         <span
-            v-if="scope.row.pic"
-            class="avue-crud__img"
+          v-if="scope.row.pic"
+          class="avue-crud__img"
         >
           <el-icon><Document/></el-icon>
         </span>
@@ -21,8 +21,8 @@
 
       <template #status="scope">
         <el-tag
-            v-if="scope.row.status === 0"
-            type="danger"
+          v-if="scope.row.status === 0"
+          type="danger"
         >
           禁用
         </el-tag>
@@ -33,10 +33,10 @@
 
       <template #menu="scope">
         <el-button
-            v-if="isAuth('admin:user:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click.stop="onAddOrUpdate(scope.row.userId)"
+          v-if="isAuth('admin:user:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click.stop="onAddOrUpdate(scope.row.userId)"
         >
           编辑
         </el-button>
@@ -45,16 +45,16 @@
 
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { tableOption } from '@/crud/user/user.js'
+import {isAuth} from '@/utils'
+import {tableOption} from '@/crud/user/user.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -75,21 +75,21 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/admin/user/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.total = data.total
-        dataListLoading.value = false
-        if (done) done()
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.total = data.total
+      dataListLoading.value = false
+      if (done) done()
+    })
 }
 
 const addOrUpdateRef = ref(null)

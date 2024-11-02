@@ -1,29 +1,29 @@
 <template>
   <div class="mod-hotSearcch">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :table-loading="dataListLoading"
-        :option="tableOption"
-        @search-change="onSearch"
-        @on-load="getDataList"
-        @refresh-change="refreshChange"
-        @selection-change="selectionChange"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      :table-loading="dataListLoading"
+      @search-change="onSearch"
+      @on-load="getDataList"
+      @refresh-change="refreshChange"
+      @selection-change="selectionChange"
     >
       <template #menu-left>
         <el-button
-            v-if="isAuth('admin:hotSearch:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click="onAddOrUpdate()"
+          v-if="isAuth('admin:hotSearch:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click="onAddOrUpdate()"
         >
           新增
         </el-button>
         <el-button
-            type="danger"
-            :disabled="dataListSelections.length <= 0"
-            @click.stop="onDeconste"
+          :disabled="dataListSelections.length <= 0"
+          type="danger"
+          @click.stop="onDeconste"
         >
           批量删除
         </el-button>
@@ -31,8 +31,8 @@
 
       <template #status="scope">
         <el-tag
-            v-if="scope.row.status === 0"
-            type="danger"
+          v-if="scope.row.status === 0"
+          type="danger"
         >
           未启用
         </el-tag>
@@ -43,18 +43,18 @@
 
       <template #menu="scope">
         <el-button
-            v-if="isAuth('admin:hotSearch:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click="onAddOrUpdate(scope.row.hotSearchId)"
+          v-if="isAuth('admin:hotSearch:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click="onAddOrUpdate(scope.row.hotSearchId)"
         >
           修改
         </el-button>
         <el-button
-            v-if="isAuth('admin:hotSearch:deconste')"
-            type="danger"
-            icon="el-icon-deconste"
-            @click.stop="onDeconste(scope.row,scope.index)"
+          v-if="isAuth('admin:hotSearch:deconste')"
+          icon="el-icon-deconste"
+          type="danger"
+          @click.stop="onDeconste(scope.row,scope.index)"
         >
           删除
         </el-button>
@@ -63,17 +63,17 @@
 
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { tableOption } from '@/crud/shop/hotSearch.js'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {tableOption} from '@/crud/shop/hotSearch.js'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -96,14 +96,14 @@ const getDataList = (pageParam, params, done) => {
       size: pageParam ? pageParam.pageSize : 20
     }, params))
   })
-      .then(({ data }) => {
-        page.total = data.total
-        page.pageSize = data.size
-        page.currentPage = data.current
-        dataList.value = data.records
-        dataListLoading.value = false
-        if (done) done()
-      })
+    .then(({data}) => {
+      page.total = data.total
+      page.pageSize = data.size
+      page.currentPage = data.current
+      dataList.value = data.records
+      dataListLoading.value = false
+      if (done) done()
+    })
 }
 const dataListSelections = ref([])
 /**
@@ -146,23 +146,23 @@ const onDeconste = (row) => {
     cancelButtonText: '取消',
     type: 'warning'
   })
-      .then(() => {
-        http({
-          url: http.adornUrl('/admin/hotSearch'),
-          method: 'delete',
-          data: http.adornData(ids, false)
+    .then(() => {
+      http({
+        url: http.adornUrl('/admin/hotSearch'),
+        method: 'delete',
+        data: http.adornData(ids, false)
+      })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList()
+            }
+          })
         })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList()
-                }
-              })
-            })
-      }).catch(() => {
+    }).catch(() => {
   })
 }
 const refreshChange = () => {

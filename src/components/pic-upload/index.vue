@@ -1,24 +1,24 @@
 <template>
   <div>
     <el-upload
-        class="pic-uploader-component"
-        :action="uploadAction"
-        :headers="uploadHeaders"
-        accept=".png,.jpg,.jpeg,.gif"
-        :show-file-list="false"
-        :on-success="handleUploadSuccess"
-        :before-upload="beforeAvatarUpload"
+      :action="uploadAction"
+      :before-upload="beforeAvatarUpload"
+      :headers="uploadHeaders"
+      :on-success="handleUploadSuccess"
+      :show-file-list="false"
+      accept=".png,.jpg,.jpeg,.gif"
+      class="pic-uploader-component"
     >
       <img
-          v-if="modelValue"
-          alt=""
-          :src="checkFileUrl(modelValue)"
-          class="pic"
+        v-if="modelValue"
+        :src="checkFileUrl(modelValue)"
+        alt=""
+        class="pic"
       >
       <el-icon
-          v-else
-          color="#8c939d"
-          size="28"
+        v-else
+        color="#8c939d"
+        size="28"
       >
         <Plus/>
       </el-icon>
@@ -27,11 +27,11 @@
 </template>
 
 <script setup>
-import { checkFileUrl } from '@/utils'
+import {checkFileUrl} from '@/utils'
 import $cookie from 'vue-cookies'
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
 
-const uploadHeaders = { Authorization: $cookie.get('Authorization') }
+const uploadHeaders = {Authorization: $cookie.get('Authorization')}
 const uploadAction = http.adornUrl('/admin/file/upload/element')
 const emit = defineEmits(['update:modelValue'])
 // eslint-disable-next-line no-unused-vars

@@ -1,37 +1,37 @@
 <template>
   <div class="mod-transport">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :option="tableOption"
-        @search-change="onSearch"
-        @selection-change="selectionChange"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      @search-change="onSearch"
+      @selection-change="selectionChange"
+      @on-load="getDataList"
     >
       <template #prod-prop-values="scope">
         <el-tag
-            v-for="item in scope.row.prodPropValues"
-            :key="item.valueId"
+          v-for="item in scope.row.prodPropValues"
+          :key="item.valueId"
         >
           {{ item.propValue }}
         </el-tag>
       </template>
       <template #menu-left>
         <el-button
-            v-if="isAuth('shop:transport:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click.stop="onAddOrUpdate()"
+          v-if="isAuth('shop:transport:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click.stop="onAddOrUpdate()"
         >
           新增
         </el-button>
 
         <el-button
-            v-if="isAuth('shop:transport:delete')"
-            type="danger"
-            :disabled="dataListSelections.length <= 0"
-            @click="onDelete()"
+          v-if="isAuth('shop:transport:delete')"
+          :disabled="dataListSelections.length <= 0"
+          type="danger"
+          @click="onDelete()"
         >
           批量删除
         </el-button>
@@ -39,19 +39,19 @@
 
       <template #menu="scope">
         <el-button
-            v-if="isAuth('shop:transport:update')"
-            type="primary"
-            icon="el-icon-edit"
-            @click.stop="onAddOrUpdate(scope.row.transportId)"
+          v-if="isAuth('shop:transport:update')"
+          icon="el-icon-edit"
+          type="primary"
+          @click.stop="onAddOrUpdate(scope.row.transportId)"
         >
           修改
         </el-button>
 
         <el-button
-            v-if="isAuth('shop:transport:delete')"
-            type="danger"
-            icon="el-icon-delete"
-            @click.stop="onDelete(scope.row.transportId)"
+          v-if="isAuth('shop:transport:delete')"
+          icon="el-icon-delete"
+          type="danger"
+          @click.stop="onDelete(scope.row.transportId)"
         >
           删除
         </el-button>
@@ -59,17 +59,17 @@
     </avue-crud>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { tableOption } from '@/crud/shop/transport'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {tableOption} from '@/crud/shop/transport'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
@@ -88,20 +88,20 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/shop/transport/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.value.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.value.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.value.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.value.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.value.total = data.total
-        if (done) done()
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.value.total = data.total
+      if (done) done()
+    })
 }
 
 const addOrUpdateVisible = ref(false)
@@ -124,31 +124,31 @@ const onAddOrUpdate = (id) => {
 const onDelete = (id) => {
   const ids = id ? [id] : dataListSelections.value?.map(item => item.transportId)
   ElMessageBox.confirm(
-      `确定进行[${id ? '删除' : '批量删除'}]操作?`,
-      '提示',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }
+    `确定进行[${id ? '删除' : '批量删除'}]操作?`,
+    '提示',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }
   )
-      .then(() => {
-        http({
-          url: http.adornUrl('/shop/transport'),
-          method: 'delete',
-          data: http.adornData(ids, false)
+    .then(() => {
+      http({
+        url: http.adornUrl('/shop/transport'),
+        method: 'delete',
+        data: http.adornData(ids, false)
+      })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList()
+            }
+          })
         })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList()
-                }
-              })
-            })
-      }).catch(() => {
+    }).catch(() => {
   })
 }
 

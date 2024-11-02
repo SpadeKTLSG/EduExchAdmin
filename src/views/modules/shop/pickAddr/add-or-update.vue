@@ -1,38 +1,38 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.addrId ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.addrId ? '新增' : '修改'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          label="名称"
-          prop="addrName"
+        label="名称"
+        prop="addrName"
       >
         <el-input
-            v-model="dataForm.addrName"
-            placeholder="自提点名称"
+          v-model="dataForm.addrName"
+          placeholder="自提点名称"
         />
       </el-form-item>
       <el-form-item label="省份">
         <el-col :span="8">
           <el-form-item prop="province">
             <el-select
-                v-model="dataForm.provinceId"
-                placeholder="请选择"
-                @change="selectProvince"
+              v-model="dataForm.provinceId"
+              placeholder="请选择"
+              @change="selectProvince"
             >
               <el-option
-                  v-for="province in provinceList"
-                  :key="province.areaId"
-                  :label="province.areaName"
-                  :value="province.areaId"
+                v-for="province in provinceList"
+                :key="province.areaId"
+                :label="province.areaName"
+                :value="province.areaId"
               />
             </el-select>
           </el-form-item>
@@ -40,15 +40,15 @@
         <el-col :span="8">
           <el-form-item prop="city">
             <el-select
-                v-model="dataForm.cityId"
-                placeholder="请选择"
-                @change="selectCity"
+              v-model="dataForm.cityId"
+              placeholder="请选择"
+              @change="selectCity"
             >
               <el-option
-                  v-for="city in cityList"
-                  :key="city.areaId"
-                  :label="city.areaName"
-                  :value="city.areaId"
+                v-for="city in cityList"
+                :key="city.areaId"
+                :label="city.areaName"
+                :value="city.areaId"
               />
             </el-select>
           </el-form-item>
@@ -56,47 +56,47 @@
         <el-col :span="8">
           <el-form-item prop="area">
             <el-select
-                v-model="dataForm.areaId"
-                placeholder="请选择"
+              v-model="dataForm.areaId"
+              placeholder="请选择"
             >
               <el-option
-                  v-for="area in areaList"
-                  :key="area.areaId"
-                  :label="area.areaName"
-                  :value="area.areaId"
+                v-for="area in areaList"
+                :key="area.areaId"
+                :label="area.areaName"
+                :value="area.areaId"
               />
             </el-select>
           </el-form-item>
         </el-col>
       </el-form-item>
       <el-form-item
-          label="地址"
-          prop="addr"
+        label="地址"
+        prop="addr"
       >
         <el-input
-            v-model="dataForm.addr"
-            placeholder="地址"
+          v-model="dataForm.addr"
+          placeholder="地址"
         />
       </el-form-item>
       <el-form-item
-          label="手机号"
-          prop="mobile"
+        label="手机号"
+        prop="mobile"
       >
         <el-input
-            v-model="dataForm.mobile"
-            maxlength="11"
-            placeholder="手机号"
+          v-model="dataForm.mobile"
+          maxlength="11"
+          placeholder="手机号"
         />
       </el-form-item>
     </el-form>
     <template #footer>
       <span
-          class="dialog-footer"
+        class="dialog-footer"
       >
         <el-button @click="visible = false">取消</el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >确定</el-button>
       </span>
     </template>
@@ -104,9 +104,9 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { isMobile } from '@/utils/validate'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {isMobile} from '@/utils/validate'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -204,41 +204,41 @@ const init = (id) => {
     dataForm.cityId = null
     dataForm.areaId = null
   })
-  listAreaByParentId().then(({ data }) => {
+  listAreaByParentId().then(({data}) => {
     provinceList.value = data
   })
   if (dataForm.addrId) {
     http({
       url: http.adornUrl(
-          `/shop/pickAddr/info/${dataForm.addrId}`
+        `/shop/pickAddr/info/${dataForm.addrId}`
       ),
       method: 'get',
       params: http.adornParams()
     })
-        .then(({ data }) => {
-          dataForm.addr = data.addr
-          dataForm.mobile = data.mobile
-          dataForm.addrName = data.addrName
-          dataForm.areaId = data.areaId
-          dataForm.cityId = data.cityId
-          dataForm.provinceId = data.provinceId
-          listAreaByParentId(data.provinceId).then(({ data }) => {
-            cityList.value = data
-          })
-          listAreaByParentId(data.cityId).then(({ data }) => {
-            areaList.value = data
-          })
+      .then(({data}) => {
+        dataForm.addr = data.addr
+        dataForm.mobile = data.mobile
+        dataForm.addrName = data.addrName
+        dataForm.areaId = data.areaId
+        dataForm.cityId = data.cityId
+        dataForm.provinceId = data.provinceId
+        listAreaByParentId(data.provinceId).then(({data}) => {
+          cityList.value = data
         })
+        listAreaByParentId(data.cityId).then(({data}) => {
+          areaList.value = data
+        })
+      })
   }
 }
-defineExpose({ init })
+defineExpose({init})
 
 const listAreaByParentId = (pid) => {
   if (!pid) pid = 0
   return http({
     url: http.adornUrl('/admin/area/listByPid'),
     method: 'get',
-    params: http.adornParams({ pid })
+    params: http.adornParams({pid})
   })
 }
 
@@ -250,7 +250,7 @@ const selectProvince = (val) => {
   dataForm.cityId = null
   dataForm.city = ''
   // 获取城市的select
-  listAreaByParentId(val).then(({ data }) => {
+  listAreaByParentId(val).then(({data}) => {
     cityList.value = data
   })
 }
@@ -263,7 +263,7 @@ const selectCity = (val) => {
   dataForm.areaId = null
   dataForm.area = ''
   // 获取区的select
-  listAreaByParentId(val).then(({ data }) => {
+  listAreaByParentId(val).then(({data}) => {
     areaList.value = data
   })
 }
@@ -308,17 +308,17 @@ const onSubmit = Debounce(() => {
           provinceId: dataForm.provinceId
         })
       })
-          .then(() => {
-            ElMessage({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                visible.value = false
-                emit('refreshDataList', page)
-              }
-            })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              visible.value = false
+              emit('refreshDataList', page)
+            }
           })
+        })
     }
   })
 })

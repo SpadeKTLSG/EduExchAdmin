@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 
 export const scoreProdStore = defineStore('prod', {
   state: () => {
@@ -19,22 +19,22 @@ export const scoreProdStore = defineStore('prod', {
     }
   },
   actions: {
-    updateSkuTags (skuTags) {
+    updateSkuTags(skuTags) {
       this.skuTags = skuTags
     },
-    addSkuTag (skuTag) {
+    addSkuTag(skuTag) {
       this.skuTags.push(skuTag)
     },
-    removeSkuTag (tagIndex) {
+    removeSkuTag(tagIndex) {
       this.skuTags.splice(tagIndex, 1)
     },
-    removeSkuTagItem (tagIndex, tagItemIndex) {
+    removeSkuTagItem(tagIndex, tagItemIndex) {
       this.skuTags[tagIndex].tagItems.splice(tagItemIndex, 1)
     },
-    addSkuTagItem ({
-      tagIndex,
-      tagItem
-    }) {
+    addSkuTagItem({
+                    tagIndex,
+                    tagItem
+                  }) {
       this.skuTags[tagIndex].tagItems.push(tagItem)
     }
   }

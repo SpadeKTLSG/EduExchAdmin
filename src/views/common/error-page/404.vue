@@ -12,9 +12,9 @@
           返回上一页
         </el-button>
         <el-button
-            type="primary"
-            class="not-found-btn-gohome"
-            @click="$router.push({ name: 'home' })"
+          class="not-found-btn-gohome"
+          type="primary"
+          @click="$router.push({ name: 'home' })"
         >
           进入首页
         </el-button>

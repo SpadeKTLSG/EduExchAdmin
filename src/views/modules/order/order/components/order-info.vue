@@ -1,8 +1,8 @@
 <template>
   <el-dialog
       v-model="visible"
-      :title="!dataForm.orderNumber ? '新增' : '查看'"
       :close-on-click-modal="false"
+      :title="!dataForm.orderNumber ? '新增' : '查看'"
       width="80%"
   >
     <el-form
@@ -21,26 +21,26 @@
               <el-form-item>
                 <el-steps
                     :active="stepsStatus"
-                    align-center
                     :process-status="dataForm.status == 6 ? 'error':'wait'"
+                    align-center
                 >
                   <el-step
-                      title="提交订单"
                       :description="dataForm.orderTime"
+                      title="提交订单"
                   />
                   <el-step
-                      title="买家已付款"
                       :description="dataForm.payTime"
+                      title="买家已付款"
                   />
                   <el-step
                       v-if="dataForm.orderType !== 1"
-                      title="卖家已发货"
                       :description="dataForm.dvyTime"
+                      title="卖家已发货"
                   />
                   <el-step
                       v-if="dataForm.orderType !== 1"
-                      title="买家已收货"
                       :description="dataForm.finallyTime"
+                      title="买家已收货"
                   />
                 </el-steps>
               </el-form-item>
@@ -93,8 +93,8 @@
                   <el-row>
                     <el-button
                         v-if="dataForm.status === 2 && dataForm.orderType !== 1"
-                        type="primary"
                         plain
+                        type="primary"
                         @click="changeOrder(dataForm.orderNumber)"
                     >
                       发货
@@ -106,16 +106,16 @@
                 <div class="order-details">
                   <div class="detail-title">
                     <img
-                        src="~@/assets/img/car.png"
                         alt=""
+                        src="~@/assets/img/car.png"
                     >
                     <span class="prompt">买家付款后才可以发货</span>
                   </div>
                   <div class="detail-cont">
                     <div class="detail01">
                       <img
-                          src="~@/assets/img/address.png"
                           alt=""
+                          src="~@/assets/img/address.png"
                       >
                       <div class="text-width">
                         <el-form-item label="收货人:">
@@ -131,8 +131,8 @@
                     </div>
                     <div class="detail01">
                       <img
-                          src="~@/assets/img/invoice.png"
                           alt=""
+                          src="~@/assets/img/invoice.png"
                       >
                       <span>不开发票</span>
                     </div>
@@ -141,14 +141,14 @@
                 <div class="buyers">
                   <div class="detail-title">
                     <img
-                        src="~@/assets/img/buyer.png"
                         alt=""
+                        src="~@/assets/img/buyer.png"
                         style="margin-right:15px"
                     >
                     <el-form-item
                         label="买家:"
-                        style="margin-top:22px"
                         label-width="44px"
+                        style="margin-top:22px"
                     >
                       <span>{{ dataForm.nickName }}</span>
                     </el-form-item>
@@ -156,8 +156,8 @@
                   <div class="buyers-info">
                     <div class="detail02">
                       <img
-                          src="~@/assets/img/message.png"
                           alt=""
+                          src="~@/assets/img/message.png"
                       >
                       <div class="text-width">
                         <span>买家备注:</span>
@@ -174,8 +174,8 @@
                     border
                 >
                   <el-table-column
-                      prop=""
                       label="商品"
+                      prop=""
                   >
                     <template #default="scope">
                       <div class="prod-con">
@@ -188,30 +188,30 @@
                     </template>
                   </el-table-column>
                   <el-table-column
-                      prop="price"
-                      label="单价"
-                      width="180"
                       align="center"
+                      label="单价"
+                      prop="price"
+                      width="180"
                   >
                     <template #default="scope">
                       <span>{{ scope.row.price }}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
-                      prop="count"
-                      label="数量"
-                      width="180"
                       align="center"
+                      label="数量"
+                      prop="count"
+                      width="180"
                   >
                     <template #default="scope">
                       <span>{{ scope.row.prodCount }}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
-                      prop="totalPrice"
-                      label="总价"
-                      width="180"
                       align="center"
+                      label="总价"
+                      prop="totalPrice"
+                      width="180"
                   >
                     <template #default="scope">
                       <span>{{ scope.row.productTotalAmount }}</span>
@@ -387,7 +387,7 @@ const changeOrder = (orderNumber) => {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .main {
   height: 100%;
   width: 100%;

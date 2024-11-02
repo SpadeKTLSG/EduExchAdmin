@@ -2,8 +2,8 @@
   <div class="mod-index-img">
     <el-dialog
         v-model="visible"
-        :title="!dataForm.imgId ? '新增' : '修改'"
         :close-on-click-modal="false"
+        :title="!dataForm.imgId ? '新增' : '修改'"
     >
       <el-form
           ref="dataFormRef"
@@ -18,11 +18,11 @@
           <pic-upload v-model="dataForm.imgUrl"/>
         </el-form-item>
         <el-form-item
-            label="顺序"
-            prop="seq"
             :rules="[
             { required: false, pattern: /\s\S+|S+\s|\S/, message: '请输入正确的顺序', trigger: 'blur' }
           ]"
+            label="顺序"
+            prop="seq"
         >
           <el-input v-model="dataForm.seq"/>
         </el-form-item>
@@ -57,15 +57,15 @@
                 style="height: 160px;width: 120px"
             >
               <img
-                  alt=""
                   :src="card.pic"
+                  alt=""
                   style="height:104px;width:100%"
               >
               <div class="card-prod-bottom">
                 <span class="card-prod-name">{{ card.name }}</span>
                 <el-button
-                    type="text"
                     class="card-prod-name-button"
+                    type="text"
                     @click="deleteRelation"
                 >
                   删除
@@ -103,8 +103,8 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const dataForm = ref({

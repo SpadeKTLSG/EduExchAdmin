@@ -1,83 +1,83 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.id ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.id ? '新增' : '修改'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          label="用户名"
-          prop="userName"
+        label="用户名"
+        prop="userName"
       >
         <el-input
-            v-model="dataForm.userName"
-            placeholder="登录帐号"
+          v-model="dataForm.userName"
+          placeholder="登录帐号"
         />
       </el-form-item>
       <el-form-item
-          label="密码"
-          prop="password"
-          :class="{ 'is-required': !dataForm.id }"
+        :class="{ 'is-required': !dataForm.id }"
+        label="密码"
+        prop="password"
       >
         <el-input
-            v-model="dataForm.password"
-            type="password"
-            placeholder="密码"
+          v-model="dataForm.password"
+          placeholder="密码"
+          type="password"
         />
       </el-form-item>
       <el-form-item
-          label="确认密码"
-          prop="comfirmPassword"
-          :class="{ 'is-required': !dataForm.id }"
+        :class="{ 'is-required': !dataForm.id }"
+        label="确认密码"
+        prop="comfirmPassword"
       >
         <el-input
-            v-model="dataForm.comfirmPassword"
-            type="password"
-            placeholder="确认密码"
+          v-model="dataForm.comfirmPassword"
+          placeholder="确认密码"
+          type="password"
         />
       </el-form-item>
       <el-form-item
-          label="邮箱"
-          prop="email"
+        label="邮箱"
+        prop="email"
       >
         <el-input
-            v-model="dataForm.email"
-            placeholder="邮箱"
+          v-model="dataForm.email"
+          placeholder="邮箱"
         />
       </el-form-item>
       <el-form-item
-          label="手机号"
-          prop="mobile"
+        label="手机号"
+        prop="mobile"
       >
         <el-input
-            v-model="dataForm.mobile"
-            maxlength="11"
-            placeholder="手机号"
+          v-model="dataForm.mobile"
+          maxlength="11"
+          placeholder="手机号"
         />
       </el-form-item>
       <el-form-item
-          label="角色"
-          prop="roleIdList"
+        label="角色"
+        prop="roleIdList"
       >
         <el-checkbox-group v-model="dataForm.roleIdList">
           <el-checkbox
-              v-for="role in roleList"
-              :key="role.roleId"
-              :label="role.roleId"
+            v-for="role in roleList"
+            :key="role.roleId"
+            :label="role.roleId"
           >
             {{ role.roleName }}
           </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item
-          label="状态"
-          prop="status"
+        label="状态"
+        prop="status"
       >
         <el-radio-group v-model="dataForm.status">
           <el-radio :label="0">
@@ -93,8 +93,8 @@
       <span class="dialog-footer">
         <el-button @click="visible = false">取消</el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >确定</el-button>
       </span>
     </template>
@@ -102,10 +102,10 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { isEmail, isMobile } from '@/utils/validate'
-import { Debounce } from '@/utils/debounce'
-import { encrypt } from '@/utils/crypto'
+import {ElMessage} from 'element-plus'
+import {isEmail, isMobile} from '@/utils/validate'
+import {Debounce} from '@/utils/debounce'
+import {encrypt} from '@/utils/crypto'
 
 const emit = defineEmits(['refreshDataList'])
 
@@ -213,7 +213,7 @@ const init = (id) => {
     url: http.adornUrl('/sys/role/list'),
     method: 'get',
     params: http.adornParams()
-  }).then(({ data }) => {
+  }).then(({data}) => {
     roleList.value = data
   }).then(() => {
     visible.value = true
@@ -226,7 +226,7 @@ const init = (id) => {
         url: http.adornUrl(`/sys/user/info/${dataForm.id}`),
         method: 'get',
         params: http.adornParams()
-      }).then(({ data }) => {
+      }).then(({data}) => {
         dataForm.userName = data.username
         dataForm.email = data.email
         dataForm.mobile = data.mobile
@@ -236,7 +236,7 @@ const init = (id) => {
     }
   })
 }
-defineExpose({ init })
+defineExpose({init})
 
 /**
  * 表单提交

@@ -3,8 +3,8 @@ import qs from 'qs'
 import cookie from 'vue-cookies'
 import router from '@/router'
 import merge from 'lodash/merge'
-import { clearLoginInfo } from '@/utils'
-import { ElMessage } from 'element-plus'
+import {clearLoginInfo} from '@/utils'
+import {ElMessage} from 'element-plus'
 
 const http = axios.create({
   timeout: 1000 * 30,
@@ -23,7 +23,7 @@ http.interceptors.request.use(
     // 只针对get方式进行序列化
     if (config.method === 'get' || config.method === 'GET') {
       config.paramsSerializer = function (params) {
-        return qs.stringify(params, { arrayFormat: 'repeat' })
+        return qs.stringify(params, {arrayFormat: 'repeat'})
       }
     }
     return config
@@ -59,7 +59,7 @@ http.interceptors.response.use(
     // A00004 未授权
     if (res.code === 'A00004') {
       clearLoginInfo()
-      router.push({ name: 'login' })
+      router.push({name: 'login'})
     }
 
     // A00005 服务器异常
@@ -89,7 +89,7 @@ http.interceptors.response.use(
         break
       case 401:
         clearLoginInfo()
-        router.push({ name: 'login' })
+        router.push({name: 'login'})
         break
       case 405:
         ElMessage({
@@ -187,4 +187,4 @@ const uploadFile = function (url, file) {
 }
 
 export default http
-export { uploadFile }
+export {uploadFile}

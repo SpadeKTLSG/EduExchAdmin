@@ -1,50 +1,50 @@
 <template>
   <div class="mod-prod">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :option="tableOption"
-        :permission="permission"
-        @search-change="onSearch"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      :permission="permission"
+      @search-change="onSearch"
+      @on-load="getDataList"
     >
       <template #prodPropValues="scope">
         <el-tag
-            v-for="item in scope.row.prodPropValues"
-            :key="item.valueId"
+          v-for="item in scope.row.prodPropValues"
+          :key="item.valueId"
         >
           {{ item.propValue }}
         </el-tag>
       </template>
       <template #menu-left>
         <el-button
-            v-if="isAuth('shop:pickAddr:save')"
-            type="primary"
-            icon="el-icon-plus"
+          v-if="isAuth('shop:pickAddr:save')"
+          icon="el-icon-plus"
+          type="primary"
 
-            @click.stop="onAddOrUpdate()"
+          @click.stop="onAddOrUpdate()"
         >
           新增
         </el-button>
       </template>
       <template #menu="scope">
         <el-button
-            v-if="isAuth('prod:spec:update')"
-            type="primary"
-            icon="el-icon-edit"
+          v-if="isAuth('prod:spec:update')"
+          icon="el-icon-edit"
+          type="primary"
 
-            @click.stop="onAddOrUpdate(scope.row)"
+          @click.stop="onAddOrUpdate(scope.row)"
         >
           编辑
         </el-button>
 
         <el-button
-            v-if="isAuth('prod:spec:delete')"
-            type="danger"
-            icon="el-icon-delete"
+          v-if="isAuth('prod:spec:delete')"
+          icon="el-icon-delete"
+          type="danger"
 
-            @click.stop="onDelete(scope.row.propId)"
+          @click.stop="onDelete(scope.row.propId)"
         >
           删除
         </el-button>
@@ -52,18 +52,18 @@
     </avue-crud>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {isAuth} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
-import { tableOption } from '@/crud/prod/spec.js'
+import {tableOption} from '@/crud/prod/spec.js'
 
 const permission = ref({
   delBtn: isAuth('prod:prod:delete')
@@ -85,21 +85,21 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/prod/spec/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.total = data.total
-        dataListLoading.value = false
-        if (done) done()
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.total = data.total
+      dataListLoading.value = false
+      if (done) done()
+    })
 }
 
 const addOrUpdateVisible = ref(false)
@@ -128,25 +128,25 @@ const onDelete = (id) => {
     cancelButtonText: '取消',
     type: 'warning'
   })
-      .then(() => {
-        http({
-          url: http.adornUrl(`/prod/spec/${ids}`),
-          method: 'delete',
-          data: http.adornData(ids, false)
+    .then(() => {
+      http({
+        url: http.adornUrl(`/prod/spec/${ids}`),
+        method: 'delete',
+        data: http.adornData(ids, false)
+      })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList(page)
+            }
+          })
         })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList(page)
-                }
-              })
-            })
-      })
-      .catch(() => {
-      })
+    })
+    .catch(() => {
+    })
 }
 
 const onSearch = (params, done) => {
@@ -155,7 +155,7 @@ const onSearch = (params, done) => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 :deep(.prop-value) {
   display: inline-block;
   margin: 0 3px 3px 0;

@@ -4,7 +4,7 @@ import router from '@/router'
 /**
  * 获取uuid
  */
-export function getUUID () {
+export function getUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     return (c === 'x' ? (Math.random() * 16) | 0 : 'r&0x3' | '0x8').toString(16)
   })
@@ -14,7 +14,7 @@ export function getUUID () {
  * 是否有权限
  * @param {*} key
  */
-export function isAuth (key) {
+export function isAuth(key) {
   const authorities = JSON.parse(sessionStorage.getItem('Authorities') || '[]')
   if (authorities.length) {
     for (const i in authorities) {
@@ -30,7 +30,7 @@ export function isAuth (key) {
 /**
  * 清除登录信息
  */
-export function clearLoginInfo () {
+export function clearLoginInfo() {
   cookie.remove('Authorization')
   router.options.isAddDynamicMenuRoutes = false
 }
@@ -41,7 +41,7 @@ export function clearLoginInfo () {
  * @param {*} id
  * @param {*} pid
  */
-export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
+export function treeDataTranslate(data, id = 'id', pid = 'parentId') {
   const res = []
   const temp = {}
   for (let i = 0; i < data.length; i++) {
@@ -64,7 +64,7 @@ export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
   return res
 }
 
-function idListFromTree (data, val, res = [], id = 'id', children = 'children') {
+function idListFromTree(data, val, res = [], id = 'id', children = 'children') {
   for (let i = 0; i < data.length; i++) {
     const element = data[i]
     if (element[children]) {
@@ -84,7 +84,7 @@ function idListFromTree (data, val, res = [], id = 'id', children = 'children') 
  * 将数组中的parentId列表取出，倒序排列
  */
 // eslint-disable-next-line no-unused-vars
-export function idList (data, val, id = 'id', children = 'children') {
+export function idList(data, val, id = 'id', children = 'children') {
   const res = []
   idListFromTree(data, val, res, id)
   return res
@@ -94,7 +94,7 @@ export function idList (data, val, id = 'id', children = 'children') {
  * 文件地址校验
  * @param fileUrl 获取到的文件路径
  */
-export function checkFileUrl (fileUrl) {
+export function checkFileUrl(fileUrl) {
   if (fileUrl === '') return ''
   const baseUrl = import.meta.env.VITE_APP_RESOURCES_URL
   // 适配el-image 图片组件预览功能

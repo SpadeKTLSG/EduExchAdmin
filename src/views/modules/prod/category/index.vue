@@ -1,56 +1,56 @@
 <template>
   <div class="mod-category">
     <el-form
-        :inline="true"
-        :model="dataForm"
+      :inline="true"
+      :model="dataForm"
     >
       <el-form-item>
         <el-button
-            v-if="isAuth('prod:category:save')"
-            type="primary"
-            icon="el-icon-plus"
-            @click="onAddOrUpdate()"
+          v-if="isAuth('prod:category:save')"
+          icon="el-icon-plus"
+          type="primary"
+          @click="onAddOrUpdate()"
         >
           新增
         </el-button>
       </el-form-item>
     </el-form>
     <el-table
-        :data="dataList"
-        border
-        row-key="categoryId"
-        style="width: 100%;"
+      :data="dataList"
+      border
+      row-key="categoryId"
+      style="width: 100%;"
     >
       <el-table-column
-          prop="categoryName"
-          header-align="center"
-          tree-key="categoryId"
-          width="150"
-          label="分类名称"
+        header-align="center"
+        label="分类名称"
+        prop="categoryName"
+        tree-key="categoryId"
+        width="150"
       />
       <el-table-column
-          prop="pic"
-          header-align="center"
-          align="center"
-          label="图片"
+        align="center"
+        header-align="center"
+        label="图片"
+        prop="pic"
       >
         <template #default="scope">
           <img
-              alt=""
-              :src="checkFileUrl(scope.row.pic)"
+            :src="checkFileUrl(scope.row.pic)"
+            alt=""
           >
         </template>
       </el-table-column>
       <el-table-column
-          prop="status"
-          header-align="center"
-          align="center"
-          label="状态"
+        align="center"
+        header-align="center"
+        label="状态"
+        prop="status"
       >
         <template #default="scope">
           <el-tag
-              v-if="scope.row.status === 0"
-              type="danger"
+            v-if="scope.row.status === 0"
+            type="danger"
           >
             下线
           </el-tag>
@@ -60,28 +60,28 @@
         </template>
       </el-table-column>
       <el-table-column
-          prop="seq"
-          header-align="center"
-          align="center"
-          label="排序号"
+        align="center"
+        header-align="center"
+        label="排序号"
+        prop="seq"
       />
       <el-table-column
-          header-align="center"
-          align="center"
-          label="操作"
+        align="center"
+        header-align="center"
+        label="操作"
       >
         <template #default="scope">
           <el-button
-              v-if="isAuth('prod:category:update')"
-              type="primary"
-              @click="onAddOrUpdate(scope.row.categoryId)"
+            v-if="isAuth('prod:category:update')"
+            type="primary"
+            @click="onAddOrUpdate(scope.row.categoryId)"
           >
             修改
           </el-button>
           <el-button
-              v-if="isAuth('prod:category:delete')"
-              type="danger"
-              @click="onDelete(scope.row.categoryId)"
+            v-if="isAuth('prod:category:delete')"
+            type="danger"
+            @click="onDelete(scope.row.categoryId)"
           >
             删除
           </el-button>
@@ -90,17 +90,17 @@
     </el-table>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
-        @close="addOrUpdateVisible=false"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @close="addOrUpdateVisible=false"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { checkFileUrl, isAuth, treeDataTranslate } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {checkFileUrl, isAuth, treeDataTranslate} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataForm = ref({})
@@ -121,10 +121,10 @@ const getDataList = () => {
     method: 'get',
     params: http.adornParams()
   })
-      .then(({ data }) => {
-        dataList.value = treeDataTranslate(data, 'categoryId', 'parentId')
-        dataListLoading.value = false
-      })
+    .then(({data}) => {
+      dataList.value = treeDataTranslate(data, 'categoryId', 'parentId')
+      dataListLoading.value = false
+    })
 }
 
 const addOrUpdateVisible = ref(false)
@@ -149,22 +149,22 @@ const onDelete = (id) => {
     cancelButtonText: '取消',
     type: 'warning'
   })
-      .then(() => {
-        http({
-          url: http.adornUrl(`/prod/category/${id}`),
-          method: 'delete'
-        })
-            .then(() => {
-              ElMessage({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  getDataList()
-                }
-              })
-            })
+    .then(() => {
+      http({
+        url: http.adornUrl(`/prod/category/${id}`),
+        method: 'delete'
       })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              getDataList()
+            }
+          })
+        })
+    })
 }
 
 </script>

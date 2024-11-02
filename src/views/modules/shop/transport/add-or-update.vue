@@ -1,38 +1,38 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.transportId ? '新增' : '修改'"
-      :close-on-click-modal="false"
-      width="1400px"
-      class="transport-dialog"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.transportId ? '新增' : '修改'"
+    class="transport-dialog"
+    width="1400px"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          label="模板名称"
-          prop="transName"
-          :rules="[
+        :rules="[
           { required: true, message: '模板名称不能为空'},
           { pattern: /\s\S+|S+\s|\S/, message: '请输入正确的模板名称', trigger: 'blur' }
         ]"
+        label="模板名称"
+        prop="transName"
       >
         <el-input
-            v-model="dataForm.transName"
-            placeholder="模板名称"
+          v-model="dataForm.transName"
+          placeholder="模板名称"
         />
       </el-form-item>
       <el-form-item
-          label="模板类型"
-          prop="isFreeFee"
-          required="required"
+        label="模板类型"
+        prop="isFreeFee"
+        required="required"
       >
         <el-radio-group
-            v-model="dataForm.isFreeFee"
-            @change="changeFreeFee"
+          v-model="dataForm.isFreeFee"
+          @change="changeFreeFee"
         >
           <el-radio :label="0">
             买家承担运费
@@ -43,12 +43,12 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item
-          label="收费方式"
-          prop="chargeType"
+        label="收费方式"
+        prop="chargeType"
       >
         <el-radio-group
-            v-model="dataForm.chargeType"
-            :disabled="dataForm.isFreeFee == 1"
+          v-model="dataForm.chargeType"
+          :disabled="dataForm.isFreeFee == 1"
         >
           <el-radio :label="0">
             按件数
@@ -62,188 +62,188 @@
         </el-radio-group>
       </el-form-item>
       <el-table
-          :data="dataForm.transfees"
-          border
-          style="width: 100%;"
-          class="table-con"
+        :data="dataForm.transfees"
+        border
+        class="table-con"
+        style="width: 100%;"
       >
         <el-table-column
-            header-align="center"
-            align="center"
-            width="450"
-            label="可配送区域"
+          align="center"
+          header-align="center"
+          label="可配送区域"
+          width="450"
         >
           <template #default="scope">
             <span v-if="scope.$index == 0">所有地区</span>
             <span v-if="(!scope.row.cityList || !scope.row.cityList.length) && scope.$index > 0">请选择可配送区域</span>
             <span v-if="scope.$index > 0">
               <el-tag
-                  v-for="city in scope.row.cityList"
-                  :key="city.areaId"
+                v-for="city in scope.row.cityList"
+                :key="city.areaId"
               >{{ city.areaName }}</el-tag>
             </span>
             <el-button
-                v-if="isAuth('shop:transfee:update') && scope.$index > 0"
-                type="text"
+              v-if="isAuth('shop:transfee:update') && scope.$index > 0"
+              type="text"
 
-                @click="onAddOrUpdate(`${scope.$index}`)"
+              @click="onAddOrUpdate(`${scope.$index}`)"
             >
               编辑
             </el-button>
             <el-button
-                v-if="isAuth('shop:transfee:delete') && scope.$index > 0"
-                type="text"
+              v-if="isAuth('shop:transfee:delete') && scope.$index > 0"
+              type="text"
 
-                @click="onDelete(`${scope.$index}`)"
+              @click="onDelete(`${scope.$index}`)"
             >
               删除
             </el-button>
           </template>
         </el-table-column>
         <el-table-column
-            header-align="center"
-            align="center"
-            width="180"
-            :label="tableTitle[0]"
+          :label="tableTitle[0]"
+          align="center"
+          header-align="center"
+          width="180"
         >
           <template #default="scope">
             <el-form-item
-                :prop="`transfees.${scope.$index}.firstPiece`"
-                label-width="0px"
-                :rules="[{ required: true, message: `${tableTitle[0]}不能为空`}]"
+              :prop="`transfees.${scope.$index}.firstPiece`"
+              :rules="[{ required: true, message: `${tableTitle[0]}不能为空`}]"
+              label-width="0px"
             >
               <el-input
-                  v-model="scope.row.firstPiece"
-                  type="number"
-                  :disabled="!scope.row.status && scope.$index === 0"
-                  @change="checkNumber(scope.row, 1)"
+                v-model="scope.row.firstPiece"
+                :disabled="!scope.row.status && scope.$index === 0"
+                type="number"
+                @change="checkNumber(scope.row, 1)"
               />
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column
-            header-align="center"
-            align="center"
-            :label="tableTitle[1]"
+          :label="tableTitle[1]"
+          align="center"
+          header-align="center"
         >
           <template #default="scope">
             <el-form-item
-                :prop="`transfees.${scope.$index}.firstFee`"
-                label-width="0px"
-                :rules="[{ required: true, message: `${tableTitle[1]}不能为空`}]"
+              :prop="`transfees.${scope.$index}.firstFee`"
+              :rules="[{ required: true, message: `${tableTitle[1]}不能为空`}]"
+              label-width="0px"
             >
               <el-input
-                  v-model="scope.row.firstFee"
-                  type="number"
-                  :min="0"
-                  :disabled="!scope.row.status && scope.$index === 0"
+                v-model="scope.row.firstFee"
+                :disabled="!scope.row.status && scope.$index === 0"
+                :min="0"
+                type="number"
               />
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column
-            header-align="center"
-            align="center"
-            :label="tableTitle[2]"
+          :label="tableTitle[2]"
+          align="center"
+          header-align="center"
         >
           <template #default="scope">
             <el-form-item
-                :prop="`transfees.${scope.$index}.continuousPiece`"
-                label-width="0px"
-                :rules="[{ required: true, message: `${tableTitle[2]}不能为空`}]"
+              :prop="`transfees.${scope.$index}.continuousPiece`"
+              :rules="[{ required: true, message: `${tableTitle[2]}不能为空`}]"
+              label-width="0px"
             >
               <el-input
-                  v-model="scope.row.continuousPiece"
-                  type="number"
-                  :disabled="!scope.row.status && scope.$index === 0"
-                  @change="checkNumber(scope.row, 3)"
+                v-model="scope.row.continuousPiece"
+                :disabled="!scope.row.status && scope.$index === 0"
+                type="number"
+                @change="checkNumber(scope.row, 3)"
               />
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column
-            header-align="center"
-            align="center"
-            :label="tableTitle[3]"
+          :label="tableTitle[3]"
+          align="center"
+          header-align="center"
         >
           <template #default="scope">
             <el-form-item
-                :prop="`transfees.${scope.$index}.continuousFee`"
-                label-width="0px"
-                :rules="[{ required: true, message: `${tableTitle[3]}不能为空`}]"
+              :prop="`transfees.${scope.$index}.continuousFee`"
+              :rules="[{ required: true, message: `${tableTitle[3]}不能为空`}]"
+              label-width="0px"
             >
               <el-input
-                  v-model="scope.row.continuousFee"
-                  type="number"
-                  :min="0"
-                  :disabled="!scope.row.status && scope.$index === 0"
+                v-model="scope.row.continuousFee"
+                :disabled="!scope.row.status && scope.$index === 0"
+                :min="0"
+                type="number"
               />
             </el-form-item>
           </template>
         </el-table-column>
       </el-table>
       <div
-          v-if="dataForm.isFreeFee == 0"
-          style="margin-top: 20px"
+        v-if="dataForm.isFreeFee == 0"
+        style="margin-top: 20px"
       >
         <el-button
-            type="primary"
-            icon="el-icon-location-outline"
-            @click="addTransfee()"
+          icon="el-icon-location-outline"
+          type="primary"
+          @click="addTransfee()"
         >
           点击添加可配送的区域和运费
         </el-button>
       </div>
       <el-checkbox
-          v-if="!dataForm.isFreeFee"
-          v-model="dataForm.hasFreeCondition"
-          style="margin-top:10px;font-size:50px"
+        v-if="!dataForm.isFreeFee"
+        v-model="dataForm.hasFreeCondition"
+        style="margin-top:10px;font-size:50px"
       >
         指定条件包邮
       </el-checkbox>
       <el-table
-          v-if="dataForm.hasFreeCondition && !dataForm.isFreeFee"
-          :data="dataForm.transfeeFrees"
-          border
-          style="width: 100%;"
+        v-if="dataForm.hasFreeCondition && !dataForm.isFreeFee"
+        :data="dataForm.transfeeFrees"
+        border
+        style="width: 100%;"
       >
         <el-table-column
-            header-align="center"
-            align="center"
-            width="350"
-            label="指定区域"
+          align="center"
+          header-align="center"
+          label="指定区域"
+          width="350"
         >
           <template #default="scope">
             <span v-if="!scope.row.freeCityList || !scope.row.freeCityList.length">请选择指定包邮城市</span>
             <el-tag
-                v-for="city in scope.row.freeCityList"
-                :key="city.areaId"
+              v-for="city in scope.row.freeCityList"
+              :key="city.areaId"
             >
               {{ city.areaName }}
             </el-tag>
             <el-button
-                v-if="isAuth('shop:transfee:update')"
-                type="text"
+              v-if="isAuth('shop:transfee:update')"
+              type="text"
 
-                @click="addOrUpdateTransfeeFree(`${scope.$index}`)"
+              @click="addOrUpdateTransfeeFree(`${scope.$index}`)"
             >
               编辑
             </el-button>
             <el-button
-                v-if="isAuth('shop:transfee:delete')"
-                type="text"
+              v-if="isAuth('shop:transfee:delete')"
+              type="text"
 
-                @click="deleteTransfeeFree(`${scope.$index}`)"
+              @click="deleteTransfeeFree(`${scope.$index}`)"
             >
               删除
             </el-button>
           </template>
         </el-table-column>
         <el-table-column
-            header-align="center"
-            align="center"
-            width="600"
-            label="设置包邮条件"
+          align="center"
+          header-align="center"
+          label="设置包邮条件"
+          width="600"
         >
           <template #default="scope">
             <el-radio-group v-model="scope.row.freeType">
@@ -260,33 +260,33 @@
           </template>
         </el-table-column>
         <el-table-column
-            header-align="center"
-            align="left"
+          align="left"
+          header-align="center"
         >
           <template #default="scope">
             <el-form-item
-                v-if="scope.row.freeType == 1 || scope.row.freeType == 2"
-                :prop="`transfeeFrees.${scope.$index}.amount`"
-                label-width="0px"
-                :rules="[{ required: true, message: `不能为空`}]"
+              v-if="scope.row.freeType == 1 || scope.row.freeType == 2"
+              :prop="`transfeeFrees.${scope.$index}.amount`"
+              :rules="[{ required: true, message: `不能为空`}]"
+              label-width="0px"
             >
               满
               <el-input
-                  v-model="scope.row.amount"
-                  style="width:100px"
+                v-model="scope.row.amount"
+                style="width:100px"
               />
               元包邮
             </el-form-item>
             <el-form-item
-                v-if="scope.row.freeType == 0 || scope.row.freeType == 2"
-                :prop="`transfeeFrees.${scope.$index}.piece`"
-                label-width="0px"
-                :rules="[{ required: true, message: `不能为空`}]"
+              v-if="scope.row.freeType == 0 || scope.row.freeType == 2"
+              :prop="`transfeeFrees.${scope.$index}.piece`"
+              :rules="[{ required: true, message: `不能为空`}]"
+              label-width="0px"
             >
               满
               <el-input
-                  v-model="scope.row.piece"
-                  style="width:100px"
+                v-model="scope.row.piece"
+                style="width:100px"
               />
               件/重量/体积包邮
             </el-form-item>
@@ -294,13 +294,13 @@
         </el-table-column>
       </el-table>
       <div
-          v-if="dataForm.isFreeFee == 0"
-          style="margin-top: 20px"
+        v-if="dataForm.isFreeFee == 0"
+        style="margin-top: 20px"
       >
         <el-button
-            type="primary"
-            icon="el-icon-location-outline"
-            @click="addTransfeeFree()"
+          icon="el-icon-location-outline"
+          type="primary"
+          @click="addTransfeeFree()"
         >
           点击添加指定包邮条件
         </el-button>
@@ -312,8 +312,8 @@
           取消
         </el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >
           确定
         </el-button>
@@ -321,17 +321,17 @@
     </template>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @refresh-data-list="getDataList"
     />
   </el-dialog>
 </template>
 
 <script setup>
-import { isAuth } from '@/utils'
-import { ElMessage } from 'element-plus'
-import { Debounce } from '@/utils/debounce'
+import {isAuth} from '@/utils'
+import {ElMessage} from 'element-plus'
+import {Debounce} from '@/utils/debounce'
 import AddOrUpdate from './add-or-update.vue'
 
 const emit = defineEmits(['refreshDataList'])
@@ -369,12 +369,12 @@ const tableTitle = computed(() => {
 
 // 如果当前对话框不可见，则关闭选择城市的对话框
 watch(
-    () => visible.value,
-    (val) => {
-      if (!val) {
-        addOrUpdateVisible.value = false
-      }
+  () => visible.value,
+  (val) => {
+    if (!val) {
+      addOrUpdateVisible.value = false
     }
+  }
 )
 
 const addOrUpdateVisible = ref(false)
@@ -407,18 +407,18 @@ const init = (id) => {
       url: http.adornUrl(`/shop/transport/info/${dataForm.value.transportId}`),
       method: 'get'
     })
-        .then(({ data }) => {
-          if (data.isFreeFee) {
-            data.transfees[0].status = 0
-          } else {
-            data.transfees[0].status = 1
-          }
-          dataForm.value = data
-          dataForm.value.hasFreeCondition = !!data.hasFreeCondition
-        })
+      .then(({data}) => {
+        if (data.isFreeFee) {
+          data.transfees[0].status = 0
+        } else {
+          data.transfees[0].status = 1
+        }
+        dataForm.value = data
+        dataForm.value.hasFreeCondition = !!data.hasFreeCondition
+      })
   }
 }
-defineExpose({ init })
+defineExpose({init})
 
 const getDataList = (row, cityList, type) => {
   if (type === 0) {
@@ -573,17 +573,17 @@ const onSubmit = Debounce(() => {
           hasFreeCondition: hasFreeCondition.value
         })
       })
-          .then(() => {
-            ElMessage({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                visible.value = false
-                emit('refreshDataList', page)
-              }
-            })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              visible.value = false
+              emit('refreshDataList', page)
+            }
           })
+        })
     }
   })
 })

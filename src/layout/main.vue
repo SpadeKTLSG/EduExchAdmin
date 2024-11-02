@@ -1,16 +1,16 @@
 <template>
   <div
-      v-loading.fullscreen.lock="loading"
-      class="site-wrapper"
-      :class="{ 'site-sidebar--fold': sidebarFold }"
-      :element-loading-text="'拼命加载中'"
+    v-loading.fullscreen.lock="loading"
+    :class="{ 'site-sidebar--fold': sidebarFold }"
+    :element-loading-text="'拼命加载中'"
+    class="site-wrapper"
   >
     <template v-if="!loading">
       <MainNavbar/>
       <MainSidebar/>
       <div
-          class="site-content__wrapper"
-          :style="{ 'min-height': documentClientHeight + 'px' }"
+        :style="{ 'min-height': documentClientHeight + 'px' }"
+        class="site-content__wrapper"
       >
         <main-content/>
       </div>
@@ -48,7 +48,7 @@ const getUserInfo = () => {
     url: http.adornUrl('/sys/user/info'),
     method: 'get',
     params: http.adornParams()
-  }).then(({ data }) => {
+  }).then(({data}) => {
     loading.value = false
     userStore.userId = data.userId
     userStore.name = data.username

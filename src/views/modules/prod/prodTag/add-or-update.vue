@@ -1,29 +1,29 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.id ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :close-on-click-modal="false"
+    :title="!dataForm.id ? '新增' : '修改'"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRule"
-        label-width="80px"
-        @keyup.enter="onSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRule"
+      label-width="80px"
+      @keyup.enter="onSubmit()"
     >
       <el-form-item
-          label="标签名称"
-          :rules="[
+        :rules="[
           { required: true, message: '标签名称不能为空', trigger: 'blur' },
           { pattern: /\s\S+|S+\s|\S/, message: '请输入正确的标签名称', trigger: 'blur' }
         ]"
-          prop="title"
+        label="标签名称"
+        prop="title"
       >
         <el-input v-model="dataForm.title"/>
       </el-form-item>
       <el-form-item
-          label="状态"
-          prop="status"
+        label="状态"
+        prop="status"
       >
         <el-radio-group v-model="dataForm.status">
           <el-radio :label="1">
@@ -35,8 +35,8 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item
-          label="列表样式"
-          prop="style"
+        label="列表样式"
+        prop="style"
       >
         <el-radio-group v-model="dataForm.style">
           <el-radio :label="0">
@@ -52,14 +52,14 @@
       </el-form-item>
 
       <el-form-item
-          label="排序"
-          prop="seq"
+        label="排序"
+        prop="seq"
       >
         <el-input-number
-            v-model="dataForm.seq"
-            controls-position="right"
-            :min="0"
-            label="排序号"
+          v-model="dataForm.seq"
+          :min="0"
+          controls-position="right"
+          label="排序号"
         />
       </el-form-item>
     </el-form>
@@ -69,8 +69,8 @@
           取消
         </el-button>
         <el-button
-            type="primary"
-            @click="onSubmit()"
+          type="primary"
+          @click="onSubmit()"
         >
           确定
         </el-button>
@@ -80,8 +80,8 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
@@ -108,13 +108,13 @@ const init = (id) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({ data }) => {
-            dataForm.value = data
-          })
+        .then(({data}) => {
+          dataForm.value = data
+        })
     }
   })
 }
-defineExpose({ init })
+defineExpose({init})
 
 const dataFormRef = ref(null)
 /**
@@ -128,17 +128,17 @@ const onSubmit = Debounce(() => {
         method: dataForm.value.id ? 'put' : 'post',
         data: http.adornData(dataForm.value)
       })
-          .then(() => {
-            ElMessage({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                visible.value = false
-                emit('refreshDataList')
-              }
-            })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              visible.value = false
+              emit('refreshDataList')
+            }
           })
+        })
     }
   })
 })

@@ -1,59 +1,59 @@
 <template>
   <div class="mod-hotSearch-add-or-update">
     <el-dialog
-        v-model="visible"
-        :title="!dataForm.hotSearchId ? '新增' : '修改'"
-        :close-on-click-modal="false"
+      v-model="visible"
+      :close-on-click-modal="false"
+      :title="!dataForm.hotSearchId ? '新增' : '修改'"
     >
       <el-form
-          ref="dataFormRef"
-          :model="dataForm"
-          :rules="dataRule"
-          label-width="80px"
-          @keyup.enter="onSubmit()"
+        ref="dataFormRef"
+        :model="dataForm"
+        :rules="dataRule"
+        label-width="80px"
+        @keyup.enter="onSubmit()"
       >
         <el-form-item
-            label="标题"
-            prop="title"
+          label="标题"
+          prop="title"
         >
           <el-input
-              v-model="dataForm.title"
-              controls-position="right"
-              :min="0"
-              maxlength="50"
-              show-word-limit
-              label="标题"
+            v-model="dataForm.title"
+            :min="0"
+            controls-position="right"
+            label="标题"
+            maxlength="50"
+            show-word-limit
           />
         </el-form-item>
 
         <el-form-item
-            label="内容"
-            prop="content"
+          label="内容"
+          prop="content"
         >
           <el-input
-              v-model="dataForm.content"
-              controls-position="right"
-              type="textarea"
-              :min="0"
-              maxlength="255"
-              show-word-limit
-              label="内容"
+            v-model="dataForm.content"
+            :min="0"
+            controls-position="right"
+            label="内容"
+            maxlength="255"
+            show-word-limit
+            type="textarea"
           />
         </el-form-item>
         <el-form-item
-            label="排序号"
-            prop="seq"
+          label="排序号"
+          prop="seq"
         >
           <el-input-number
-              v-model="dataForm.seq"
-              controls-position="right"
-              :min="0"
-              label="排序号"
+            v-model="dataForm.seq"
+            :min="0"
+            controls-position="right"
+            label="排序号"
           />
         </el-form-item>
         <el-form-item
-            label="状态"
-            prop="status"
+          label="状态"
+          prop="status"
         >
           <el-radio-group v-model="dataForm.status">
             <el-radio :label="0">
@@ -71,8 +71,8 @@
             取消
           </el-button>
           <el-button
-              type="primary"
-              @click="onSubmit()"
+            type="primary"
+            @click="onSubmit()"
           >
             确定
           </el-button>
@@ -83,8 +83,8 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
-import { Debounce } from '@/utils/debounce'
+import {ElMessage} from 'element-plus'
+import {Debounce} from '@/utils/debounce'
 
 const emit = defineEmits(['refreshDataList'])
 const dataForm = ref({
@@ -152,13 +152,13 @@ const init = (id) => {
         method: 'get',
         params: http.adornParams()
       })
-          .then(({ data }) => {
-            dataForm.value = data
-          })
+        .then(({data}) => {
+          dataForm.value = data
+        })
     }
   })
 }
-defineExpose({ init })
+defineExpose({init})
 
 /**
  * 表单提交
@@ -172,17 +172,17 @@ const onSubmit = Debounce(() => {
         method: param.hotSearchId ? 'put' : 'post',
         data: http.adornData(param)
       })
-          .then(() => {
-            ElMessage({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                visible.value = false
-                emit('refreshDataList', page)
-              }
-            })
+        .then(() => {
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              visible.value = false
+              emit('refreshDataList', page)
+            }
           })
+        })
     }
   })
 })

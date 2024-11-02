@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js'
 // 加密
 const keyStr = '-mall4j-password' // 解密用的key
-export function encrypt (word) {
+export function encrypt(word) {
   const time = Date.now()
 
   const key = CryptoJS.enc.Utf8.parse(keyStr)

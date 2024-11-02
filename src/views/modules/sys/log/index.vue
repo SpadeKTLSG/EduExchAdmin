@@ -1,18 +1,18 @@
 <template>
   <div class="mod-log">
     <avue-crud
-        ref="crudRef"
-        :page="page"
-        :data="dataList"
-        :option="tableOption"
-        @search-change="onSearch"
-        @on-load="getDataList"
+      ref="crudRef"
+      :data="dataList"
+      :option="tableOption"
+      :page="page"
+      @search-change="onSearch"
+      @on-load="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { tableOption } from '@/crud/sys/log.js'
+import {tableOption} from '@/crud/sys/log.js'
 
 const dataList = ref([])
 const page = reactive({
@@ -33,20 +33,20 @@ const getDataList = (pageParam, params, done) => {
     url: http.adornUrl('/sys/log/page'),
     method: 'get',
     params: http.adornParams(
-        Object.assign(
-            {
-              current: pageParam == null ? page.currentPage : pageParam.currentPage,
-              size: pageParam == null ? page.pageSize : pageParam.pageSize
-            },
-            params
-        )
+      Object.assign(
+        {
+          current: pageParam == null ? page.currentPage : pageParam.currentPage,
+          size: pageParam == null ? page.pageSize : pageParam.pageSize
+        },
+        params
+      )
     )
   })
-      .then(({ data }) => {
-        dataList.value = data.records
-        page.total = data.total
-        if (done) done()
-      })
+    .then(({data}) => {
+      dataList.value = data.records
+      page.total = data.total
+      if (done) done()
+    })
 }
 /**
  * 条件查询
