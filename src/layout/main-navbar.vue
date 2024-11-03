@@ -3,8 +3,8 @@
     <nav class="site-navbar">
       <!--左侧-->
       <div
-          :style="{ 'margin-right': sidebarFold ? 0 : '20px' }"
-          class="site-navbar-header"
+        :style="{ 'margin-right': sidebarFold ? 0 : '20px' }"
+        class="site-navbar-header"
       >
         <!--        <img-->
         <!--          class="menu-image-logo"-->
@@ -12,34 +12,34 @@
         <!--          alt="logo"-->
         <!--        >-->
         <span
-            v-if="!sidebarFold"
-            class="site-navbar-lg"
+          v-if="!sidebarFold"
+          class="site-navbar-lg"
         >
-          mall4j建站后台
+          EduExch管理员端
         </span>
         <span
-            v-else
-            :style="fontCloseSize"
-            class="site-navbar-mini"
+          v-else
+          :style="fontCloseSize"
+          class="site-navbar-mini"
         >
-          mall4j
+          EduExch
         </span>
       </div>
       <!--右侧数据-->
       <div class="site-navbar-content">
         <div class="navbar-content-left">
           <svg-icon
-              class="left-item"
-              icon-class="icon-zhedie"
-              @click="setSidebarFold"
+            class="left-item"
+            icon-class="icon-zhedie"
+            @click="setSidebarFold"
           />
         </div>
 
         <div class="navbar-content-right">
           <el-dropdown
-              :show-timeout="0"
-              class="content-right-item"
-              placement="bottom"
+            :show-timeout="0"
+            class="content-right-item"
+            placement="bottom"
           >
             <span class="el-dropdown-link">{{ userName }}</span>
             <template #dropdown>
@@ -57,8 +57,8 @@
       </div>
       <!-- 弹窗, 修改密码 -->
       <UpdatePassword
-          v-if="updatePassowrdVisible"
-          ref="updatePassowrdRef"
+        v-if="updatePassowrdVisible"
+        ref="updatePassowrdRef"
       />
     </nav>
   </div>
@@ -100,7 +100,7 @@ const logoutHandle = () => {
       data: http.adornData()
     }).then(() => {
       clearLoginInfo()
-      router.push({ name: 'login' })
+      router.push({name: 'login'})
     })
   })
 }

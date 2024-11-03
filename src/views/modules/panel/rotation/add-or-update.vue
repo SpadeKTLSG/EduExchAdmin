@@ -54,7 +54,7 @@
 
 <script setup>
 import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import {Debounce} from '@/utils/debounce.js'
 
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)

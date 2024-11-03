@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
+import {isAuth} from '@/utils/index.js'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {tableOption} from '@/crud/shop/hotSearch.js'
 import AddOrUpdate from './add-or-update.vue'

@@ -13,6 +13,7 @@ import fs from 'fs'
 // https://vitejs.dev/config/
 export default defineConfig(() => {
 
+
   //解决element-plus按需引入样式问题, 以免页面疯狂重新加载
   const optimizeDepsElementPlusIncludes = ['element-plus/es', '@vuemap/vue-amap/es']
   fs.readdirSync('node_modules/element-plus/es/components').map((dirname) => {

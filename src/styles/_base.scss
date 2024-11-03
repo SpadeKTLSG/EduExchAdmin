@@ -1,3 +1,5 @@
+@use '_variables' as *;
+
 *,
 *:before,
 *:after {
@@ -13,12 +15,12 @@ body {
 }
 
 a {
-  color: mix(#fff, $--color-primary, 20%);
+  color: #66ccff;
   text-decoration: none;
 
   &:focus,
   &:hover {
-    color: $--color-primary;
+    color: #66ccff;
     text-decoration: underline;
   }
 }
