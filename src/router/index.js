@@ -21,6 +21,10 @@ const globalRoutes = [
   }
 ]
 
+/**
+ * 主路由
+ * @type {{redirect: string, path: string, component: {}, children: [{path: string, component: (function(): Promise<*>), name: string},{path: string, component: (function(): Promise<{}>), name: string}], beforeEnter(*, *, *): void, name: string}}
+ */
 export const mainRoutes = {
   path: '/',
   component: Layout,

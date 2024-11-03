@@ -1,34 +1,34 @@
 <template>
   <div class="mod-index-img">
     <el-dialog
-        v-model="visible"
-        :close-on-click-modal="false"
-        :title="!dataForm.imgId ? '新增' : '修改'"
+      v-model="visible"
+      :close-on-click-modal="false"
+      :title="!dataForm.imgId ? '新增' : '修改'"
     >
       <el-form
-          ref="dataFormRef"
-          :model="dataForm"
-          :rules="dataRule"
-          label-width="100px"
+        ref="dataFormRef"
+        :model="dataForm"
+        :rules="dataRule"
+        label-width="100px"
       >
         <el-form-item
-            label="轮播图片"
-            prop="imgUrl"
+          label="轮播图片"
+          prop="imgUrl"
         >
           <pic-upload v-model="dataForm.imgUrl"/>
         </el-form-item>
         <el-form-item
-            :rules="[
+          :rules="[
             { required: false, pattern: /\s\S+|S+\s|\S/, message: '请输入正确的顺序', trigger: 'blur' }
           ]"
-            label="顺序"
-            prop="seq"
+          label="顺序"
+          prop="seq"
         >
           <el-input v-model="dataForm.seq"/>
         </el-form-item>
         <el-form-item
-            label="状态"
-            prop="status"
+          label="状态"
+          prop="status"
         >
           <el-radio-group v-model="dataForm.status">
             <el-radio :label="0">
@@ -41,8 +41,8 @@
         </el-form-item>
         <el-form-item label="类型">
           <el-radio-group
-              v-model="dataForm.type"
-              @change="deleteRelation"
+            v-model="dataForm.type"
+            @change="deleteRelation"
           >
             <el-radio :label="-1">
               无
@@ -53,20 +53,20 @@
           </el-radio-group>
           <div v-if="dataForm.relation!=null">
             <el-card
-                :body-style="{ padding: '0px' }"
-                style="height: 160px;width: 120px"
+              :body-style="{ padding: '0px' }"
+              style="height: 160px;width: 120px"
             >
               <img
-                  :src="card.pic"
-                  alt=""
-                  style="height:104px;width:100%"
+                :src="card.pic"
+                alt=""
+                style="height:104px;width:100%"
               >
               <div class="card-prod-bottom">
                 <span class="card-prod-name">{{ card.name }}</span>
                 <el-button
-                    class="card-prod-name-button"
-                    type="text"
-                    @click="deleteRelation"
+                  class="card-prod-name-button"
+                  type="text"
+                  @click="deleteRelation"
                 >
                   删除
                 </el-button>
@@ -75,8 +75,8 @@
           </div>
           <div v-if="dataForm.relation==null">
             <el-button
-                v-if=" dataForm.type == 0"
-                @click="addProd"
+              v-if=" dataForm.type == 0"
+              @click="addProd"
             >
               选择商品
             </el-button>
@@ -84,8 +84,8 @@
         </el-form-item>
         <el-form-item>
           <el-button
-              type="primary"
-              @click="onSubmit()"
+            type="primary"
+            @click="onSubmit()"
           >
             确定
           </el-button>
@@ -94,17 +94,17 @@
     </el-dialog>
     <!-- 商品选择弹窗-->
     <prods-select
-        v-if="prodsSelectVisible"
-        ref="prodsSelectRef"
-        :is-single="true"
-        @refresh-select-prods="selectCouponProds"
+      v-if="prodsSelectVisible"
+      ref="prodsSelectRef"
+      :is-single="true"
+      @refresh-select-prods="selectCouponProds"
     />
   </div>
 </template>
 
 <script setup>
 import {ElMessage} from 'element-plus'
-import {Debounce} from '@/utils/debounce'
+import {Debounce} from '@/utils/debounce.js'
 
 const emit = defineEmits(['refreshDataList'])
 const dataForm = ref({
@@ -157,14 +157,14 @@ const init = (id) => {
       url: http.adornUrl(`/admin/indexImg/info/${dataForm.value.imgId}`),
       method: 'get'
     })
-        .then(({ data }) => {
-          dataForm.value = data
-          if (data.relation) {
-            card.value.pic = data.pic
-            card.value.name = data.prodName
-            card.value.id = data.relation
-          }
-        })
+      .then(({data}) => {
+        dataForm.value = data
+        if (data.relation) {
+          card.value.pic = data.pic
+          card.value.name = data.prodName
+          card.value.id = data.relation
+        }
+      })
   } else {
     nextTick(() => {
       dataFormRef.value?.resetFields()
@@ -172,7 +172,7 @@ const init = (id) => {
     })
   }
 }
-defineExpose({ init })
+defineExpose({init})
 
 /**
  * 表单提交
@@ -188,17 +188,17 @@ const onSubmit = Debounce(() => {
       method: param.imgId ? 'put' : 'post',
       data: http.adornData(param)
     })
-        .then(() => {
-          ElMessage({
-            message: '操作成功',
-            type: 'success',
-            duration: 1500,
-            onClose: () => {
-              visible.value = false
-              emit('refreshDataList', page)
-            }
-          })
+      .then(() => {
+        ElMessage({
+          message: '操作成功',
+          type: 'success',
+          duration: 1500,
+          onClose: () => {
+            visible.value = false
+            emit('refreshDataList', page)
+          }
         })
+      })
   })
 })
 /**

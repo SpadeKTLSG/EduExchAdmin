@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
+import {isAuth} from '@/utils/index.js'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 import {tableOption} from '@/crud/admin/indexImg.js'
