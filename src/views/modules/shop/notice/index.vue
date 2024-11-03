@@ -10,17 +10,7 @@
       @on-load="getDataList"
       @refresh-change="refreshChange"
     >
-      <template #status="scope">
-        <el-tag
-          v-if="scope.row.status === 0"
-          type="danger"
-        >
-          撤销
-        </el-tag>
-        <el-tag v-else>
-          公布
-        </el-tag>
-      </template>
+
       <template #isTop="scope">
         <el-tag v-if="scope.row.isTop === 0">
           否
@@ -73,24 +63,35 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import {tableOption} from '@/crud/shop/notice'
 import AddOrUpdate from './add-or-update.vue'
 
+
+// 数据列表 + 分页
 const dataList = ref([])
 const page = reactive({
   total: 0, // 总页数
   currentPage: 1, // 当前页数
   pageSize: 10 // 每页显示多少条
 })
-const dataListLoading = ref(false)
-const addOrUpdateVisible = ref(false)
+const dataListLoading = ref(false) // 数据列表加载状态
+const addOrUpdateVisible = ref(false) // 新增 / 修改弹窗
+const addOrUpdateRef = ref(null) // 新增 / 修改弹窗引用
 
+/**
+ * 获取数据列表
+ * @param pageParam
+ * @param params
+ * @param done
+ */
 const getDataList = (pageParam, params, done) => {
   dataListLoading.value = true
+
   http({
     url: http.adornUrl('/shop/notice/page'),
     method: 'get',
-    params: http.adornParams(Object.assign({
-      current: pageParam == null ? page.currentPage : pageParam.currentPage,
-      size: pageParam == null ? page.pageSize : pageParam.pageSize
-    }, params))
+    params: http.adornParams(
+      Object.assign({
+        current: pageParam == null ? page.currentPage : pageParam.currentPage,
+        size: pageParam == null ? page.pageSize : pageParam.pageSize
+      }, params))
   })
     .then(({data}) => {
       dataList.value = data.records
@@ -100,9 +101,9 @@ const getDataList = (pageParam, params, done) => {
     })
 }
 
-const addOrUpdateRef = ref(null)
+
 /**
- * 新增 / 修改
+ * 新增 / 修改 -> 弹窗
  * @param id
  */
 const onAddOrUpdate = (id) => {
@@ -112,6 +113,10 @@ const onAddOrUpdate = (id) => {
   })
 }
 
+/**
+ * 删除
+ * @param id
+ */
 const onDelete = (id) => {
   ElMessageBox.confirm('确定进行删除操作?', '提示', {
     confirmButtonText: '确定',
@@ -148,7 +153,6 @@ const refreshChange = () => {
 const onSearch = (params, done) => {
   getDataList(page, params, done)
 }
+
 </script>
 
-<style lang="scss" scoped>
-</style>

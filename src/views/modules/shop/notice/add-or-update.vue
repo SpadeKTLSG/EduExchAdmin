@@ -11,29 +11,11 @@
       label-width="80px"
       @keyup.enter="onSubmit()"
     >
-      <el-form-item
-        label="公告标题"
-        prop="title"
-      >
+      <el-form-item label="公告标题" prop="title">
         <el-input v-model="dataForm.title"/>
       </el-form-item>
-      <el-form-item
-        label="状态"
-        prop="status"
-      >
-        <el-radio-group v-model="dataForm.status">
-          <el-radio :label="1">
-            公布
-          </el-radio>
-          <el-radio :label="0">
-            撤销
-          </el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item
-        label="置顶"
-        prop="isTop"
-      >
+
+      <el-form-item label="置顶" prop="isTop">
         <el-radio-group v-model="dataForm.isTop">
           <el-radio :label="1">
             是
@@ -43,28 +25,30 @@
           </el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item
-        label="公告内容"
-        prop="content"
-      >
-        <TinyMce
+
+      <el-form-item label="公告内容" prop="content">
+        <el-input
           ref="contentEnRef"
           v-model="dataForm.content"
+          placeholder="请输入公告内容"
+          type="textarea"
         />
       </el-form-item>
+
     </el-form>
+
     <template #footer>
       <span class="dialog-footer">
         <el-button
           @click="visible = false"
         >取消</el-button>
         <el-button
-
           type="primary"
           @click="onSubmit()"
         >确定</el-button>
       </span>
     </template>
+
   </el-dialog>
 </template>
 
@@ -99,20 +83,29 @@ const dataRule = {
   ]
 }
 
+/**
+ * 表单数据 -> 对应后端 NoticeAllDTO
+ * @type {Ref<UnwrapRef<{isTop: number, title: null, content: null, url: null, status: number}>>}
+ */
 const dataForm = ref({
   title: null,
   content: null,
-  url: null,
-  status: 1,
+  url: null, //
   isTop: 0
 })
+
 const dataFormRef = ref(null)
+
+/**
+ * 初始化
+ * @param {number} id
+ */
 const init = (id) => {
   dataForm.value.id = id || 0
   visible.value = true
   nextTick(() => {
     dataFormRef.value?.resetFields()
-    if (dataForm.value.id) {
+    if (dataForm.value.id) { //如果这个id存在, 就要对其进行查询
       http({
         url: http.adornUrl('/shop/notice/info/' + dataForm.value.id),
         method: 'get',
@@ -133,16 +126,16 @@ const onSubmit = Debounce(() => {
   dataFormRef.value?.validate((valid) => {
     if (valid) {
       http({
-        url: http.adornUrl('/shop/notice'),
+        url: http.adornUrl('/shop/notice'), //新增或修改URL
         method: dataForm.value.id ? 'put' : 'post',
         data: http.adornData(dataForm.value)
       })
         .then(() => {
           ElMessage({
-            message: '操作成功',
+            message: '操作很成功哈哈哈',
             type: 'success',
             duration: 1500,
-            onClose: () => {
+            onClose: () => {  //清空表单
               visible.value = false
               emit('refreshDataList')
               dataForm.value.content = ''
