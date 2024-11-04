@@ -5,22 +5,12 @@
       :data="dataList"
       :option="tableOption"
       :page="page"
-      :permission="permission"
       :table-loading="dataListLoading"
       @search-change="onSearch"
       @selection-change="selectionChange"
       @on-load="getDataList"
     >
       <template #menu-left>
-        <el-button
-          v-if="isAuth('shop:pickAddr:save')"
-          icon="el-icon-plus"
-          type="primary"
-          @click.stop="onAddOrUpdate()"
-        >
-          新增
-        </el-button>
-
         <el-button
           v-if="isAuth('shop:pickAddr:delete')"
           :disabled="dataListSelections.length <= 0"
@@ -31,24 +21,7 @@
         </el-button>
       </template>
 
-      <template #status="scope">
-        <el-tag v-if="scope.row.status === 1">
-          上架
-        </el-tag>
-        <el-tag v-else>
-          未上架
-        </el-tag>
-      </template>
-
       <template #menu="scope">
-        <el-button
-          v-if="isAuth('prod:prod:update')"
-          icon="el-icon-edit"
-          type="primary"
-          @click="onAddOrUpdate(scope.row.prodId)"
-        >
-          修改
-        </el-button>
         <el-button
           v-if="isAuth('prod:prod:delete')"
           icon="el-icon-delete"
@@ -67,16 +40,17 @@ import {isAuth} from '@/utils'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {tableOption} from '@/crud/prod/prodList.js'
 
-const permission = reactive({
-  delBtn: isAuth('prod:prod:delete')
-})
-const dataList = ref([])
-const page = reactive({
+// ? 物资管理 - 商品管理页面
+const router = useRouter() // 路由
+const dataList = ref([]) // 数据列表
+const dataListLoading = ref(false) // 列表loading判断
+const page = reactive({ // 分页参数
   total: 0, // 总页数
   currentPage: 1, // 当前页数
   pageSize: 10 // 每页显示多少条
 })
-const dataListLoading = ref(false)
+
+
 /**
  * 获取数据列表
  */
@@ -109,17 +83,8 @@ const getDataList = (pageParam, params, done) => {
       if (done) done()
     })
 }
-const router = useRouter()
-/**
- * 新增 / 修改
- * @param id
- */
-const onAddOrUpdate = (id) => {
-  router.push({
-    path: '/prodInfo',
-    query: {prodId: id}
-  })
-}
+
+
 /**
  * 删除和批量删除
  * @param id
@@ -154,6 +119,8 @@ const onDelete = (id) => {
     .catch(() => {
     })
 }
+
+
 /**
  * 条件查询
  * @param params
@@ -171,6 +138,7 @@ const dataListSelections = ref([])
 const selectionChange = (val) => {
   dataListSelections.value = val
 }
+
 /**
  * 获取选中的商品Id列表
  */
