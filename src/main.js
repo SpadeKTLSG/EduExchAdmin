@@ -12,8 +12,6 @@ import '@smallwei/avue/lib/index.css'
 
 // 全局样式
 import '@/styles/index.scss'
-// svg
-import 'virtual:svg-icons-register'
 
 moment.locale('zh-cn', {
   longDateFormat: {
