@@ -30,15 +30,15 @@ export default defineConfig(() => {
     }), // 自动引入内容
       AutoImport({
         imports: ['vue', 'vue-router'],
-        dirs: ['src/hooks/**', 'src/stores/**', 'src/utils/**'],
+        dirs: ['src/utils/**'],
         resolvers: [ElementPlusResolver()],
-        dts: 'src/auto-import/imports.d.ts',
+        dts: 'imports.d.ts',
         eslintrc: {
           enabled: false
         }
       }), // 自动引入组件
       Components({
-        dirs: ['src/components'], resolvers: [ElementPlusResolver()], dts: 'src/auto-import/components.d.ts'
+        dirs: ['src/components'], resolvers: [ElementPlusResolver()], dts: 'components.d.ts'
       }), // eslint
       /*  eslintPlugin({
             include: ['src/!**!/!*.js', 'src/!**!/!*.vue', 'src/!*.js', 'src/!*.vue']
