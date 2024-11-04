@@ -13,13 +13,6 @@
     >
       <el-form-item
         v-if="dataForm.type !== 2"
-        label="分类图片"
-        prop="pic"
-      >
-        <pic-upload v-model="dataForm.pic"/>
-      </el-form-item>
-      <el-form-item
-        v-if="dataForm.type !== 2"
         label="分类名称"
         prop="categoryName"
       >
@@ -28,17 +21,6 @@
           :min="0"
           controls-position="right"
           label="分类名称"
-        />
-      </el-form-item>
-      <el-form-item label="上级分类">
-        <el-cascader
-          v-model="selectedCategory"
-          :clearable="true"
-          :options="categoryList"
-          :props="categoryTreeProps"
-          change-on-select
-          expand-trigger="hover"
-          @change="handleChange"
         />
       </el-form-item>
       <el-form-item

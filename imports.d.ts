@@ -17,7 +17,6 @@ declare global {
   const encrypt: typeof import('./src/utils/crypto.js')['encrypt']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
-  const getUUID: typeof import('./src/utils/index.js')['getUUID']
   const h: typeof import('vue')['h']
   const http: typeof import('./src/utils/http.js')['default']
   const idList: typeof import('./src/utils/index.js')['idList']

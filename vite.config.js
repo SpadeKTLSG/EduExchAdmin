@@ -22,6 +22,7 @@ export default defineConfig(() => {
   })
 
   return {
+
     optimizeDeps: {
       include: optimizeDepsElementPlusIncludes
     }, plugins: [vue(), createSvgIconsPlugin({

@@ -18,9 +18,9 @@
           status-icon
           @keyup.enter="dataFormSubmit()"
         >
-          <el-form-item prop="userName">
+          <el-form-item prop="account">
             <el-input
-              v-model="dataForm.userName"
+              v-model="dataForm.account"
               class="info"
               placeholder="帐号"
             />
@@ -32,6 +32,23 @@
               placeholder="密码"
               type="password"
             />
+          </el-form-item>
+          <el-form-item prop="phone">
+            <el-input
+              v-model="dataForm.phone"
+              class="info"
+              placeholder="手机号"
+            />
+          </el-form-item>
+          <el-form-item prop="code">
+            <el-input
+              v-model="dataForm.code"
+              class="info"
+              placeholder="请点击下方按钮获取验证码"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="getCode">点这里</el-button>
           </el-form-item>
           <el-form-item>
             <div class="item-btn">
@@ -47,40 +64,28 @@
       </div>
     </div>
 
-
-    <Verify
-      ref="verifyRef"
-      :captcha-type="'blockPuzzle'"
-      :img-size="{width:'400px',height:'200px'}"
-      @success="login"
-    />
-
   </div>
 </template>
 
 <script setup>
-import {encrypt} from '@/utils/crypto'
-import {getUUID} from '@/utils'
-import Verify from '@/components/verifition/Verify.vue'
 import cookie from 'vue-cookies'
 
 const router = useRouter()
-const verifyRef = ref(null)
+// const verifyRef = ref(null)
 const dataFormRef = ref(null)
-let isSubmit = false
 
 const dataForm = ref({
-  userName: '',
+  account: '',
   password: '',
-  uuid: '',
-  captcha: ''
+  phone: '',
+  code: ''
 })
 
 /**
  * 表单验证规则
  */
 const dataRule = {
-  userName: [
+  account: [
     {
       required: true,
       message: '帐号不能为空',
@@ -94,29 +99,20 @@ const dataRule = {
       trigger: 'blur'
     }
   ],
-  captcha: [
+  phone: [
+    {
+      required: true,
+      message: '手机号不能为空',
+      trigger: 'blur'
+    }
+  ],
+  code: [
     {
       required: true,
       message: '验证码不能为空',
       trigger: 'blur'
     }
   ]
-}
-
-onBeforeUnmount(() => {
-  document.removeEventListener('keyup', handerKeyup)
-})
-
-onMounted(() => {
-  getCaptcha()
-  document.addEventListener('keyup', handerKeyup)
-})
-
-const handerKeyup = (e) => {
-  const keycode = document.all ? event.keyCode : e.which
-  if (keycode === 13) {
-    this.dataFormSubmit()
-  }
 }
 
 
@@ -126,7 +122,7 @@ const handerKeyup = (e) => {
 const dataFormSubmit = () => {
   dataFormRef.value?.validate((valid) => {
     if (valid) {
-      verifyRef.value?.show()
+      login()
     }
   })
 }
@@ -135,33 +131,54 @@ const dataFormSubmit = () => {
 /**
  * 获取验证码
  */
-const getCaptcha = () => {
-  // TODO
-  dataForm.value.uuid = getUUID()
-}
+const getCode = () => {
+  console.info("获取验证码");
+  http({
+    url: http.adornUrl('/admin/employee/code'),
+    method: 'post',
+    params: {phone: dataForm.value.phone}
+  })
+    .then((response) => {
+      if (response.data.success) {
+        dataForm.value.code = response.data.data;
+      } else {
+        console.error('Failed to fetch code:', response.data);
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching code:', error);
+    });
+};
 
 /**
  * 登录
  */
-const login = (verifyResult) => {
-  if (isSubmit) {
-    return
-  }
-  isSubmit = true
+const login = () => {
+
   http({
-    url: http.adornUrl('/adminLogin'),
+    url: http.adornUrl('/admin/employee/login'),
     method: 'post',
     data: http.adornData({
-      userName: dataForm.value.userName,
-      passWord: encrypt(dataForm.value.password),
-      captchaVerification: verifyResult.captchaVerification
+      account: dataForm.value.account,
+      password: dataForm.value.password,
+      phone: dataForm.value.phone,
+      code: dataForm.value.code,
     })
-  }).then(({data}) => {
-    cookie.set('Authorization', data.accessToken)
-    router.replace({name: 'home'}) // 跳转到首页
-  }).catch(() => {
-    isSubmit = false
   })
+    .then((response) => {
+      if (response.data.success) {
+        const token = response.data.data;
+        console.info("你的token:", token);
+        cookie.set('Authorization', token)
+      } else {
+        console.error('Failed to login:', response.data);
+      }
+      router.replace({name: 'home'}) // 跳转到首页
+    })
+    .catch((error) => {
+      console.error('Error login:', error);
+    });
+
 }
 
 
@@ -207,7 +224,4 @@ const login = (verifyResult) => {
   width: 410px;
 }
 
-:deep(.login-captcha) {
-  height: 40px;
-}
 </style>

@@ -1,16 +1,15 @@
 import axios from 'axios'
 import qs from 'qs'
 import cookie from 'vue-cookies'
-import router from '@/router'
 import merge from 'lodash/merge'
-import {clearLoginInfo} from '@/utils'
-import {ElMessage} from 'element-plus'
 
 const http = axios.create({
   timeout: 1000 * 30,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json; charset=utf-8'
+    'Content-Type': 'application/json; charset=utf-8',
+    'Accept': 'application/json, text/plain, */*',
+    'Authorization': cookie.get('Authorization') // Include the token
   }
 })
 
@@ -32,10 +31,11 @@ http.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+/*
 
-/**
+/!**
  * 响应拦截
- */
+ *!/
 http.interceptors.response.use(
   response => {
     // blob 格式处理
@@ -119,6 +119,7 @@ http.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+*/
 
 /**
  * 请求地址处理
@@ -128,33 +129,19 @@ http.adornUrl = actionName => {
   return import.meta.env.VITE_APP_BASE_API + actionName
 }
 
-/**
- * im请求地址处理
- * @param {*} actionName action方法名称
- */
-http.adornImUrl = actionName => {
-  return import.meta.env.VITE_APP_IM_API + actionName
-}
-
-/**
- * im ws 请求地址处理
- * @param {*} actionName action方法名称
- */
-http.adornWsImUrl = actionName => {
-  return import.meta.env.VITE_APP_WS_IM_API + actionName
-}
 
 /**
  * get请求参数处理
  * @param {*} params 参数对象
  * @param {*} openDefultParams 是否开启默认参数?
  */
-http.adornParams = (params = {}, openDefultParams = true) => {
+http.adornParams = (params = {}, openDefultParams = false) => {
   const defaults = {
     t: Date.now()
   }
   return openDefultParams ? merge(defaults, params) : params
 }
+
 
 /**
  * post请求数据处理
@@ -164,7 +151,7 @@ http.adornParams = (params = {}, openDefultParams = true) => {
  *  json: 'application/json; charset=utf-8'
  *  form: 'application/x-www-form-urlencoded; charset=utf-8'
  */
-http.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
+http.adornData = (data = {}, openDefultdata = false, contentType = 'json') => {
   const defaults = {
     t: Date.now()
   }
