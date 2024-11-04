@@ -38,7 +38,6 @@ export const mainRoutes = {
       component: () => import('@/views/common/home/index.vue')
     }
   ],
-  // eslint-disable-next-line no-unused-vars
   beforeEnter(to, from, next) {
     const authorization = cookie.get('Authorization')
     if (!authorization || !/\S/.test(authorization)) {
@@ -56,12 +55,11 @@ const router = createRouter({
   routes: globalRoutes.concat(mainRoutes)
 })
 
-// eslint-disable-next-line no-unused-vars
+
 router.beforeEach((to, from, next) => {
   const commonStore = useCommonStore()
   // 添加动态(菜单)路由
   // 1. 已经添加 or 全局路由, 直接访问
-  // 2. 获取菜单列表, 添加并保存本地存储
   if (router.options.isAddDynamicMenuRoutes || fnCurrentRouteType(to, globalRoutes) === 'global') {
     const routeList = commonStore.routeList
     let navTitles = []
@@ -96,13 +94,16 @@ router.beforeEach((to, from, next) => {
     commonStore.updateSelectMenu(navTitles)
     next()
   } else {
+    // 2. 获取菜单列表, 添加并保存本地存储
     http({
       url: http.adornUrl('/sys/menu/nav'),
       method: 'get',
       params: http.adornParams()
     }).then(({data}) => {
-      sessionStorage.setItem('Authorities', JSON.stringify(data.authorities || '[]'))
+      // sessionStorage.setItem('Authorities', JSON.stringify(data.authorities || '[]'))
+
       fnAddDynamicMenuRoutes(data.menuList)
+
       router.options.isAddDynamicMenuRoutes = true
       const rList = []
       data.menuList.forEach(item => {

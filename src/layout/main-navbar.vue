@@ -38,7 +38,7 @@
             class="content-right-item"
             placement="bottom"
           >
-            <span class="el-dropdown-link">当前用户 : {{ userName }}</span>
+            <span class="el-dropdown-link">管理员</span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="logoutHandle">
@@ -56,12 +56,9 @@
 
 <script setup>
 import {ElMessageBox} from 'element-plus'
-import {useUserStore} from "@/layout/user.js";
 import {useCommonStore} from "@/layout/common.js";
 
 const router = useRouter()
-const userStore = useUserStore()
-const userName = computed(() => userStore.name)
 const fontCloseSize = reactive({fontSize: '16px'})
 const commonStore = useCommonStore()
 const sidebarFold = computed(() => commonStore.sidebarFold)
