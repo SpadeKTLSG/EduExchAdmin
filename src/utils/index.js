@@ -10,6 +10,7 @@ export function getUUID() {
   })
 }
 
+
 /**
  * 是否有权限
  * @param {*} key
@@ -26,6 +27,7 @@ export function isAuth(key) {
   }
   return false
 }
+
 
 /**
  * 清除登录信息

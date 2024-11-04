@@ -234,8 +234,8 @@
 </template>
 
 <script setup>
-import AddOrUpdate from './components/order-info.vue'
-import ConsignmentInfo from './components/consignment-info.vue'
+import AddOrUpdate from './order-info.vue'
+import ConsignmentInfo from './consignment-info.vue'
 import {isAuth} from '@/utils'
 
 const resourcesUrl = import.meta.env.VITE_APP_RESOURCES_URL

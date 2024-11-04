@@ -8,11 +8,8 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import viteCompression from 'vite-plugin-compression'
 import fs from 'fs'
 
-// eslint
 
-// https://vitejs.dev/config/
 export default defineConfig(() => {
-
 
   //解决element-plus按需引入样式问题, 以免页面疯狂重新加载
   const optimizeDepsElementPlusIncludes = ['element-plus/es', '@vuemap/vue-amap/es']
