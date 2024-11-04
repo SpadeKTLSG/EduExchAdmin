@@ -9,7 +9,7 @@
     "node_modules"
   ],
   "include": [
-    "src/auto-import/components.d.ts",
-    "src/auto-import/imports.d.ts"
+    "components.d.ts",
+    "imports.d.ts"
   ]
 }

@@ -5,85 +5,88 @@
         <ul>
           <li>
             <div
-                :class="{
+              :class="{
                 'menu-left-active': selectLeftId === '',
                 'menu-left-item1': 'language' === 'English',
                 'menu-left-item': 'language' !== 'English'
               }"
-                @click="toHome()"
+              @click="toHome()"
             >
               <svg-icon
-                  icon-class="icon-shouye"
-                  style="font-size: 16px; margin-right: 3px !important"
+                icon-class="icon-shouye"
+                style="font-size: 16px; margin-right: 3px !important"
               />
-              <span style="font-size: 14px">首页</span>
+              <span style="font-size: 14px">仪表盘</span>
             </div>
           </li>
         </ul>
         <ul>
           <template
-              v-for="menu in menuList"
-              :key="menu.menuId"
+            v-for="menu in menuList"
+            :key="menu.menuId"
           >
             <li
-                v-if="!menu.hidden"
-                class="menu-left-active"
+              v-if="!menu.hidden"
+              class="menu-left-active"
             >
               <div
-                  v-if="menu.list"
-                  :class="[
+                v-if="menu.list"
+                :class="[
                   'menu-left-item',
                   {'menu-left-active': selectLeftId === menu.menuId}
                 ]"
-                  @click="expandMenu(menu)"
+                @click="expandMenu(menu)"
               >
                 <svg-icon
-                    v-if="menu.icon"
-                    :icon-class="`icon-${menu.icon}`"
-                    style="font-size: 16px; margin-right: 3px !important"
+                  v-if="menu.icon"
+                  :icon-class="`icon-${menu.icon}`"
+                  style="font-size: 16px; margin-right: 3px !important"
                 />
                 <span
-                    class="item-text"
-                    :title="menu.name.length > 4 ? menu.name : ''"
-                    style="font-size: 14px"
+                  :title="menu.name.length > 4 ? menu.name : ''"
+                  class="item-text"
+                  style="font-size: 14px"
                 >{{ menu.name }}</span>
               </div>
+
               <div
-                  v-else
-                  :class="{
+                v-else
+                :class="{
                   'menu-left-active': selectLeftId === menu.menuId,
                   'menu-left-item1': '语言' === 'English',
                   'menu-left-item': '语言' !== 'English'
                 }"
-                  @click="gotoRouteHandle(menu)"
+                @click="gotoRouteHandle(menu)"
               >
                 <svg-icon
-                    v-if="menu.icon"
-                    :icon-class="menu.icon || ''"
-                    style="font-size: 16px; margin-right: 3px !important"
-                    class="site-sidebar__menu-icon"
+                  v-if="menu.icon"
+                  :icon-class="menu.icon || ''"
+                  class="site-sidebar__menu-icon"
+                  style="font-size: 16px; margin-right: 3px !important"
                 />
                 <span
-                    class="item-text"
-                    :title="menu.name.length > 4 ? menu.name : ''"
-                    style="font-size: 14px"
+                  :title="menu.name.length > 4 ? menu.name : ''"
+                  class="item-text"
+                  style="font-size: 14px"
                 >{{ menu.name }}</span>
               </div>
+
             </li>
           </template>
         </ul>
       </el-scrollbar>
       <SubMenu
-          v-if="!sidebarFold"
-          :key="selectLeftId"
-          class="menu-right-con"
-          :expand-menu="expandMenuList"
+        v-if="!sidebarFold"
+        :key="selectLeftId"
+        :expand-menu="expandMenuList"
+        class="menu-right-con"
       />
     </div>
   </aside>
 </template>
 <script setup>
 import SubMenu from './main-sidebar-sub-menu.vue'
+import {useCommonStore} from "@/layout/common.js";
 
 const route = useRoute()
 const router = useRouter()
@@ -126,7 +129,7 @@ const handleRightRoute = selectLeftId => {
 }
 
 const toHome = () => {
-  router.push({ name: 'home' })
+  router.push({name: 'home'})
   expandMenuList.value = []
   sessionStorage.setItem('isExpand', '0')
   commonStore.updateSidebarFold(true)
@@ -161,7 +164,7 @@ const gotoRouteHandle = menu => {
     sessionStorage.setItem('isExpand', '0')
     commonStore.updateSelectRightId('')
     commonStore.updateSelectLeftId(menu.menuId || '')
-    router.push({ name: menu.url })
+    router.push({name: menu.url})
   }
 }
 
@@ -183,13 +186,13 @@ const routeJump = menu => {
   const routes = menu.list
   for (let i = 0; i < routes.length; i++) {
     if (!routes[i].hidden && !routes[i].list) {
-      router.push({ name: routes[i].url })
+      router.push({name: routes[i].url})
       break
     } else if (routes[i].list) {
       let flag = false
       for (let j = 0; j < routes[i].list.length; j++) {
         if (!routes[i].list[j].hidden) {
-          router.push({ name: routes[i].list[j].url })
+          router.push({name: routes[i].list[j].url})
           flag = true
           break
         }
@@ -292,7 +295,7 @@ const routeJump = menu => {
 }
 
 .menu-left-active {
-  background-color: #ffffff;
+  background-color: #0ed9cf;
   color: #155bd4;
   stroke: #155bd4 !important;
 }

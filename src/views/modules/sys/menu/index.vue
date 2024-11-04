@@ -1,122 +1,117 @@
 <template>
   <div class="mod-menu">
     <el-form
-        :inline="true"
-        :model="dataForm"
+      :inline="true"
+      :model="dataForm"
     >
       <el-form-item>
         <el-button
-            v-if="isAuth('sys:menu:save')"
-            type="primary"
-            @click="onAddOrUpdate()"
+          type="primary"
+          @click="onAddOrUpdate()"
         >
           新增
         </el-button>
       </el-form-item>
     </el-form>
     <el-table
-        :data="dataList"
-        border
-        style="width: 100%;"
-        row-key="menuId"
+      :data="dataList"
+      border
+      row-key="menuId"
+      style="width: 100%;"
     >
       <el-table-column
-          prop="name"
-          header-align="center"
-          tree-key="menuId"
-          width="150"
-          label="名称"
+        header-align="center"
+        label="名称"
+        prop="name"
+        tree-key="menuId"
+        width="150"
       />
       <el-table-column
-          header-align="center"
-          align="center"
-          label="图标"
+        align="center"
+        header-align="center"
+        label="图标"
       >
         <template #default="scope">
           <svg-icon
-              :icon-class="`icon-${scope.row.icon}`"
+            :icon-class="`icon-${scope.row.icon}`"
           />
         </template>
       </el-table-column>
       <el-table-column
-          prop="type"
-          header-align="center"
-          align="center"
-          label="类型"
+        align="center"
+        header-align="center"
+        label="类型"
+        prop="type"
       >
         <template #default="scope">
           <el-tag
-              v-if="scope.row.type === 0"
+            v-if="scope.row.type === 0"
           >
             目录
           </el-tag>
           <el-tag
-              v-else-if="scope.row.type === 1"
+            v-else-if="scope.row.type === 1"
 
-              type="success"
+            type="success"
           >
             菜单
           </el-tag>
           <el-tag
-              v-else-if="scope.row.type === 2"
+            v-else-if="scope.row.type === 2"
 
-              type="info"
+            type="info"
           >
             按钮
           </el-tag>
         </template>
       </el-table-column>
       <el-table-column
-          prop="orderNum"
-          header-align="center"
-          align="center"
-          label="排序号"
+        align="center"
+        header-align="center"
+        label="排序号"
+        prop="orderNum"
       />
       <el-table-column
-          prop="url"
-          header-align="center"
-          align="center"
-          width="150"
-          :show-overflow-tooltip="true"
-          label="菜单URL"
+        :show-overflow-tooltip="true"
+        align="center"
+        header-align="center"
+        label="菜单URL"
+        prop="url"
+        width="150"
       >
         <template #default="scope">
           {{ scope.row.url || '-' }}
         </template>
       </el-table-column>
       <el-table-column
-          prop="perms"
-          header-align="center"
-          align="center"
-          width="150"
-          :show-overflow-tooltip="true"
-          label="授权标识"
+        :show-overflow-tooltip="true"
+        align="center"
+        header-align="center"
+        label="授权标识"
+        prop="perms"
+        width="150"
       >
         <template #default="scope">
           {{ scope.row.perms || '-' }}
         </template>
       </el-table-column>
       <el-table-column
-          fixed="right"
-          header-align="center"
-          align="center"
-          width="150"
-          label="操作"
+        align="center"
+        fixed="right"
+        header-align="center"
+        label="操作"
+        width="150"
       >
         <template #default="scope">
           <el-button
-              v-if="isAuth('sys:menu:update')"
-              type="text"
-
-              @click="onAddOrUpdate(scope.row.menuId)"
+            type="text"
+            @click="onAddOrUpdate(scope.row.menuId)"
           >
             修改
           </el-button>
           <el-button
-              v-if="isAuth('sys:menu:delete')"
-              type="text"
-
-              @click="onDelete(scope.row.menuId)"
+            type="text"
+            @click="onDelete(scope.row.menuId)"
           >
             删除
           </el-button>
@@ -125,17 +120,17 @@
     </el-table>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdateRef"
-        @refresh-data-list="getDataList"
-        @close="addOrUpdateVisible=false"
+      v-if="addOrUpdateVisible"
+      ref="addOrUpdateRef"
+      @close="addOrUpdateVisible=false"
+      @refresh-data-list="getDataList"
     />
   </div>
 </template>
 
 <script setup>
-import { isAuth, treeDataTranslate } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {treeDataTranslate} from '@/utils'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataForm = ref({})
@@ -152,7 +147,7 @@ const getDataList = () => {
     url: http.adornUrl('/sys/menu/table'),
     method: 'get',
     params: http.adornParams()
-  }).then(({ data }) => {
+  }).then(({data}) => {
     dataList.value = treeDataTranslate(data, 'menuId')
   })
 }

@@ -1,13 +1,13 @@
 <template>
   <el-scrollbar class="menu-right-el">
     <el-menu
-        class="el-menu-vertical-demo"
-        :default-openeds="openeds"
+      :default-openeds="openeds"
+      class="el-menu-vertical-demo"
     >
       <SubMenuItem
-          v-for="(item, index) in expandMenu"
-          :key="index"
-          :expand-menu="item"
+        v-for="(item, index) in expandMenu"
+        :key="index"
+        :expand-menu="item"
       />
     </el-menu>
   </el-scrollbar>
@@ -15,6 +15,7 @@
 
 <script setup>
 import SubMenuItem from './main-sidebar-sub-menu-item.vue'
+import {useCommonStore} from "@/layout/common.js";
 
 defineProps({
   expandMenu: {

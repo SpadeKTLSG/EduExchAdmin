@@ -1,6 +1,6 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
 import ElementPlus from 'element-plus'
 import moment from 'moment'
 import 'element-plus/dist/index.css'
@@ -12,9 +12,6 @@ import '@smallwei/avue/lib/index.css'
 
 // 全局样式
 import '@/styles/index.scss'
-// svg
-import 'virtual:svg-icons-register'
-import svgIcon from '@/static/SvgIcon.vue'
 
 moment.locale('zh-cn', {
   longDateFormat: {
@@ -37,12 +34,11 @@ app.use(router)
 const pinia = createPinia()
 app.use(pinia)
 
-app.component('SvgIcon', svgIcon)
 
 // Avue
 app.use(Avue)
 // element-plus
-app.use(ElementPlus, { locale })
+app.use(ElementPlus, {locale})
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

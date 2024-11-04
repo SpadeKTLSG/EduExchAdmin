@@ -1,9 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import cookie from 'vue-cookies'
-import { isURL } from '@/utils/validate'
-import { clearLoginInfo } from '@/utils'
+import {isURL} from '@/utils/validate'
+import {clearLoginInfo} from '@/utils'
 import Layout from '@/layout/main.vue'
 import Login from '@/views/common/login/index.vue'
+import {useCommonStore} from "@/layout/common.js";
 
 // 全局路由(无需嵌套上左右整体布局)
 const globalRoutes = [
@@ -11,16 +12,20 @@ const globalRoutes = [
     path: '/404',
     component: () => import('@/views/common/error-page/404.vue'),
     name: '404',
-    meta: { title: '404未找到' }
+    meta: {title: '404未找到'}
   },
   {
     path: '/login',
     component: Login,
     name: 'login',
-    meta: { title: '登录' }
+    meta: {title: '登录'}
   }
 ]
 
+/**
+ * 主路由
+ * @type {{redirect: string, path: string, component: {}, children: [{path: string, component: (function(): Promise<*>), name: string},{path: string, component: (function(): Promise<{}>), name: string}], beforeEnter(*, *, *): void, name: string}}
+ */
 export const mainRoutes = {
   path: '/',
   component: Layout,
@@ -31,19 +36,13 @@ export const mainRoutes = {
       path: 'home',
       name: 'home',
       component: () => import('@/views/common/home/index.vue')
-    },
-    {
-      path: '/prodInfo',
-      name: 'prodInfo',
-      component: () => import('@/views/modules/prod/prodInfo/index.vue')
     }
   ],
-  // eslint-disable-next-line no-unused-vars
-  beforeEnter (to, from, next) {
+  beforeEnter(to, from, next) {
     const authorization = cookie.get('Authorization')
     if (!authorization || !/\S/.test(authorization)) {
       clearLoginInfo()
-      next({ name: 'login' })
+      next({name: 'login'})
     }
     next()
   }
@@ -51,17 +50,16 @@ export const mainRoutes = {
 
 const router = createRouter({
   history: createWebHistory(),
-  scrollBehavior: () => ({ top: 0 }),
+  scrollBehavior: () => ({top: 0}),
   isAddDynamicMenuRoutes: false, // 是否已经添加动态(菜单)路由
   routes: globalRoutes.concat(mainRoutes)
 })
 
-// eslint-disable-next-line no-unused-vars
+
 router.beforeEach((to, from, next) => {
   const commonStore = useCommonStore()
   // 添加动态(菜单)路由
   // 1. 已经添加 or 全局路由, 直接访问
-  // 2. 获取菜单列表, 添加并保存本地存储
   if (router.options.isAddDynamicMenuRoutes || fnCurrentRouteType(to, globalRoutes) === 'global') {
     const routeList = commonStore.routeList
     let navTitles = []
@@ -96,13 +94,16 @@ router.beforeEach((to, from, next) => {
     commonStore.updateSelectMenu(navTitles)
     next()
   } else {
+    // 2. 获取菜单列表, 添加并保存本地存储
     http({
       url: http.adornUrl('/sys/menu/nav'),
       method: 'get',
       params: http.adornParams()
-    }).then(({ data }) => {
-      sessionStorage.setItem('Authorities', JSON.stringify(data.authorities || '[]'))
+    }).then(({data}) => {
+      // sessionStorage.setItem('Authorities', JSON.stringify(data.authorities || '[]'))
+
       fnAddDynamicMenuRoutes(data.menuList)
+
       router.options.isAddDynamicMenuRoutes = true
       const rList = []
       data.menuList.forEach(item => {
@@ -147,7 +148,7 @@ router.beforeEach((to, from, next) => {
     }).catch(e => {
       // eslint-disable-next-line no-console
       console.log(`%c${e} 请求菜单列表和权限失败，跳转至登录页！！`, 'color:blue')
-      router.push({ name: 'login' })
+      router.push({name: 'login'})
     })
   }
 })
@@ -157,7 +158,7 @@ router.beforeEach((to, from, next) => {
  * @param {*} route 当前路由
  * @param globalRoutes 全局路由
  */
-function fnCurrentRouteType (route, globalRoutes = []) {
+function fnCurrentRouteType(route, globalRoutes = []) {
   let temp = []
   for (let i = 0; i < globalRoutes.length; i++) {
     if (route.path === globalRoutes[i].path) {
@@ -174,7 +175,7 @@ function fnCurrentRouteType (route, globalRoutes = []) {
  * @param {*} menuList 菜单列表
  * @param {*} routes 递归创建的动态(菜单)路由
  */
-function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
+function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
   let temp = []
   const modules = import.meta.glob('../views/modules/**/index.vue')
   for (let i = 0; i < menuList.length; i++) {
@@ -217,7 +218,7 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
   }
   router.addRoute({
     path: '/:pathMatch(.*)*',
-    redirect: { name: '404' }
+    redirect: {name: '404'}
   })
 }
 

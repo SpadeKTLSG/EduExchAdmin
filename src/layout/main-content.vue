@@ -1,37 +1,29 @@
 <template>
   <div>
     <el-card
-        v-if="route.meta.isTab"
-        class="main-head"
+      v-if="route.meta.isTab"
+      class="main-head"
     >
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item
-            v-for="(item, index) in selectMenu"
-            :key="index"
-            class="breadcrumb-item"
+          v-for="(item, index) in selectMenu"
+          :key="index"
+          class="breadcrumb-item"
         >
           <span>{{ item }}</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
     </el-card>
     <main
-        class="site-content"
-        :class="{ 'site-content--tabs': route.meta.isTab }"
+      :class="{ 'site-content--tabs': route.meta.isTab }"
+      class="site-content"
     >
-      <!-- 主入口标签页 (发布商品) -->
-      <div
-          v-if="route.name === 'prod-post-product/postProduct'"
-          :style="siteContentViewHeight"
-      >
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
-      </div>
+      <!-- 如果这不是首页 -->
       <el-card
-          v-else-if="homeHidden"
-          class="card-content-h"
-          style="border-radius: 0 !important; box-shadow: none"
-          :body-style="siteContentViewHeight"
+        v-if="homeHidden"
+        :style="siteContentViewHeight"
+        class="card-content-h"
+        style="border-radius: 0 !important; box-shadow: none"
       >
         <router-view/>
       </el-card>
@@ -43,26 +35,30 @@
 </template>
 
 <script setup>
-import { ArrowRight } from '@element-plus/icons-vue'
+import {ArrowRight} from '@element-plus/icons-vue'
+import {useCommonStore} from "@/layout/common.js";
 
 const route = useRoute()
 const documentClientHeight = ref(document.documentElement.clientHeight)
+
 window.addEventListener('resize', () => {
   documentClientHeight.value = document.documentElement.clientHeight
 })
+
 const siteContentViewHeight = computed(() => {
   let height = documentClientHeight.value - 50 - 30 - 2
   if (route.meta.isTab) {
     height -= 40
-    return isURL(route.meta.iframeUrl) ? { height: height + 'px' } : { minHeight: height + 'px' }
+    return isURL(route.meta.iframeUrl) ? {height: height + 'px'} : {minHeight: height + 'px'}
   }
-  return { minHeight: height + 'px' }
+  return {minHeight: height + 'px'}
 })
 
 const commonStore = useCommonStore()
 const selectMenu = computed(() => commonStore.selectMenu)
 const homeHidden = computed(() => route.name !== 'home')
 </script>
+
 <style scoped>
 .main-head {
   background: #ffffff;

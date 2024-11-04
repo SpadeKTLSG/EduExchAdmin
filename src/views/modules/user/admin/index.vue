@@ -9,40 +9,67 @@
       @selection-change="selectionChange"
       @on-load="getDataList"
     >
+      <template #menu-left>
+        <el-button
 
-      <template #status="scope">
-        <el-tag v-if="scope.row.status === 0">
-          封禁中
-        </el-tag>
-        <el-tag v-else>
-          还活着
-        </el-tag>
+          icon="el-icon-plus"
+          type="primary"
+          @click.stop="onAddOrUpdate()"
+        >
+          新增
+        </el-button>
+
+        <el-button
+
+          :disabled="dataListSelections.length <= 0"
+
+
+          @click="onDelete()"
+        >
+          批量删除
+        </el-button>
       </template>
 
-      <template #menu="scope">
+      <template
+        #menu="scope"
+      >
         <el-button
+
           icon="el-icon-edit"
           type="primary"
           @click.stop="onAddOrUpdate(scope.row.userId)"
         >
           编辑
         </el-button>
+
+        <el-button
+
+          icon="el-icon-delete"
+
+          @click.stop="onDelete(scope.row.userId)"
+        >
+          删除
+        </el-button>
       </template>
+
     </avue-crud>
 
-    <!-- 新增 / 修改 -->
+    <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
       v-if="addOrUpdateVisible"
       ref="addOrUpdateRef"
       @refresh-data-list="getDataList"
     />
+
   </div>
 </template>
 
 <script setup>
+import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
+const dataListLoading = ref(false)
 const dataListSelections = ref([])
 const addOrUpdateVisible = ref(false)
 const page = reactive({
@@ -52,12 +79,12 @@ const page = reactive({
 })
 
 /**
- * !分页查询
+ * 获取数据列表
  */
 const getDataList = (pageParam, params, done) => {
-
+  dataListLoading.value = true
   http({
-    url: http.adornUrl('/admin/user/page'),
+    url: http.adornUrl('/sys/user/page'),
     method: 'get',
     params: http.adornParams(
       Object.assign(
@@ -68,17 +95,27 @@ const getDataList = (pageParam, params, done) => {
         params
       )
     )
+  }).then(({data}) => {
+    dataList.value = data.records
+    page.total = data.total
+    dataListLoading.value = false
+    if (done) done()
   })
-
-    .then(({data}) => {
-      dataList.value = data.records
-      page.total = data.total
-      if (done) done()
-    })
+}
+/**
+ * 条件查询
+ */
+const onSearch = (params, done) => {
+  getDataList(page, params, done)
+}
+/**
+ * 多选变化
+ */
+const selectionChange = (val) => {
+  dataListSelections.value = val
 }
 
 const addOrUpdateRef = ref(null)
-
 
 /**
  * 新增 / 修改
@@ -90,13 +127,34 @@ const onAddOrUpdate = (id) => {
   })
 }
 
-
-const onSearch = (params, done) => {
-  getDataList(page, params, done)
-}
-
-const selectionChange = (val) => {
-  dataListSelections.value = val
+/**
+ * 删除
+ */
+const onDelete = (id) => {
+  const userIds = id ? [id] : dataListSelections.value?.map(item => {
+    return item.userId
+  })
+  ElMessageBox.confirm(`确定对[id=${userIds.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    http({
+      url: http.adornUrl('/sys/user'),
+      method: 'delete',
+      data: http.adornData(userIds, false)
+    }).then(() => {
+      ElMessage({
+        message: '操作成功',
+        type: 'success',
+        duration: 1500,
+        onClose: () => {
+          getDataList()
+        }
+      })
+    })
+  }).catch(() => {
+  })
 }
 
 
@@ -104,6 +162,7 @@ const tableOption = {
   searchMenuSpan: 6,
   columnBtn: false,
   border: true,
+  selection: true,
   index: true,
   indexLabel: '序号',
   stripe: true,
@@ -121,15 +180,22 @@ const tableOption = {
     value: 'value'
   },
   column: [{
-    label: '昵称',
-    prop: 'nickName',
+    label: '用户名',
+    prop: 'username',
     search: true
+  }, {
+    label: '邮箱',
+    prop: 'email'
+  }, {
+    label: '手机号',
+    prop: 'mobile'
+  }, {
+    label: '创建时间',
+    prop: 'createTime'
   }, {
     label: '状态',
     prop: 'status',
-    search: true,
     type: 'select',
-    slot: true,
     dicData: [
       {
         label: '禁用',
@@ -139,11 +205,9 @@ const tableOption = {
         value: 1
       }
     ]
-  }, {
-    label: '注册时间',
-    prop: 'userRegtime',
-    imgWidth: 150
+
   }]
 }
+
 
 </script>

@@ -1,4 +1,6 @@
-// 防抖 防止表单重复提交
+/**
+ * 防止表单重复提交
+ */
 export const Debounce = (fn, t) => {
   const delay = t || 1000
   let timer

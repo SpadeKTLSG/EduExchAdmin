@@ -1,52 +1,46 @@
 <template>
   <div>
     <nav class="site-navbar">
+
       <!--左侧-->
       <div
-          class="site-navbar-header"
-          :style="{ 'margin-right': sidebarFold ? 0 : '20px' }"
+        :style="{ 'margin-right': sidebarFold ? 0 : '20px' }"
+        class="site-navbar-header"
       >
-        <!--        <img-->
-        <!--          class="menu-image-logo"-->
-        <!--          :src="configuration.bsTopBarIcon"-->
-        <!--          alt="logo"-->
-        <!--        >-->
         <span
-            v-if="!sidebarFold"
-            class="site-navbar-lg"
+          v-if="!sidebarFold"
+          class="site-navbar-lg"
         >
-          mall4j建站后台
+          EduExch管理员端
         </span>
         <span
-            v-else
-            class="site-navbar-mini"
-            :style="fontCloseSize"
+          v-else
+          :style="fontCloseSize"
+          class="site-navbar-mini"
         >
-          mall4j
+          EduExch
         </span>
       </div>
-      <!--右侧数据-->
+
+      <!--右侧-->
       <div class="site-navbar-content">
         <div class="navbar-content-left">
           <svg-icon
-              class="left-item"
-              icon-class="icon-zhedie"
-              @click="setSidebarFold"
+            class="left-item"
+            icon-class="icon-zhedie"
+
           />
         </div>
 
         <div class="navbar-content-right">
           <el-dropdown
-              class="content-right-item"
-              :show-timeout="0"
-              placement="bottom"
+            :show-timeout="0"
+            class="content-right-item"
+            placement="bottom"
           >
-            <span class="el-dropdown-link">{{ userName }}</span>
+            <span class="el-dropdown-link">管理员</span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="updatePasswordHandle">
-                  修改密码
-                </el-dropdown-item>
                 <el-dropdown-item @click="logoutHandle">
                   退出
                 </el-dropdown-item>
@@ -55,41 +49,26 @@
           </el-dropdown>
         </div>
       </div>
-      <!-- 弹窗, 修改密码 -->
-      <UpdatePassword
-          v-if="updatePassowrdVisible"
-          ref="updatePassowrdRef"
-      />
+
     </nav>
   </div>
 </template>
 
 <script setup>
-import { ElMessageBox } from 'element-plus'
-import UpdatePassword from './main-navbar-update-password.vue'
+import {ElMessageBox} from 'element-plus'
+import {useCommonStore} from "@/layout/common.js";
 
-const route = useRoute()
 const router = useRouter()
-const userStore = useUserStore()
-const userName = computed(() => userStore.name)
-const fontCloseSize = reactive({
-  fontSize: '16px'
-})
+const fontCloseSize = reactive({fontSize: '16px'})
 const commonStore = useCommonStore()
 const sidebarFold = computed(() => commonStore.sidebarFold)
-const setSidebarFold = () => {
-  const len = commonStore.selectMenu.length
-  const flag = sessionStorage.getItem('isExpand')
-  if ((route.path === '/home' || len === 1) && flag === '0') {
-    commonStore.updateSidebarFold(true)
-  } else {
-    const foldFlag = sidebarFold.value
-    commonStore.updateSidebarFold(!foldFlag)
-  }
-}
 
+
+/**
+ * 退出登录
+ */
 const logoutHandle = () => {
-  ElMessageBox.confirm('确定进行[退出]操作?', '提示', {
+  ElMessageBox.confirm('确定不搞啦?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
@@ -100,22 +79,11 @@ const logoutHandle = () => {
       data: http.adornData()
     }).then(() => {
       clearLoginInfo()
-      router.push({ name: 'login' })
+      router.push({name: 'login'})
     })
   })
 }
 
-const updatePassowrdVisible = ref(false)
-const updatePassowrdRef = ref(null)
-/**
- * 修改密码
- */
-const updatePasswordHandle = () => {
-  updatePassowrdVisible.value = true
-  nextTick(() => {
-    updatePassowrdRef.value?.init()
-  })
-}
 </script>
 
 <style lang="scss" scoped>
