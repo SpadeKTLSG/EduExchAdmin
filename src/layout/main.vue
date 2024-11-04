@@ -22,6 +22,8 @@
 import MainNavbar from './main-navbar.vue'
 import MainSidebar from './main-sidebar.vue'
 import MainContent from './main-content.vue'
+import {useUserStore} from "@/layout/user.js";
+import {useCommonStore} from "@/layout/common.js";
 
 onBeforeMount(() => {
   getUserInfo()

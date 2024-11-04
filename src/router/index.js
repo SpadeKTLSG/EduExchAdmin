@@ -4,6 +4,7 @@ import {isURL} from '@/utils/validate'
 import {clearLoginInfo} from '@/utils'
 import Layout from '@/layout/main.vue'
 import Login from '@/views/common/login/index.vue'
+import {useCommonStore} from "@/layout/common.js";
 
 // 全局路由(无需嵌套上左右整体布局)
 const globalRoutes = [

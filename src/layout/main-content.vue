@@ -44,6 +44,7 @@
 
 <script setup>
 import {ArrowRight} from '@element-plus/icons-vue'
+import {useCommonStore} from "@/layout/common.js";
 
 const route = useRoute()
 const documentClientHeight = ref(document.documentElement.clientHeight)

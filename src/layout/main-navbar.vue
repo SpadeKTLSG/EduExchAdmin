@@ -67,6 +67,8 @@
 <script setup>
 import {ElMessageBox} from 'element-plus'
 import UpdatePassword from './main-navbar-update-password.vue'
+import {useUserStore} from "@/layout/user.js";
+import {useCommonStore} from "@/layout/common.js";
 
 const route = useRoute()
 const router = useRouter()

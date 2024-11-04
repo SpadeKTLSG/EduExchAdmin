@@ -15,6 +15,7 @@
 
 <script setup>
 import SubMenuItem from './main-sidebar-sub-menu-item.vue'
+import {useCommonStore} from "@/layout/common.js";
 
 defineProps({
   expandMenu: {

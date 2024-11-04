@@ -84,6 +84,7 @@
 </template>
 <script setup>
 import SubMenu from './main-sidebar-sub-menu.vue'
+import {useCommonStore} from "@/layout/common.js";
 
 const route = useRoute()
 const router = useRouter()

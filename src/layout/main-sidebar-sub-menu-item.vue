@@ -2,34 +2,34 @@
   <div class="menu-mod">
     <div v-if="expandMenu.list">
       <el-sub-menu
-          v-if="!item.hidden"
-          :index="expandMenu.menuId + ''"
+        v-if="!item.hidden"
+        :index="expandMenu.menuId + ''"
       >
         <template #title>
           <span
-              :title="expandMenu.name.length > 4 ? expandMenu.name : ''"
-              style="font-size: 14px"
+            :title="expandMenu.name.length > 4 ? expandMenu.name : ''"
+            style="font-size: 14px"
           >{{ expandMenu.name }}</span>
         </template>
         <el-menu-item-group class="menu-right-el-item">
           <template v-for="menu in expandMenu.list">
             <el-menu-item
-                v-if="!menu.hidden"
-                :key="menu.menuId"
-                :class="{ 'menu-active': selectRightId === menu.menuId }"
-                class="menu-right-el-item is-active item-text"
-                style="
+              v-if="!menu.hidden"
+              :key="menu.menuId"
+              :class="{ 'menu-active': selectRightId === menu.menuId }"
+              class="menu-right-el-item is-active item-text"
+              style="
                 font-size: 14px !important;
                 line-height: 40px;
                 padding-left: 30px !important;
                 padding-right: 10px !important;
               "
-                @click="gotoRouteHandle(menu)"
+              @click="gotoRouteHandle(menu)"
             >
               <span :title="menu.name.length > 4 ? menu.name : ''">{{ menu.name }}</span>
               <SubMenuItem
-                  v-if="menu.list"
-                  :expand-menu="menu"
+                v-if="menu.list"
+                :expand-menu="menu"
               />
             </el-menu-item>
           </template>
@@ -38,12 +38,12 @@
     </div>
     <div v-else>
       <el-menu-item
-          v-if="!expandMenu.hidden"
-          :key="expandMenu.menuId"
-          :class="{ 'menu-active': selectRightId === expandMenu.menuId }"
-          class="menu-right-el-item is-active item-text"
-          style="font-size: 14px !important; padding-left: 15px !important; line-height: 40px"
-          @click="gotoRouteHandle(expandMenu)"
+        v-if="!expandMenu.hidden"
+        :key="expandMenu.menuId"
+        :class="{ 'menu-active': selectRightId === expandMenu.menuId }"
+        class="menu-right-el-item is-active item-text"
+        style="font-size: 14px !important; padding-left: 15px !important; line-height: 40px"
+        @click="gotoRouteHandle(expandMenu)"
       >
         <span :title="expandMenu.name.length > 4 ? expandMenu.name : ''">{{
             expandMenu.name
@@ -55,6 +55,7 @@
 
 <script setup>
 import SubMenuItem from './main-sidebar-sub-menu-item.vue'
+import {useCommonStore} from "@/layout/common.js";
 
 const props = defineProps({
   expandMenu: {
@@ -75,10 +76,10 @@ const commonStore = useCommonStore()
 const router = useRouter()
 // 监听路由
 watch(
-    () => router.currentRoute,
-    route => {
-      routeHandle(route)
-    }
+  () => router.currentRoute,
+  route => {
+    routeHandle(route)
+  }
 )
 // 路由操作
 const routeHandle = route => {
@@ -92,7 +93,7 @@ const gotoRouteHandle = menu => {
   if (router.currentRoute.value.name === menu.url) {
     return
   }
-  router.push({ name: menu.url })
+  router.push({name: menu.url})
 }
 </script>
 <style lang="scss" scoped>
