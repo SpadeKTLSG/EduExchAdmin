@@ -1,4 +1,5 @@
 <template>
+
   <el-dialog
     v-model="visible"
     :close-on-click-modal="false"
@@ -289,17 +290,10 @@
       </div>
     </el-form>
 
-    <!-- 弹窗, 新增 / 修改 -->
-    <devy-add
-      v-if="devyVisible"
-      ref="devyAddRef"
-      @refresh-data-list="getDataList"
-    />
   </el-dialog>
 </template>
 
 <script setup>
-import DevyAdd from './order-devy.vue'
 
 const resourcesUrl = import.meta.env.VITE_APP_RESOURCES_URL
 const dataForm = ref({
@@ -350,6 +344,7 @@ watch(
 )
 
 const dataFormRef = ref(null)
+
 const init = (orderNumber) => {
   dataForm.value.orderNumber = orderNumber || 0
   visible.value = true

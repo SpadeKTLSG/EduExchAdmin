@@ -36,7 +36,10 @@
           />
         </el-select>
       </el-form-item>
+
+
       <el-form-item>
+
         <el-button
           icon="el-icon-search"
           type="primary"
@@ -44,25 +47,13 @@
         >
           查询
         </el-button>
-        <el-button
-          v-if="isAuth('order:order:waitingConsignmentExcel')"
-          type="primary"
-          @click="showConsignmentInfo()"
-        >
-          导出待发货订单
-        </el-button>
-        <el-button
-          v-if="isAuth('order:order:soldExcel')"
-          type="primary"
-          @click="getSoldExcel()"
-        >
-          导出销售记录
-        </el-button>
+
         <el-button @click="clearDatas()">
           清空
         </el-button>
       </el-form-item>
     </el-form>
+
     <div class="main">
       <div class="content">
         <div class="tit">
@@ -87,6 +78,7 @@
             </el-col>
           </el-row>
         </div>
+
         <div
           v-for="order in dataList"
           :key="order.orderId"
@@ -184,7 +176,6 @@
                 <div class="item">
                   <div class="operate">
                     <el-button
-                      v-if="isAuth('order:order:update')"
                       type="text"
                       @click="onAddOrUpdate(order.orderNumber)"
                     >
@@ -203,13 +194,10 @@
         </div>
       </div>
     </div>
-    <!-- 空 -->
-    <div
-      v-if="!dataList.length"
-      class="empty-tips"
-    >
-      暂无数据
-    </div>
+
+
+    <div v-if="!dataList.length" class="empty-tips"> 暂无数据</div>
+
     <el-pagination
       :current-page="page.pageIndex"
       :page-size="page.pageSize"
@@ -219,28 +207,24 @@
       @size-change="sizeChangeHandle"
       @current-change="currentChangeHandle"
     />
+
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
       v-if="addOrUpdateVisible"
       ref="addOrUpdateRef"
       @refresh-data-list="getDataList"
     />
-    <consignment-info
-      v-if="consignmentInfoVisible"
-      ref="consignmentInfoRef"
-      @input-callback="getWaitingConsignmentExcel"
-    />
   </div>
 </template>
 
 <script setup>
 import AddOrUpdate from './order-info.vue'
-import ConsignmentInfo from './consignment-info.vue'
-import {isAuth} from '@/utils'
+
 
 const resourcesUrl = import.meta.env.VITE_APP_RESOURCES_URL
 const dataForm = ref({})
 const dateRange = ref([])
+
 const options = [{
   value: 1,
   label: '待付款'
@@ -265,15 +249,19 @@ const options = [{
     value: 6,
     label: '失败'
   }]
+
+
 const dataList = ref([])
 const page = reactive({
   total: 0, // 总页数
   currentPage: 1, // 当前页数
   pageSize: 10 // 每页显示多少条
 })
+
 onMounted(() => {
   getDataList(page)
 })
+
 
 /**
  * 获取数据列表
@@ -341,73 +329,8 @@ const onAddOrUpdate = (val) => {
   })
 }
 
-const consignmentInfoRef = ref(null)
-const consignmentInfoVisible = ref(false)
-const showConsignmentInfo = () => {
-  consignmentInfoVisible.value = true
-  nextTick(() => {
-    consignmentInfoRef.value?.init()
-  })
-}
-const getWaitingConsignmentExcel = (consignmentInfo) => {
-  http({
-    url: http.adornUrl('/order/order/waitingConsignmentExcel'),
-    method: 'get',
-    params: http.adornParams({
-      consignmentName: consignmentInfo.consignmentName,
-      consignmentMobile: consignmentInfo.consignmentMobile,
-      consignmentAddr: consignmentInfo.consignmentAddr,
-      startTime: dateRange.value === null ? null : dateRange.value[0], // 开始时间
-      endTime: dateRange.value === null ? null : dateRange.value[1] // 结束时间
-    }),
-    responseType: 'blob' // 解决文件下载乱码问题
-  })
-    .then(({data}) => {
-      const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
-      const fileName = '待发货信息整理.xls'
-      const elink = document.createElement('a')
-      if ('download' in elink) { // 非IE下载
-        elink.download = fileName
-        elink.style.display = 'none'
-        elink.href = URL.createObjectURL(blob)
-        document.body.appendChild(elink)
-        elink.click()
-        URL.revokeObjectURL(elink.href) // 释放URL 对象
-        document.body.removeChild(elink)
-      } else { // IE10+下载
-        navigator.msSaveBlob(blob, fileName)
-      }
-    })
-}
-
-const getSoldExcel = () => {
-  http({
-    url: http.adornUrl('/order/order/soldExcel'),
-    method: 'get',
-    params: http.adornParams({
-      startTime: dateRange.value === null ? null : dateRange.value[0], // 开始时间
-      endTime: dateRange.value === null ? null : dateRange.value[1] // 结束时间
-    }),
-    responseType: 'blob' // 解决文件下载乱码问题
-  })
-    .then(({data}) => {
-      const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
-      const fileName = '销售信息整理.xls'
-      const elink = document.createElement('a')
-      if ('download' in elink) { // 非IE下载
-        elink.download = fileName
-        elink.style.display = 'none'
-        elink.href = URL.createObjectURL(blob)
-        document.body.appendChild(elink)
-        elink.click()
-        URL.revokeObjectURL(elink.href) // 释放URL 对象
-        document.body.removeChild(elink)
-      } else { // IE10+下载
-        navigator.msSaveBlob(blob, fileName)
-      }
-    })
-}
 </script>
+
 
 <style lang="scss" scoped>
 .mod-order-order {

@@ -12,7 +12,6 @@
     >
       <template #menu-left>
         <el-button
-          v-if="isAuth('shop:pickAddr:delete')"
           :disabled="dataListSelections.length <= 0"
           type="danger"
           @click="onDelete()"
@@ -23,7 +22,6 @@
 
       <template #menu="scope">
         <el-button
-          v-if="isAuth('prod:prod:delete')"
           icon="el-icon-delete"
           type="danger"
           @click="onDelete(scope.row.prodId)"
@@ -36,7 +34,6 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
 import {ElMessage, ElMessageBox} from 'element-plus'
 
 

@@ -22,7 +22,6 @@ declare global {
   const http: typeof import('./src/utils/http.js')['default']
   const idList: typeof import('./src/utils/index.js')['idList']
   const inject: typeof import('vue')['inject']
-  const isAuth: typeof import('./src/utils/index.js')['isAuth']
   const isEmail: typeof import('./src/utils/validate.js')['isEmail']
   const isMobile: typeof import('./src/utils/validate.js')['isMobile']
   const isPhone: typeof import('./src/utils/validate.js')['isPhone']

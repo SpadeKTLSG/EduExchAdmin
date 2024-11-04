@@ -22,7 +22,6 @@
 
       <template #menu-left>
         <el-button
-          v-if="isAuth('shop:notice:save')"
           icon="el-icon-plus"
           type="primary"
           @click="onAddOrUpdate()"
@@ -33,7 +32,7 @@
 
       <template #menu="scope">
         <el-button
-          v-if="isAuth('shop:notice:update')"
+
           icon="el-icon-edit"
           type="primary"
           @click="onAddOrUpdate(scope.row.id)"
@@ -41,7 +40,7 @@
           修改
         </el-button>
         <el-button
-          v-if="isAuth('shop:notice:delete')"
+
           icon="el-icon-delete"
           type="danger"
           @click.stop="onDelete(scope.row.id)"
@@ -61,7 +60,6 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils/index.js'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 

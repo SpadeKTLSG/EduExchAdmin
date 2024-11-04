@@ -6,7 +6,6 @@
     >
       <el-form-item>
         <el-button
-          v-if="isAuth('sys:menu:save')"
           type="primary"
           @click="onAddOrUpdate()"
         >
@@ -105,17 +104,13 @@
       >
         <template #default="scope">
           <el-button
-            v-if="isAuth('sys:menu:update')"
             type="text"
-
             @click="onAddOrUpdate(scope.row.menuId)"
           >
             修改
           </el-button>
           <el-button
-            v-if="isAuth('sys:menu:delete')"
             type="text"
-
             @click="onDelete(scope.row.menuId)"
           >
             删除
@@ -134,7 +129,7 @@
 </template>
 
 <script setup>
-import {isAuth, treeDataTranslate} from '@/utils'
+import {treeDataTranslate} from '@/utils'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 

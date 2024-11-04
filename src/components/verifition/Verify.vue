@@ -167,6 +167,7 @@ export default {
   }
 }
 </script>
+
 <style>
 .verifybox {
   position: relative;

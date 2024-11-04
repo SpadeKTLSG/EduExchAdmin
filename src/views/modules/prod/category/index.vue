@@ -1,4 +1,5 @@
 <template>
+
   <div class="mod-category">
     <el-form
       :inline="true"
@@ -6,7 +7,6 @@
     >
       <el-form-item>
         <el-button
-          v-if="isAuth('prod:category:save')"
           icon="el-icon-plus"
           type="primary"
           @click="onAddOrUpdate()"
@@ -72,14 +72,12 @@
       >
         <template #default="scope">
           <el-button
-            v-if="isAuth('prod:category:update')"
             type="primary"
             @click="onAddOrUpdate(scope.row.categoryId)"
           >
             修改
           </el-button>
           <el-button
-            v-if="isAuth('prod:category:delete')"
             type="danger"
             @click="onDelete(scope.row.categoryId)"
           >
@@ -99,18 +97,20 @@
 </template>
 
 <script setup>
-import {checkFileUrl, isAuth, treeDataTranslate} from '@/utils'
+import {checkFileUrl, treeDataTranslate} from '@/utils'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
-const dataForm = ref({})
 
 onMounted(() => {
   getDataList()
 })
 
+const dataForm = ref({})
 const dataList = ref([])
 const dataListLoading = ref(false)
+
+
 /**
  * 获取数据列表
  */
@@ -129,9 +129,10 @@ const getDataList = () => {
 
 const addOrUpdateVisible = ref(false)
 const addOrUpdateRef = ref(null)
+
+
 /**
  * 新增 / 修改
- * @param id
  */
 const onAddOrUpdate = (id) => {
   addOrUpdateVisible.value = true
@@ -139,9 +140,9 @@ const onAddOrUpdate = (id) => {
     addOrUpdateRef.value?.init(id)
   })
 }
+
 /**
  * 删除
- * @param id
  */
 const onDelete = (id) => {
   ElMessageBox.confirm('确定进行删除操作?', '提示', {
@@ -168,12 +169,3 @@ const onDelete = (id) => {
 }
 
 </script>
-
-<style lang="scss" scoped>
-.mod-category {
-  img {
-    height: 80px;
-    width: 200px;
-  }
-}
-</style>

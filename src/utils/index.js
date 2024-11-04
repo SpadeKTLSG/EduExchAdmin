@@ -12,30 +12,13 @@ export function getUUID() {
 
 
 /**
- * 是否有权限
- * @param {*} key
- */
-export function isAuth(key) {
-  const authorities = JSON.parse(sessionStorage.getItem('Authorities') || '[]')
-  if (authorities.length) {
-    for (const i in authorities) {
-      const element = authorities[i]
-      if (element === key) {
-        return true
-      }
-    }
-  }
-  return false
-}
-
-
-/**
  * 清除登录信息
  */
 export function clearLoginInfo() {
   cookie.remove('Authorization')
   router.options.isAddDynamicMenuRoutes = false
 }
+
 
 /**
  * 树形数据转换

@@ -33,7 +33,6 @@
 
       <template #menu="scope">
         <el-button
-          v-if="isAuth('admin:user:update')"
           icon="el-icon-edit"
           type="primary"
           @click.stop="onAddOrUpdate(scope.row.userId)"
@@ -53,7 +52,6 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
 import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])

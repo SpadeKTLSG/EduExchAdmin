@@ -11,7 +11,7 @@
     >
       <template #menu-left>
         <el-button
-          v-if="isAuth('sys:user:save')"
+
           icon="el-icon-plus"
           type="primary"
           @click.stop="onAddOrUpdate()"
@@ -20,7 +20,7 @@
         </el-button>
 
         <el-button
-          v-if="isAuth('sys:user:delete')"
+
           :disabled="dataListSelections.length <= 0"
 
           type="danger"
@@ -34,7 +34,7 @@
         #menu="scope"
       >
         <el-button
-          v-if="isAuth('sys:user:update')"
+
           icon="el-icon-edit"
           type="primary"
           @click.stop="onAddOrUpdate(scope.row.userId)"
@@ -43,7 +43,7 @@
         </el-button>
 
         <el-button
-          v-if="isAuth('sys:user:delete')"
+
           icon="el-icon-delete"
           type="danger"
           @click.stop="onDelete(scope.row.userId)"
@@ -65,7 +65,6 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 

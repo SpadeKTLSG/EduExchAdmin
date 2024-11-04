@@ -13,7 +13,6 @@
     >
       <template #menu-left>
         <el-button
-          v-if="isAuth('admin:hotSearch:save')"
           icon="el-icon-plus"
           type="primary"
           @click="onAddOrUpdate()"
@@ -43,7 +42,6 @@
 
       <template #menu="scope">
         <el-button
-          v-if="isAuth('admin:hotSearch:update')"
           icon="el-icon-edit"
           type="primary"
           @click="onAddOrUpdate(scope.row.hotSearchId)"
@@ -51,7 +49,6 @@
           修改
         </el-button>
         <el-button
-          v-if="isAuth('admin:hotSearch:deconste')"
           icon="el-icon-deconste"
           type="danger"
           @click.stop="onDeconste(scope.row,scope.index)"
@@ -71,7 +68,6 @@
 </template>
 
 <script setup>
-import {isAuth} from '@/utils/index.js'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
