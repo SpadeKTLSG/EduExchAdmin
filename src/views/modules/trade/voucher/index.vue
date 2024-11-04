@@ -42,7 +42,7 @@
         <el-button
 
           icon="el-icon-delete"
-          type="danger"
+
           @click.stop="onDelete(scope.row.id)"
         >
           删除

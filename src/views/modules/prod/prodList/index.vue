@@ -13,7 +13,7 @@
       <template #menu-left>
         <el-button
           :disabled="dataListSelections.length <= 0"
-          type="danger"
+
           @click="onDelete()"
         >
           批量删除
@@ -23,7 +23,7 @@
       <template #menu="scope">
         <el-button
           icon="el-icon-delete"
-          type="danger"
+
           @click="onDelete(scope.row.prodId)"
         >
           删除

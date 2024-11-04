@@ -21,7 +21,7 @@
         </el-button>
         <el-button
           :disabled="dataListSelections.length <= 0"
-          type="danger"
+
           @click.stop="onDeconste"
         >
           批量删除
@@ -31,7 +31,7 @@
       <template #status="scope">
         <el-tag
           v-if="scope.row.status === 0"
-          type="danger"
+
         >
           未启用
         </el-tag>
@@ -50,7 +50,7 @@
         </el-button>
         <el-button
           icon="el-icon-deconste"
-          type="danger"
+
           @click.stop="onDeconste(scope.row,scope.index)"
         >
           删除

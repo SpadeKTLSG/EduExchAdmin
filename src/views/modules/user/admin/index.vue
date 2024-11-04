@@ -23,7 +23,7 @@
 
           :disabled="dataListSelections.length <= 0"
 
-          type="danger"
+
           @click="onDelete()"
         >
           批量删除
@@ -45,7 +45,7 @@
         <el-button
 
           icon="el-icon-delete"
-          type="danger"
+
           @click.stop="onDelete(scope.row.userId)"
         >
           删除
@@ -163,7 +163,7 @@ const tableOption = {
   columnBtn: false,
   border: true,
   selection: true,
-  index: false,
+  index: true,
   indexLabel: '序号',
   stripe: true,
   menuAlign: 'center',

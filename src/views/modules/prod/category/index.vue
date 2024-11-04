@@ -50,7 +50,7 @@
         <template #default="scope">
           <el-tag
             v-if="scope.row.status === 0"
-            type="danger"
+
           >
             下线
           </el-tag>
@@ -78,7 +78,7 @@
             修改
           </el-button>
           <el-button
-            type="danger"
+
             @click="onDelete(scope.row.categoryId)"
           >
             删除

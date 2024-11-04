@@ -89,7 +89,7 @@
                     </el-tag>
                     <el-tag
                       v-if="dataForm.status === 6"
-                      type="danger"
+
                     >
                       失败
                     </el-tag>

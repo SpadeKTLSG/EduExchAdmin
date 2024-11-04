@@ -146,23 +146,23 @@
                 <div class="item">
                   <span
                     v-if="order.status === 1"
-                    type="danger"
+
                   >待付款</span>
                   <span
                     v-else-if="order.status === 2"
-                    type="danger"
+
                   >待发货</span>
                   <span
                     v-else-if="order.status === 3"
-                    type="danger"
+
                   >待收货</span>
                   <span
                     v-else-if="order.status === 4"
-                    type="danger"
+
                   >待评价</span>
                   <span
                     v-else-if="order.status === 5"
-                    type="danger"
+
                   >成功</span>
                   <span
                     v-else
