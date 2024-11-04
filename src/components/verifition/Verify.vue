@@ -31,7 +31,6 @@
 <script type="text/babel">
 /**
  * Verify 验证码组件
- * @description 分发验证码使用
  * */
 import VerifySlide from './Verify/VerifySlide.vue'
 import VerifyPoints from './Verify/VerifyPoints.vue'

@@ -29,6 +29,7 @@
           批量删除
         </el-button>
       </template>
+
       <template
         #menu="scope"
       >
@@ -50,6 +51,7 @@
           删除
         </el-button>
       </template>
+
     </avue-crud>
 
     <!-- 弹窗, 新增 / 修改 -->
@@ -58,6 +60,7 @@
       ref="addOrUpdateRef"
       @refresh-data-list="getDataList"
     />
+
   </div>
 </template>
 
@@ -115,6 +118,7 @@ const selectionChange = (val) => {
 }
 
 const addOrUpdateRef = ref(null)
+
 /**
  * 新增 / 修改
  */
@@ -124,6 +128,7 @@ const onAddOrUpdate = (id) => {
     addOrUpdateRef.value?.init(id)
   })
 }
+
 /**
  * 删除
  */

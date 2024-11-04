@@ -20,6 +20,7 @@
           placeholder="登录帐号"
         />
       </el-form-item>
+
       <el-form-item
         :class="{ 'is-required': !dataForm.id }"
         label="密码"
@@ -31,6 +32,7 @@
           type="password"
         />
       </el-form-item>
+
       <el-form-item
         :class="{ 'is-required': !dataForm.id }"
         label="确认密码"
@@ -42,6 +44,7 @@
           type="password"
         />
       </el-form-item>
+
       <el-form-item
         label="邮箱"
         prop="email"
@@ -51,43 +54,8 @@
           placeholder="邮箱"
         />
       </el-form-item>
-      <el-form-item
-        label="手机号"
-        prop="mobile"
-      >
-        <el-input
-          v-model="dataForm.mobile"
-          maxlength="11"
-          placeholder="手机号"
-        />
-      </el-form-item>
-      <el-form-item
-        label="角色"
-        prop="roleIdList"
-      >
-        <el-checkbox-group v-model="dataForm.roleIdList">
-          <el-checkbox
-            v-for="role in roleList"
-            :key="role.roleId"
-            :label="role.roleId"
-          >
-            {{ role.roleName }}
-          </el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item
-        label="状态"
-        prop="status"
-      >
-        <el-radio-group v-model="dataForm.status">
-          <el-radio :label="0">
-            禁用
-          </el-radio>
-          <el-radio :label="1">
-            正常
-          </el-radio>
-        </el-radio-group>
-      </el-form-item>
+
+
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -98,12 +66,12 @@
         >确定</el-button>
       </span>
     </template>
+
   </el-dialog>
 </template>
 
 <script setup>
 import {ElMessage} from 'element-plus'
-import {isEmail, isMobile} from '@/utils/validate'
 import {Debounce} from '@/utils/debounce'
 import {encrypt} from '@/utils/crypto'
 
@@ -121,7 +89,7 @@ const dataForm = reactive({
   status: 1
 })
 
-// eslint-disable-next-line no-unused-vars
+
 const validatePassword = (rule, value, callback) => {
   if (!dataForm.id && !/\S/.test(value)) {
     callback(new Error('密码不能为空'))
@@ -129,7 +97,7 @@ const validatePassword = (rule, value, callback) => {
     callback()
   }
 }
-// eslint-disable-next-line no-unused-vars
+
 const validateComfirmPassword = (rule, value, callback) => {
   if (!dataForm.id && !/\S/.test(value)) {
     dataForm.password = ''
@@ -140,22 +108,8 @@ const validateComfirmPassword = (rule, value, callback) => {
     callback()
   }
 }
-// eslint-disable-next-line no-unused-vars
-const validateEmail = (rule, value, callback) => {
-  if (!isEmail(value)) {
-    callback(new Error('邮箱格式错误'))
-  } else {
-    callback()
-  }
-}
-// eslint-disable-next-line no-unused-vars
-const validateMobile = (rule, value, callback) => {
-  if (!isMobile(value)) {
-    callback(new Error('手机号格式错误'))
-  } else {
-    callback()
-  }
-}
+
+
 const dataRule = {
   userName: [
     {
@@ -180,33 +134,12 @@ const dataRule = {
       validator: validateComfirmPassword,
       trigger: 'blur'
     }
-  ],
-  email: [
-    {
-      required: true,
-      message: '邮箱不能为空',
-      trigger: 'blur'
-    },
-    {
-      validator: validateEmail,
-      trigger: 'blur'
-    }
-  ],
-  mobile: [
-    {
-      required: true,
-      message: '手机号不能为空',
-      trigger: 'blur'
-    },
-    {
-      validator: validateMobile,
-      trigger: 'blur'
-    }
   ]
 }
 
 const roleList = ref([])
 const dataFormRef = ref(null)
+
 const init = (id) => {
   dataForm.id = id || 0
   http({
