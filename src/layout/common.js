@@ -7,7 +7,7 @@ export const useCommonStore = defineStore('common', {
       // 页面文档可视高度(随窗口改变大小)
       documentClientHeight: 0,
       // 侧边栏, 布局皮肤, light(浅色) / dark(黑色)
-      sidebarLayoutSkin: 'dark',
+      sidebarLayoutSkin: 'light',
       // 侧边栏, 折叠状态
       sidebarFold: true,
       // 侧边栏, 菜单

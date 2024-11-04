@@ -63,7 +63,6 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const treeDataTranslate: typeof import('./src/utils/index.js')['treeDataTranslate']
   const triggerRef: typeof import('vue')['triggerRef']
-  const unitOption: typeof import('./src/utils/unitOption.js')['unitOption']
   const unref: typeof import('vue')['unref']
   const uploadFile: typeof import('./src/utils/http.js')['uploadFile']
   const useAttrs: typeof import('vue')['useAttrs']

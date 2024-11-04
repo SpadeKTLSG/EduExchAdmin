@@ -16,7 +16,7 @@
                 icon-class="icon-shouye"
                 style="font-size: 16px; margin-right: 3px !important"
               />
-              <span style="font-size: 14px">首页</span>
+              <span style="font-size: 14px">仪表盘</span>
             </div>
           </li>
         </ul>
@@ -48,6 +48,7 @@
                   style="font-size: 14px"
                 >{{ menu.name }}</span>
               </div>
+
               <div
                 v-else
                 :class="{
@@ -69,6 +70,7 @@
                   style="font-size: 14px"
                 >{{ menu.name }}</span>
               </div>
+
             </li>
           </template>
         </ul>
@@ -293,7 +295,7 @@ const routeJump = menu => {
 }
 
 .menu-left-active {
-  background-color: #ffffff;
+  background-color: #0ed9cf;
   color: #155bd4;
   stroke: #155bd4 !important;
 }

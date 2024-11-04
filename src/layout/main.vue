@@ -33,9 +33,11 @@ const commonStore = useCommonStore()
 const documentClientHeight = computed(() => commonStore.documentClientHeight)
 const userStore = useUserStore()
 const sidebarFold = computed(() => commonStore.sidebarFold)
+
 onMounted(() => {
   resetDocumentClientHeight()
 })
+
 const resetDocumentClientHeight = () => {
   commonStore.documentClientHeight = document.documentElement.clientHeight
   window.onresize = () => {
@@ -44,7 +46,10 @@ const resetDocumentClientHeight = () => {
 }
 
 const loading = ref(true)
-// 获取当前管理员信息
+
+/**
+ * 获取用户信息 -> TL
+ */
 const getUserInfo = () => {
   http({
     url: http.adornUrl('/sys/user/info'),
@@ -60,4 +65,5 @@ const getUserInfo = () => {
   }).catch(() => {
   })
 }
+
 </script>

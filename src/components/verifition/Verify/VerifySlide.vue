@@ -54,6 +54,7 @@
   </div>
 </template>
 <script type="text/babel">
+
 /**
  * VerifySlide
  * @description 滑块

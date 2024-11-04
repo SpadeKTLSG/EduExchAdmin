@@ -1,5 +1,8 @@
 import {defineStore} from 'pinia'
 
+/**
+ * 用户信息  -> TL
+ */
 export const useUserStore = defineStore('user', {
   state: () => {
     return {

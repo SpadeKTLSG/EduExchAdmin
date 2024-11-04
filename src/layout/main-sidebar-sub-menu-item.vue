@@ -68,12 +68,12 @@ const props = defineProps({
     default: ''
   }
 })
+
 const item = ref(props.expandMenu)
-
 const selectRightId = computed(() => commonStore.selectRightId)
-
 const commonStore = useCommonStore()
 const router = useRouter()
+
 // 监听路由
 watch(
   () => router.currentRoute,
@@ -81,6 +81,7 @@ watch(
     routeHandle(route)
   }
 )
+
 // 路由操作
 const routeHandle = route => {
   if (route.meta.isTab) {
@@ -95,7 +96,10 @@ const gotoRouteHandle = menu => {
   }
   router.push({name: menu.url})
 }
+
 </script>
+
+
 <style lang="scss" scoped>
 .menu-mod {
   .menu-right-el-item {
@@ -106,7 +110,7 @@ const gotoRouteHandle = menu => {
 
     &.menu-active {
       background-color: #e7eefb;
-      color: #155bd4;
+      color: #15d41b;
     }
 
     :deep(.el-menu-item-group__title) {
@@ -123,7 +127,7 @@ const gotoRouteHandle = menu => {
     white-space: nowrap;
   }
 
-  .el-sub-menu .menu-right-el-item.el-menu-item span {
+  .el-sub-menu .menu-right-el-item .el-menu-item span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

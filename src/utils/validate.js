@@ -40,8 +40,6 @@ export function isQq(s) {
 
 /**
  * 判断是否全为空格 只要有一个其他字符返回false
- * @param {String} str
- * @returns {Boolean}
  */
 export function validNoEmptySpace(str) {
   const reg = /^\s+$/g

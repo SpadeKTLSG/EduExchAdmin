@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <div class="login-box">
+
       <div class="top">
         <div class="logo">
           <img
@@ -9,6 +10,7 @@
           >
         </div>
       </div>
+      
       <div class="mid">
         <el-form
           ref="dataFormRef"

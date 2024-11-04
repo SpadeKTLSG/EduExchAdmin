@@ -14,7 +14,6 @@ import '@smallwei/avue/lib/index.css'
 import '@/styles/index.scss'
 // svg
 import 'virtual:svg-icons-register'
-import svgIcon from '@/static/SvgIcon.vue'
 
 moment.locale('zh-cn', {
   longDateFormat: {
@@ -37,7 +36,6 @@ app.use(router)
 const pinia = createPinia()
 app.use(pinia)
 
-app.component('SvgIcon', svgIcon)
 
 // Avue
 app.use(Avue)

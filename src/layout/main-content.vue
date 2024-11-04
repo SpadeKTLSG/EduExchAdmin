@@ -18,18 +18,10 @@
       :class="{ 'site-content--tabs': route.meta.isTab }"
       class="site-content"
     >
-      <!-- 主入口标签页 (发布商品) -->
-      <div
-        v-if="route.name === 'prod-post-product/postProduct'"
-        :style="siteContentViewHeight"
-      >
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
-      </div>
+      <!-- 如果这不是首页 -->
       <el-card
-        v-else-if="homeHidden"
-        :body-style="siteContentViewHeight"
+        v-if="homeHidden"
+        :style="siteContentViewHeight"
         class="card-content-h"
         style="border-radius: 0 !important; box-shadow: none"
       >
@@ -48,9 +40,11 @@ import {useCommonStore} from "@/layout/common.js";
 
 const route = useRoute()
 const documentClientHeight = ref(document.documentElement.clientHeight)
+
 window.addEventListener('resize', () => {
   documentClientHeight.value = document.documentElement.clientHeight
 })
+
 const siteContentViewHeight = computed(() => {
   let height = documentClientHeight.value - 50 - 30 - 2
   if (route.meta.isTab) {

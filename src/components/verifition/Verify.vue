@@ -29,9 +29,10 @@
   </div>
 </template>
 <script type="text/babel">
+
 /**
  * Verify 验证码组件
- * */
+ */
 import VerifySlide from './Verify/VerifySlide.vue'
 import VerifyPoints from './Verify/VerifyPoints.vue'
 import {computed, ref, toRefs, watchEffect} from 'vue'
