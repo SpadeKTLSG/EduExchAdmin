@@ -1,16 +1,15 @@
 <template>
   <div class="login">
-    <div class="login-box">
-
-      <div class="top">
-        <div class="logo">
-          <img
-            alt=""
-            src="~@/assets/img/login-logo.png"
-          >
-        </div>
+    <div class="top">
+      <div class="logo">
+        <img
+          alt=""
+          src="~@/static/logo.png"
+          style="width: 5%; display: block; margin: 0 auto;"
+        >
       </div>
-      
+    </div>
+    <div class="login-box">
       <div class="mid">
         <el-form
           ref="dataFormRef"
@@ -38,23 +37,24 @@
             <div class="item-btn">
               <input
                 type="button"
-                value="登录"
+                value="发射!"
                 @click="dataFormSubmit()"
               >
             </div>
           </el-form-item>
         </el-form>
-      </div>
-      <div class="bottom">
-        Copyright © 2024 睡眠促进委员会
+
       </div>
     </div>
+
+
     <Verify
       ref="verifyRef"
       :captcha-type="'blockPuzzle'"
       :img-size="{width:'400px',height:'200px'}"
       @success="login"
     />
+
   </div>
 </template>
 
@@ -64,12 +64,21 @@ import {getUUID} from '@/utils'
 import Verify from '@/components/verifition/Verify.vue'
 import cookie from 'vue-cookies'
 
+const router = useRouter()
+const verifyRef = ref(null)
+const dataFormRef = ref(null)
+let isSubmit = false
+
 const dataForm = ref({
   userName: '',
   password: '',
   uuid: '',
   captcha: ''
 })
+
+/**
+ * 表单验证规则
+ */
 const dataRule = {
   userName: [
     {
@@ -97,10 +106,12 @@ const dataRule = {
 onBeforeUnmount(() => {
   document.removeEventListener('keyup', handerKeyup)
 })
+
 onMounted(() => {
   getCaptcha()
   document.addEventListener('keyup', handerKeyup)
 })
+
 const handerKeyup = (e) => {
   const keycode = document.all ? event.keyCode : e.which
   if (keycode === 13) {
@@ -108,9 +119,7 @@ const handerKeyup = (e) => {
   }
 }
 
-const verifyRef = ref(null)
-const dataFormRef = ref(null)
-let isSubmit = false
+
 /**
  * 提交表单
  */
@@ -122,7 +131,18 @@ const dataFormSubmit = () => {
   })
 }
 
-const router = useRouter()
+
+/**
+ * 获取验证码
+ */
+const getCaptcha = () => {
+  // TODO
+  dataForm.value.uuid = getUUID()
+}
+
+/**
+ * 登录
+ */
 const login = (verifyResult) => {
   if (isSubmit) {
     return
@@ -138,26 +158,21 @@ const login = (verifyResult) => {
     })
   }).then(({data}) => {
     cookie.set('Authorization', data.accessToken)
-    router.replace({name: 'home'})
+    router.replace({name: 'home'}) // 跳转到首页
   }).catch(() => {
     isSubmit = false
   })
 }
 
-/**
- * 获取验证码
- */
-const getCaptcha = () => {
-  dataForm.value.uuid = getUUID()
-}
 
 </script>
+
 
 <style lang="scss" scoped>
 .login {
   width: 100%;
   height: 100%;
-  background: url('../../../static/login-bg.png') no-repeat;
+  background: url('../../../static/login-bg.png');
   background-size: cover;
   position: fixed;
 
@@ -167,22 +182,6 @@ const getCaptcha = () => {
     transform: translateX(-50%);
     height: 100%;
     padding-top: 10%;
-
-    .top {
-      margin-bottom: 30px;
-      text-align: center;
-
-      .logo {
-        font-size: 0;
-        max-width: 50%;
-        margin: 0 auto;
-      }
-
-      &:deep(.company) {
-        font-size: 16px;
-        margin-top: 10px;
-      }
-    }
 
     .mid {
       font-size: 14px;
@@ -200,15 +199,6 @@ const getCaptcha = () => {
           border-radius: 3px;
         }
       }
-    }
-
-    .bottom {
-      position: absolute;
-      bottom: 10%;
-      width: 100%;
-      color: #999;
-      font-size: 12px;
-      text-align: center;
     }
   }
 }
