@@ -1,5 +1,5 @@
 <template>
-  <div class="mod-prod-prodTag">
+  <div class="mod-shop-notice">
     <avue-crud
       ref="crudRef"
       :data="dataList"
@@ -10,9 +10,19 @@
       @on-load="getDataList"
       @refresh-change="refreshChange"
     >
+
+      <template #isTop="scope">
+        <el-tag v-if="scope.row.isTop === 0">
+          否
+        </el-tag>
+        <el-tag v-else>
+          是
+        </el-tag>
+      </template>
+
       <template #menu-left>
         <el-button
-          v-if="isAuth('prod:prodTag:save')"
+          v-if="isAuth('shop:notice:save')"
           icon="el-icon-plus"
           type="primary"
           @click="onAddOrUpdate()"
@@ -20,33 +30,10 @@
           新增
         </el-button>
       </template>
-      <template #title="scope">
-        {{ scope.row.title || '-' }}
-      </template>
-      <template #status="scope">
-        <el-tag
-          v-if="scope.row.status === 0"
-          type="danger"
-        >
-          禁用
-        </el-tag>
-        <el-tag v-else>
-          正常
-        </el-tag>
-      </template>
-
-      <template #isDfault="scope">
-        <el-tag v-if="scope.row.isDefault === 0">
-          自定义类型
-        </el-tag>
-        <el-tag v-else>
-          默认类型
-        </el-tag>
-      </template>
 
       <template #menu="scope">
         <el-button
-          v-if="isAuth('prod:prodTag:update')"
+          v-if="isAuth('shop:notice:update')"
           icon="el-icon-edit"
           type="primary"
           @click="onAddOrUpdate(scope.row.id)"
@@ -54,7 +41,7 @@
           修改
         </el-button>
         <el-button
-          v-if="isAuth('prod:prodTag:delete')"
+          v-if="isAuth('shop:notice:delete')"
           icon="el-icon-delete"
           type="danger"
           @click.stop="onDelete(scope.row.id)"
@@ -63,37 +50,51 @@
         </el-button>
       </template>
     </avue-crud>
+
     <add-or-update
       v-if="addOrUpdateVisible"
       ref="addOrUpdateRef"
+      @close="addOrUpdateVisible=false"
       @refresh-data-list="refreshChange"
     />
   </div>
 </template>
 
 <script setup>
-import {isAuth} from '@/utils'
+import {isAuth} from '@/utils/index.js'
 import {ElMessage, ElMessageBox} from 'element-plus'
-import {tableOption} from '@/crud/prod/prodTag.js'
+import {tableOption} from '@/crud/shop/notice.js'
 import AddOrUpdate from './add-or-update.vue'
 
+
+// 数据列表 + 分页
 const dataList = ref([])
 const page = reactive({
   total: 0, // 总页数
   currentPage: 1, // 当前页数
   pageSize: 10 // 每页显示多少条
 })
-const dataListLoading = ref(false)
+const dataListLoading = ref(false) // 数据列表加载状态
+const addOrUpdateVisible = ref(false) // 新增 / 修改弹窗
+const addOrUpdateRef = ref(null) // 新增 / 修改弹窗引用
 
+/**
+ * 获取数据列表
+ * @param pageParam
+ * @param params
+ * @param done
+ */
 const getDataList = (pageParam, params, done) => {
   dataListLoading.value = true
+
   http({
-    url: http.adornUrl('/prod/prodTag/page'),
+    url: http.adornUrl('/shop/notice/page'),
     method: 'get',
-    params: http.adornParams(Object.assign({
-      current: pageParam == null ? page.currentPage : pageParam.currentPage,
-      size: pageParam == null ? page.pageSize : pageParam.pageSize
-    }, params))
+    params: http.adornParams(
+      Object.assign({
+        current: pageParam == null ? page.currentPage : pageParam.currentPage,
+        size: pageParam == null ? page.pageSize : pageParam.pageSize
+      }, params))
   })
     .then(({data}) => {
       dataList.value = data.records
@@ -103,10 +104,9 @@ const getDataList = (pageParam, params, done) => {
     })
 }
 
-const addOrUpdateVisible = ref(false)
-const addOrUpdateRef = ref(null)
+
 /**
- * 新增 / 修改
+ * 新增 / 修改 -> 弹窗
  * @param id
  */
 const onAddOrUpdate = (id) => {
@@ -116,6 +116,10 @@ const onAddOrUpdate = (id) => {
   })
 }
 
+/**
+ * 删除
+ * @param id
+ */
 const onDelete = (id) => {
   ElMessageBox.confirm('确定进行删除操作?', '提示', {
     confirmButtonText: '确定',
@@ -124,7 +128,7 @@ const onDelete = (id) => {
   })
     .then(() => {
       http({
-        url: http.adornUrl('/prod/prodTag/' + id),
+        url: http.adornUrl('/shop/notice/' + id),
         method: 'delete',
         data: http.adornData({})
       })
@@ -134,24 +138,24 @@ const onDelete = (id) => {
             type: 'success',
             duration: 1500,
             onClose: () => {
-              getDataList(page)
+              getDataList()
             }
           })
         })
     }).catch(() => {
   })
 }
+
 /**
  * 刷新回调
  */
 const refreshChange = () => {
   getDataList(page)
 }
+
 const onSearch = (params, done) => {
   getDataList(page, params, done)
 }
 
 </script>
 
-<style lang="scss" scoped>
-</style>

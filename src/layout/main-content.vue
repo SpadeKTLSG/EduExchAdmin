@@ -63,6 +63,7 @@ const commonStore = useCommonStore()
 const selectMenu = computed(() => commonStore.selectMenu)
 const homeHidden = computed(() => route.name !== 'home')
 </script>
+
 <style scoped>
 .main-head {
   background: #ffffff;
