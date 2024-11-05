@@ -6,7 +6,7 @@
           400
         </h2>
         <p class="not-found-desc">
-          抱歉！您访问的页面<em>失联</em>啦 ...
+          抱歉！您访问的页面<em>走丢</em>啦 ...
         </p>
         <el-button @click="$router.go(-1)">
           返回上一页

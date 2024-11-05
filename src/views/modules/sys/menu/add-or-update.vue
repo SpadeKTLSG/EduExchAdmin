@@ -11,6 +11,8 @@
       label-width="80px"
       @keyup.enter="onSubmit()"
     >
+
+
       <el-form-item
         label="类型"
         prop="type"
@@ -25,6 +27,8 @@
           </el-radio>
         </el-radio-group>
       </el-form-item>
+
+
       <el-form-item
         :label="dataForm.typeList[dataForm.type] + '名称'"
         prop="name"
@@ -34,6 +38,8 @@
           :placeholder="dataForm.typeList[dataForm.type] + '名称'"
         />
       </el-form-item>
+
+
       <el-form-item label="上级菜单">
         <el-cascader
           v-model="selectedMenu"
@@ -45,6 +51,8 @@
           @change="handleSelectMenuChange"
         />
       </el-form-item>
+
+
       <el-form-item
         v-if="dataForm.type === 1"
         label="菜单路由"
@@ -55,16 +63,8 @@
           placeholder="菜单路由"
         />
       </el-form-item>
-      <el-form-item
-        v-if="dataForm.type !== 0"
-        label="授权标识"
-        prop="perms"
-      >
-        <el-input
-          v-model="dataForm.perms"
-          placeholder="多个用逗号分隔, 如: user:list,user:create"
-        />
-      </el-form-item>
+
+
       <el-form-item
         v-if="dataForm.type !== 2"
         label="排序号"
@@ -77,59 +77,10 @@
           label="排序号"
         />
       </el-form-item>
-      <el-form-item
-        v-if="dataForm.type !== 2"
-        label="菜单图标"
-        prop="icon"
-      >
-        <el-row>
-          <el-col :span="22">
-            <el-input
-              ref="iconInputRef"
-              v-model="dataForm.icon"
-              :virtual-ref="iconListPopoverRef"
-              clearable
-              placeholder="菜单图标名称"
-            />
-            <el-popover
-              ref="iconListPopoverRef"
-              :popper-style="iconPopoverClass"
-              :virtual-ref="iconInputRef"
-              placement="bottom-start"
-              style="width: 390px"
-              trigger="click"
-              virtual-triggering
-            >
-              <el-button
-                v-for="(item, index) in iconList"
-                :key="index"
-                :class="{ 'is-active': item === dataForm.icon }"
-                style="padding: 8px; margin: 8px 0 0 8px"
-                @click="iconActiveHandle(item)"
-              >
-                <svg-icon
-                  :icon-class="`${item}`"
-                />
-              </el-button>
-            </el-popover>
-          </el-col>
-          <el-col
-            :span="2"
-            class="icon-list__tips"
-          >
-            <el-tooltip
-              effect="light"
-              placement="top"
-            >
-              <template #content>
-                <div>全站推荐使用SVG Sprite, 详细请参考:icons/index.js 描述</div>
-              </template>
-              <i class="el-icon-warning"/>
-            </el-tooltip>
-          </el-col>
-        </el-row>
-      </el-form-item>
+
     </el-form>
+
+
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="visible = false">取消</el-button>
@@ -141,51 +92,20 @@
         </el-button>
       </span>
     </template>
+
   </el-dialog>
 </template>
 
+
 <script setup>
-import {idList, treeDataTranslate} from '@/utils'
+import {treeDataTranslate} from '@/utils'
 import {ElMessage} from 'element-plus'
 
-const emit = defineEmits(['refreshDataList'])
-const iconInputRef = ref(null)
-const iconListPopoverRef = ref(null)
-const iconPopoverClass = computed(() => {
-  return {
-    width: '396px'
-  }
-})
 
+const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
-const dataForm = reactive({
-  id: 0,
-  type: 1,
-  typeList: ['目录', '菜单', '按钮'],
-  name: '',
-  parentId: 0,
-  url: '',
-  perms: '',
-  orderNum: 0,
-  icon: '',
-  iconList: []
-})
 const menuList = ref([])
 const selectedMenu = ref([])
-const menuListTreeProps = {
-  value: 'menuId',
-  label: 'name',
-  checkStrictly: true
-}
-
-// eslint-disable-next-line no-unused-vars
-const validateUrl = (rule, value, callback) => {
-  if (dataForm.type === 1 && !/\S/.test(value)) {
-    callback(new Error('菜单URL不能为空'))
-  } else {
-    callback()
-  }
-}
 const dataRule = ref({
   name: [
     {
@@ -193,40 +113,50 @@ const dataRule = ref({
       message: '菜单名称不能为空',
       trigger: 'blur'
     },
-    {
-      pattern: /\s\S+|S+\s|\S/,
-      message: '请输入正确的菜单名称',
-      trigger: 'blur'
-    }
-  ],
-  url: [
-    {
-      validator: validateUrl,
-      trigger: 'blur'
-    }
   ]
 })
 
-onMounted(() => {
-  onLoadIcons()
-})
-const iconList = []
 /**
- * 加载图标
+ * 树形结构配置
  */
-const onLoadIcons = () => {
-  const icons = import.meta.glob('@/icons/svg/*.svg')
-  for (const icon in icons) {
-    const iconName = icon.split('/src/icons/svg/')[1].split('.svg')[0]
-    iconList.push(iconName)
-  }
+const menuListTreeProps = {
+  value: 'menuId',
+  label: 'name',
+  checkStrictly: true
 }
 
+/**
+ * 表单数据
+ */
+const dataForm = reactive({
+  id: 0,
+  type: 1,
+  typeList: ['目录', '菜单', '按钮'],
+  name: '',
+  parentId: 0,
+  url: '',
+  orderNum: 0
+})
 const dataFormRef = ref(null)
+
+
+/**
+ * 选择菜单表单的变化响应: 获取表单树
+ * @param val
+ */
+const handleSelectMenuChange = (val) => {
+  dataForm.parentId = val[val.length - 1]   //bug here
+}
+
+/**
+ * 初始化
+ * @param id
+ */
 const init = (id) => {
-  dataForm.id = id || 0
+  dataForm.id = id || 0 //获取对象id
+  // 获取树形结构
   http({
-    url: http.adornUrl('/sys/menu/list'),
+    url: http.adornUrl('/admin/eemfront/table/nobutton'),
     method: 'get',
     params: http.adornParams()
   })
@@ -234,69 +164,56 @@ const init = (id) => {
       menuList.value = treeDataTranslate(data, 'menuId')
     })
     .then(() => {
-      visible.value = true
+      visible.value = true // 显示弹窗
       nextTick(() => {
-        dataFormRef.value?.resetFields()
+        dataFormRef.value?.resetFields() // 重置表单
       })
     })
     .then(() => {
-      if (dataForm.id) {
-        // 修改
-        http({
-          url: http.adornUrl(`/sys/menu/info/${dataForm.id}`),
+      if (dataForm.id) { // 修改
+        http({ // 获取当前对象数据
+          url: http.adornUrl(`/admin/eemfront/table/info/${dataForm.id}`),
           method: 'get',
           params: http.adornParams()
-        }).then(({data}) => {
+        }).then((response) => {
+          const data = response.data.data
           dataForm.id = data.menuId
           dataForm.type = data.type
           dataForm.name = data.name
           dataForm.parentId = data.parentId
           dataForm.url = data.url
-          dataForm.perms = data.perms
           dataForm.orderNum = data.orderNum
-          dataForm.icon = data.icon
-          selectedMenu.value = idList(menuList.value, data.parentId, 'menuId', 'children').reverse()
+          selectedMenu.value = idList(menuList.value, dataForm.parentId, "menuId").reverse() //bug here
         })
       } else {
-        selectedMenu.value = []
+        selectedMenu.value = [] // 新增
       }
     })
 }
 defineExpose({init})
 
-const handleSelectMenuChange = (val) => {
-  dataForm.parentId = val[val.length - 1]
-}
+
 /**
- * 图标选中
- * @param iconName
- */
-const iconActiveHandle = (iconName) => {
-  dataForm.icon = iconName
-}
-/**
- * 表单提交
+ * 表单提交 (未实现, 直接后端去改就行)
  */
 const onSubmit = Debounce(() => {
   dataFormRef.value?.validate((valid) => {
     if (valid) {
       http({
-        url: http.adornUrl('/sys/menu'),
+        url: http.adornUrl('/admin/eemfront/table/one'),
         method: dataForm.id ? 'put' : 'post',
         data: http.adornData({
-          menuId: dataForm.id || undefined,
+          menuId: undefined,
           type: dataForm.type,
           name: dataForm.name,
           parentId: dataForm.parentId,
           url: dataForm.url,
-          perms: dataForm.perms,
           orderNum: dataForm.orderNum,
-          icon: dataForm.icon
         })
       })
         .then(() => {
           ElMessage({
-            message: '操作成功',
+            message: '该功能暂未实现',
             type: 'success',
             duration: 1500,
             onClose: () => {
@@ -304,8 +221,16 @@ const onSubmit = Debounce(() => {
               emit('refreshDataList')
             }
           })
+        }).catch(() => {
+        ElMessage({
+          message: '操作失败',
+          type: 'error',
+          duration: 1500
         })
+      })
     }
   })
 })
+
+
 </script>

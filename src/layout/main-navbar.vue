@@ -24,14 +24,7 @@
 
       <!--右侧-->
       <div class="site-navbar-content">
-        <div class="navbar-content-left">
-          <svg-icon
-            class="left-item"
-            icon-class="icon-zhedie"
-
-          />
-        </div>
-
+        
         <div class="navbar-content-right">
           <el-dropdown
             :show-timeout="0"

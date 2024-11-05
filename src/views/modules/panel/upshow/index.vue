@@ -61,17 +61,18 @@
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
-
+//TODO 未完成
 // 数据列表 + 分页
 const dataList = ref([])
+const dataListLoading = ref(false) // 数据列表加载状态
+const addOrUpdateVisible = ref(false) // 新增 / 修改弹窗
+const addOrUpdateRef = ref(null) // 新增 / 修改弹窗引用
 const page = reactive({
   total: 0, // 总页数
   currentPage: 1, // 当前页数
   pageSize: 10 // 每页显示多少条
 })
-const dataListLoading = ref(false) // 数据列表加载状态
-const addOrUpdateVisible = ref(false) // 新增 / 修改弹窗
-const addOrUpdateRef = ref(null) // 新增 / 修改弹窗引用
+
 
 /**
  * 获取数据列表
@@ -147,6 +148,7 @@ const onDelete = (id) => {
 const refreshChange = () => {
   getDataList(page)
 }
+
 
 const onSearch = (params, done) => {
   getDataList(page, params, done)

@@ -102,13 +102,12 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
 
-onMounted(() => {
-  getDataList()
-})
-
+//TODO 未完成
 const dataForm = ref({})
 const dataList = ref([])
 const dataListLoading = ref(false)
+const addOrUpdateVisible = ref(false)
+const addOrUpdateRef = ref(null)
 
 
 /**
@@ -122,13 +121,14 @@ const getDataList = () => {
     params: http.adornParams()
   })
     .then(({data}) => {
-      dataList.value = treeDataTranslate(data, 'categoryId', 'parentId')
+      dataList.value = treeDataTranslate(data, 'categoryId', 'parentId') //这部分未来不需要
       dataListLoading.value = false
     })
 }
 
-const addOrUpdateVisible = ref(false)
-const addOrUpdateRef = ref(null)
+onMounted(() => {
+  getDataList()
+})
 
 
 /**

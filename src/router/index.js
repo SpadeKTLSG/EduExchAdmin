@@ -96,59 +96,62 @@ router.beforeEach((to, from, next) => {
   } else {
     // 2. 获取菜单列表, 添加并保存本地存储
     http({
-      url: http.adornUrl('/sys/menu/nav'),
+      url: http.adornUrl('/admin/eemfront/nav'),
       method: 'get',
       params: http.adornParams()
-    }).then(({data}) => {
-      // sessionStorage.setItem('Authorities', JSON.stringify(data.authorities || '[]'))
+    })
+      .then((response) => {
+        if (!response.data.success) console.error("Fail to get Nav")
 
-      fnAddDynamicMenuRoutes(data.menuList)
+        // sessionStorage.setItem('Authorities', JSON.stringify(data.authorities || '[]'))
+        const menuList = response.data.data;
+        fnAddDynamicMenuRoutes(menuList)
 
-      router.options.isAddDynamicMenuRoutes = true
-      const rList = []
-      data.menuList.forEach(item => {
-        item.isLeftMenu = item.parentId === 0
-        rList.push({
-          menuId: item.menuId,
-          name: item.name,
-          parentId: item.parentId,
-          url: item.url
-        })
-        if (item.list) {
-          item.list.forEach(item1 => {
-            item1.isLeftMenu = item1.parentId === 0
-            rList.push({
-              menuId: item1.menuId,
-              name: item1.name,
-              parentId: item1.parentId,
-              url: item1.url
-            })
-            if (item1.list) {
-              item1.list.forEach(item2 => {
-                item2.isLeftMenu = item2.parentId === 0
-                rList.push({
-                  menuId: item2.menuId,
-                  name: item2.name,
-                  parentId: item2.parentId,
-                  url: item2.url
-                })
-              })
-            }
+        router.options.isAddDynamicMenuRoutes = true
+        const rList = []
+        menuList.forEach(item => {
+          item.isLeftMenu = item.parentId === 0
+          rList.push({
+            menuId: item.menuId,
+            name: item.name,
+            parentId: item.parentId,
+            url: item.url
           })
-        }
-      })
-      fnAddDynamicMenuRoutes(data.menuList)
-      sessionStorage.setItem('menuList', JSON.stringify(data.menuList || '[]'))
-      commonStore.updateRouteList(rList)
-      commonStore.updateMenuIds(rList)
-      next({
-        ...to,
-        replace: true
-      })
-    }).catch(e => {
-      // eslint-disable-next-line no-console
+          if (item.list) {
+            item.list.forEach(item1 => {
+              item1.isLeftMenu = item1.parentId === 0
+              rList.push({
+                menuId: item1.menuId,
+                name: item1.name,
+                parentId: item1.parentId,
+                url: item1.url
+              })
+              if (item1.list) {
+                item1.list.forEach(item2 => {
+                  item2.isLeftMenu = item2.parentId === 0
+                  rList.push({
+                    menuId: item2.menuId,
+                    name: item2.name,
+                    parentId: item2.parentId,
+                    url: item2.url
+                  })
+                })
+              }
+            })
+          }
+        })
+        fnAddDynamicMenuRoutes(menuList)
+        sessionStorage.setItem('menuList', JSON.stringify(menuList || '[]'))
+        commonStore.updateRouteList(rList)
+        commonStore.updateMenuIds(rList)
+        next({
+          ...to,
+          replace: true
+        })
+      }).catch(e => {
       console.log(`%c${e} 请求菜单列表和权限失败，跳转至登录页！！`, 'color:blue')
-      router.push({name: 'login'})
+      router.push({name: 'login'}).then(r => {
+      })
     })
   }
 })

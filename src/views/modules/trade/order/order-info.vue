@@ -293,9 +293,15 @@
   </el-dialog>
 </template>
 
+
 <script setup>
 
 const resourcesUrl = import.meta.env.VITE_APP_RESOURCES_URL
+const visible = ref(false)
+const devyVisible = ref(false)
+const dataFormRef = ref(null)
+const devyAddRef = ref(null)
+
 const dataForm = ref({
   orderId: 0,
   orderNumber: '',
@@ -332,8 +338,7 @@ const stepsStatus = computed(() => {
   return ''
 })
 
-const visible = ref(false)
-const devyVisible = ref(false)
+
 watch(
   () => visible.value,
   () => {
@@ -343,7 +348,6 @@ watch(
   }
 )
 
-const dataFormRef = ref(null)
 
 const init = (orderNumber) => {
   dataForm.value.orderNumber = orderNumber || 0
@@ -365,6 +369,7 @@ const init = (orderNumber) => {
 }
 defineExpose({init})
 
+
 const getDataList = () => {
   http({
     url: http.adornUrl(`/order/order/orderInfo/${dataForm.value.orderNumber}`),
@@ -376,7 +381,6 @@ const getDataList = () => {
     })
 }
 
-const devyAddRef = ref(null)
 /**
  * 发货
  * @param orderNumber
@@ -388,158 +392,3 @@ const changeOrder = (orderNumber) => {
   })
 }
 </script>
-
-<style lang="scss" scoped>
-.main {
-  height: 100%;
-  width: 100%;
-  font: 14px Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  color: #495060;
-}
-
-.content {
-  margin: 0 20px;
-
-  .order-state {
-    position: relative;
-    margin-top: 50px;
-    border-bottom: 1px solid #e9eaec;
-  }
-}
-
-.order-number {
-  .text {
-    font-size: 14px;
-    color: #8a8a8a;
-  }
-}
-
-.order-state {
-  .state-title {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .order-info {
-    width: 100%;
-    border-top: 1px solid #e9eaec;
-    margin: 50px 0;
-    display: flex;
-  }
-
-  .item-info {
-    padding-left: 80%;
-    margin: 25px 0;
-  }
-}
-
-.order-info {
-  img {
-    width: 18px !important;
-    height: 18px !important;
-    margin-right: 15px;
-  }
-
-  .detail-title {
-    height: 50px;
-    line-height: 50px;
-    display: flex;
-    align-items: center;
-  }
-
-  .order-details {
-    width: 50%;
-    border-right: 1px solid #e9eaec;
-  }
-
-  .detail-cont {
-    position: relative;
-    border-top: 1px dashed #e9eaec;
-    margin: 15px 20px 0 0;
-  }
-
-  .buyers {
-    width: 50%;
-    margin-left: 20px;
-  }
-}
-
-.detail-cont {
-  .detail01 {
-    display: flex;
-    height: 100%;
-    line-height: 25px;
-    margin-top: 15px;
-  }
-}
-
-.detail01 {
-  .text-width {
-    width: 100%;
-  }
-}
-
-.detail02 {
-  .text-width {
-    width: 100%;
-  }
-}
-
-.buyers {
-  .buyers-info {
-    border-top: 1px dashed #e9eaec;
-    margin-top: 15px;
-    position: relative;
-  }
-
-  .detail02 {
-    display: flex;
-    height: 100%;
-    line-height: 25px;
-    margin-top: 15px;
-  }
-}
-
-.item-info {
-  span {
-    margin-bottom: 15px;
-    line-height: 30px;
-  }
-
-  .text {
-    position: absolute;
-    right: 0;
-  }
-}
-
-.order-log {
-  .log-title {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
-    font-weight: bold;
-  }
-
-  .log-cont {
-    color: #4395ff;
-  }
-}
-
-.item-list {
-  .prod-con {
-    display: flex;
-
-    .prod-img {
-      width: 100px;
-      height: 100px;
-      margin-right: 8px;
-    }
-  }
-}
-
-:deep(.el-steps--horizontal) {
-  flex: 25% 1 1;
-}
-</style>

@@ -1,5 +1,6 @@
 <template>
   <div class="mod-menu">
+
     <el-form
       :inline="true"
       :model="dataForm"
@@ -13,12 +14,14 @@
         </el-button>
       </el-form-item>
     </el-form>
+
     <el-table
       :data="dataList"
       border
       row-key="menuId"
       style="width: 100%;"
     >
+
       <el-table-column
         header-align="center"
         label="名称"
@@ -26,17 +29,7 @@
         tree-key="menuId"
         width="150"
       />
-      <el-table-column
-        align="center"
-        header-align="center"
-        label="图标"
-      >
-        <template #default="scope">
-          <svg-icon
-            :icon-class="`icon-${scope.row.icon}`"
-          />
-        </template>
-      </el-table-column>
+
       <el-table-column
         align="center"
         header-align="center"
@@ -65,12 +58,14 @@
           </el-tag>
         </template>
       </el-table-column>
+
       <el-table-column
         align="center"
         header-align="center"
         label="排序号"
         prop="orderNum"
       />
+
       <el-table-column
         :show-overflow-tooltip="true"
         align="center"
@@ -83,18 +78,8 @@
           {{ scope.row.url || '-' }}
         </template>
       </el-table-column>
-      <el-table-column
-        :show-overflow-tooltip="true"
-        align="center"
-        header-align="center"
-        label="授权标识"
-        prop="perms"
-        width="150"
-      >
-        <template #default="scope">
-          {{ scope.row.perms || '-' }}
-        </template>
-      </el-table-column>
+
+
       <el-table-column
         align="center"
         fixed="right"
@@ -118,6 +103,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update
       v-if="addOrUpdateVisible"
@@ -133,26 +119,31 @@ import {treeDataTranslate} from '@/utils'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AddOrUpdate from './add-or-update.vue'
 
+
 const dataForm = ref({})
+const dataList = ref([])
+const addOrUpdateRef = ref(null)
+const addOrUpdateVisible = ref(false)
+
 onMounted(() => {
   getDataList()
 })
 
-const dataList = ref([])
+
 /**
  * 获取数据列表
  */
 const getDataList = () => {
   http({
-    url: http.adornUrl('/sys/menu/table'),
+    url: http.adornUrl('/admin/eemfront/table'),
     method: 'get',
     params: http.adornParams()
-  }).then(({data}) => {
-    dataList.value = treeDataTranslate(data, 'menuId')
+  }).then((response) => {
+    dataList.value = treeDataTranslate(response.data.data, 'menuId')
   })
 }
-const addOrUpdateRef = ref(null)
-const addOrUpdateVisible = ref(false)
+
+
 /**
  * 新增 / 修改
  * @param id
@@ -163,6 +154,8 @@ const onAddOrUpdate = (id) => {
     addOrUpdateRef.value?.init(id)
   })
 }
+
+
 /**
  * 删除
  * @param id
@@ -174,7 +167,7 @@ const onDelete = (id) => {
     type: 'warning'
   }).then(() => {
     http({
-      url: http.adornUrl(`/sys/menu/${id}`),
+      url: http.adornUrl(`/admin/eemfront/table/${id}`),
       method: 'delete',
       data: http.adornData()
     }).then(() => {

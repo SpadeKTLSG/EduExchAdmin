@@ -25,11 +25,13 @@ import MainContent from './main-content.vue'
 import {useCommonStore} from "@/layout/common.js";
 
 const commonStore = useCommonStore()
-const loading = ref(true)
+let loading = ref(true)
 
 onBeforeMount(() => {
   // 不需要获取用户信息, 后端存TL做
+  loading = false
 })
+
 onMounted(() => {
   resetDocumentClientHeight()
 })

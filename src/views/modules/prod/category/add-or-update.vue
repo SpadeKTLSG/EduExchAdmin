@@ -4,6 +4,7 @@
     :close-on-click-modal="false"
     :title="!dataForm.currentId ? '新增' : '修改'"
   >
+
     <el-form
       ref="dataFormRef"
       :model="dataForm"
@@ -49,6 +50,8 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
+
+
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="visible = false">
@@ -96,15 +99,12 @@ const dataRule = reactive({
     }
   ]
 })
+
 const categoryList = ref([])
 const selectedCategory = ref([])
-const categoryTreeProps = reactive({
-  value: 'categoryId',
-  label: 'categoryName',
-  checkStrictly: true
-})
 const isSubmit = ref(false)
 const dataFormRef = ref(null)
+
 const init = (id) => {
   dataForm.currentId = id || 0
   dataForm.categoryId = id || 0
@@ -145,9 +145,7 @@ const init = (id) => {
 }
 defineExpose({init})
 
-const handleChange = (val) => {
-  dataForm.parentId = val[val.length - 1]
-}
+
 // 表单提交
 const onSubmit = Debounce(() => {
   if (selectedCategory.value.length === 1) {
