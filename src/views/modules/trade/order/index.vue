@@ -1,4 +1,5 @@
 <template>
+
   <div class="mod-order-order">
     <el-form
       :inline="true"
@@ -12,6 +13,7 @@
           placeholder="订单编号"
         />
       </el-form-item>
+
       <el-form-item label="下单时间:">
         <el-date-picker
           v-model="dateRange"
@@ -22,6 +24,7 @@
           value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>
+
       <el-form-item label="订单状态:">
         <el-select
           v-model="dataForm.status"
@@ -53,6 +56,7 @@
         </el-button>
       </el-form-item>
     </el-form>
+
 
     <div class="main">
       <div class="content">
@@ -220,10 +224,18 @@
 <script setup>
 import AddOrUpdate from './order-info.vue'
 
-
+//TODO 未完成
 const resourcesUrl = import.meta.env.VITE_APP_RESOURCES_URL
 const dataForm = ref({})
 const dateRange = ref([])
+const dataList = ref([])
+const addOrUpdateRef = ref(null)
+const addOrUpdateVisible = ref(false)
+const page = reactive({
+  total: 0, // 总页数
+  currentPage: 1, // 当前页数
+  pageSize: 10 // 每页显示多少条
+})
 
 const options = [{
   value: 1,
@@ -250,13 +262,6 @@ const options = [{
     label: '失败'
   }]
 
-
-const dataList = ref([])
-const page = reactive({
-  total: 0, // 总页数
-  currentPage: 1, // 当前页数
-  pageSize: 10 // 每页显示多少条
-})
 
 onMounted(() => {
   getDataList(page)
@@ -291,6 +296,8 @@ const getDataList = (pageParam, params, done) => {
       if (done) done()
     })
 }
+
+
 /**
  * 清除数据
  */
@@ -298,6 +305,7 @@ const clearDatas = () => {
   dataForm.value = {}
   dateRange.value = []
 }
+
 /**
  * 每页数
  * @param val
@@ -307,6 +315,7 @@ const sizeChangeHandle = (val) => {
   page.currentPage = 1
   getDataList(page)
 }
+
 /**
  * 当前页
  * @param val
@@ -316,8 +325,7 @@ const currentChangeHandle = (val) => {
   getDataList(page)
 }
 
-const addOrUpdateRef = ref(null)
-const addOrUpdateVisible = ref(false)
+
 /**
  * 新增 / 修改
  * @param val
@@ -330,154 +338,3 @@ const onAddOrUpdate = (val) => {
 }
 
 </script>
-
-
-<style lang="scss" scoped>
-.mod-order-order {
-  .tit {
-    display: flex;
-    height: 45px;
-    align-items: center;
-  }
-
-  .tit {
-    .item {
-      padding: 0 10px;
-      width: 10%;
-      text-align: center;
-    }
-
-    .product {
-      width: 25%;
-    }
-  }
-
-  .prod-tit {
-    padding: 10px;
-    background: #f8f8f9;
-    border-left: 1px solid #dddee1;
-    border-top: 1px solid #dddee1;
-    border-right: 1px solid #dddee1;
-
-    span {
-      margin-right: 15px;
-    }
-  }
-
-  .prod-cont {
-    display: flex;
-    border-top: 1px solid #dddee1;
-    border-bottom: 1px solid #dddee1;
-    border-left: 1px solid #dddee1;
-    color: #495060;
-
-    .item {
-      display: flex;
-      display: -webkit-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      border-right: 1px solid #dddee1;
-      text-align: center;
-      height: 100%;
-
-      span {
-        display: block;
-      }
-    }
-
-    .prod-item {
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid #dddee1;
-    }
-
-    .items.name {
-      display: flex;
-      position: relative;
-      padding: 20px;
-      border-bottom: 1px solid #dddee1;
-
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-  }
-
-  .prod-name {
-    width: 55%;
-    text-align: left;
-
-    .prod-info {
-      display: block;
-      color: #80848f;
-      margin-top: 30px;
-    }
-  }
-
-  .prod-price {
-    position: absolute;
-    right: 40px;
-    text-align: right;
-
-    span {
-      display: block;
-      margin-bottom: 10px;
-    }
-  }
-
-  .prod-image {
-    margin-right: 20px;
-    width: 100px;
-    height: 100px;
-
-    img {
-      width: 100px;
-      height: 100px;
-    }
-  }
-
-  .item {
-    span {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .operate {
-      color: #2d8cf0;
-    }
-
-    .totalprice {
-      color: #c00;
-    }
-  }
-
-  .prod {
-    .remark {
-      width: 100%;
-      height: 50px;
-      line-height: 50px;
-      background-color: #e8f7f6;
-      border-left: 1px solid #dddee1;
-      border-right: 1px solid #dddee1;
-      border-bottom: 1px solid #dddee1;
-      margin-bottom: 20px;
-    }
-  }
-
-  .buyer-remark {
-    padding: 0 20px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .empty-tips {
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin: 50px 0;
-    color: #999;
-  }
-}
-</style>

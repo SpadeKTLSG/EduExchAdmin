@@ -99,11 +99,12 @@ const dataRule = reactive({
     }
   ]
 })
+
 const categoryList = ref([])
 const selectedCategory = ref([])
-
 const isSubmit = ref(false)
 const dataFormRef = ref(null)
+
 const init = (id) => {
   dataForm.currentId = id || 0
   dataForm.categoryId = id || 0
@@ -143,6 +144,7 @@ const init = (id) => {
     })
 }
 defineExpose({init})
+
 
 // 表单提交
 const onSubmit = Debounce(() => {

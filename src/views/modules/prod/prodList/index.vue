@@ -36,11 +36,10 @@
 <script setup>
 import {ElMessage, ElMessageBox} from 'element-plus'
 
-
-// ? 物资管理 - 商品管理页面
-const router = useRouter() // 路由
+//TODO 未完成
 const dataList = ref([]) // 数据列表
 const dataListLoading = ref(false) // 列表loading判断
+const dataListSelections = ref([])
 const page = reactive({ // 分页参数
   total: 0, // 总页数
   currentPage: 1, // 当前页数
@@ -127,7 +126,7 @@ const onSearch = (params, done) => {
   getDataList(page, params, done)
 }
 
-const dataListSelections = ref([])
+
 /**
  * 多选变化
  * @param val
