@@ -145,9 +145,7 @@ const dataFormRef = ref(null)
  * @param val
  */
 const handleSelectMenuChange = (val) => {
-  dataForm.parentId = val[val.length - 1]
-  //bug here
-
+  dataForm.parentId = val[val.length - 1]   //bug here
 }
 
 /**
@@ -185,8 +183,7 @@ const init = (id) => {
           dataForm.parentId = data.parentId
           dataForm.url = data.url
           dataForm.orderNum = data.orderNum
-          selectedMenu.value = idList(menuList.value, dataForm.parentId, "id").reverse()
-          console.info(selectedMenu.value)
+          selectedMenu.value = idList(menuList.value, dataForm.parentId, "menuId").reverse() //bug here
         })
       } else {
         selectedMenu.value = [] // 新增
@@ -197,28 +194,26 @@ defineExpose({init})
 
 
 /**
- * 表单提交
+ * 表单提交 (未实现, 直接后端去改就行)
  */
 const onSubmit = Debounce(() => {
   dataFormRef.value?.validate((valid) => {
     if (valid) {
       http({
-        url: http.adornUrl('/sys/menu'),
+        url: http.adornUrl('/admin/eemfront/table/one'),
         method: dataForm.id ? 'put' : 'post',
         data: http.adornData({
-          menuId: dataForm.id || undefined,
+          menuId: undefined,
           type: dataForm.type,
           name: dataForm.name,
           parentId: dataForm.parentId,
           url: dataForm.url,
-          perms: dataForm.perms,
           orderNum: dataForm.orderNum,
-          icon: dataForm.icon
         })
       })
         .then(() => {
           ElMessage({
-            message: '操作成功',
+            message: '该功能暂未实现',
             type: 'success',
             duration: 1500,
             onClose: () => {
@@ -226,7 +221,13 @@ const onSubmit = Debounce(() => {
               emit('refreshDataList')
             }
           })
+        }).catch(() => {
+        ElMessage({
+          message: '操作失败',
+          type: 'error',
+          duration: 1500
         })
+      })
     }
   })
 })
