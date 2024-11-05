@@ -11,6 +11,8 @@
       label-width="80px"
       @keyup.enter="onSubmit()"
     >
+
+
       <el-form-item
         label="类型"
         prop="type"
@@ -25,6 +27,8 @@
           </el-radio>
         </el-radio-group>
       </el-form-item>
+
+
       <el-form-item
         :label="dataForm.typeList[dataForm.type] + '名称'"
         prop="name"
@@ -34,6 +38,8 @@
           :placeholder="dataForm.typeList[dataForm.type] + '名称'"
         />
       </el-form-item>
+
+
       <el-form-item label="上级菜单">
         <el-cascader
           v-model="selectedMenu"
@@ -45,6 +51,8 @@
           @change="handleSelectMenuChange"
         />
       </el-form-item>
+
+
       <el-form-item
         v-if="dataForm.type === 1"
         label="菜单路由"
@@ -55,16 +63,8 @@
           placeholder="菜单路由"
         />
       </el-form-item>
-      <el-form-item
-        v-if="dataForm.type !== 0"
-        label="授权标识"
-        prop="perms"
-      >
-        <el-input
-          v-model="dataForm.perms"
-          placeholder="多个用逗号分隔, 如: user:list,user:create"
-        />
-      </el-form-item>
+
+
       <el-form-item
         v-if="dataForm.type !== 2"
         label="排序号"
@@ -77,59 +77,10 @@
           label="排序号"
         />
       </el-form-item>
-      <el-form-item
-        v-if="dataForm.type !== 2"
-        label="菜单图标"
-        prop="icon"
-      >
-        <el-row>
-          <el-col :span="22">
-            <el-input
-              ref="iconInputRef"
-              v-model="dataForm.icon"
-              :virtual-ref="iconListPopoverRef"
-              clearable
-              placeholder="菜单图标名称"
-            />
-            <el-popover
-              ref="iconListPopoverRef"
-              :popper-style="iconPopoverClass"
-              :virtual-ref="iconInputRef"
-              placement="bottom-start"
-              style="width: 390px"
-              trigger="click"
-              virtual-triggering
-            >
-              <el-button
-                v-for="(item, index) in iconList"
-                :key="index"
-                :class="{ 'is-active': item === dataForm.icon }"
-                style="padding: 8px; margin: 8px 0 0 8px"
-                @click="iconActiveHandle(item)"
-              >
-                <svg-icon
-                  :icon-class="`${item}`"
-                />
-              </el-button>
-            </el-popover>
-          </el-col>
-          <el-col
-            :span="2"
-            class="icon-list__tips"
-          >
-            <el-tooltip
-              effect="light"
-              placement="top"
-            >
-              <template #content>
-                <div>全站推荐使用SVG Sprite, 详细请参考:icons/index.js 描述</div>
-              </template>
-              <i class="el-icon-warning"/>
-            </el-tooltip>
-          </el-col>
-        </el-row>
-      </el-form-item>
+
     </el-form>
+
+
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="visible = false">取消</el-button>
@@ -141,22 +92,16 @@
         </el-button>
       </span>
     </template>
+
   </el-dialog>
 </template>
+
 
 <script setup>
 import {idList, treeDataTranslate} from '@/utils'
 import {ElMessage} from 'element-plus'
 
 const emit = defineEmits(['refreshDataList'])
-const iconInputRef = ref(null)
-const iconListPopoverRef = ref(null)
-const iconPopoverClass = computed(() => {
-  return {
-    width: '396px'
-  }
-})
-
 const visible = ref(false)
 const dataForm = reactive({
   id: 0,
@@ -170,6 +115,7 @@ const dataForm = reactive({
   icon: '',
   iconList: []
 })
+
 const menuList = ref([])
 const selectedMenu = ref([])
 const menuListTreeProps = {
@@ -178,7 +124,6 @@ const menuListTreeProps = {
   checkStrictly: true
 }
 
-// eslint-disable-next-line no-unused-vars
 const validateUrl = (rule, value, callback) => {
   if (dataForm.type === 1 && !/\S/.test(value)) {
     callback(new Error('菜单URL不能为空'))
@@ -186,6 +131,8 @@ const validateUrl = (rule, value, callback) => {
     callback()
   }
 }
+
+
 const dataRule = ref({
   name: [
     {
@@ -207,20 +154,6 @@ const dataRule = ref({
   ]
 })
 
-onMounted(() => {
-  onLoadIcons()
-})
-const iconList = []
-/**
- * 加载图标
- */
-const onLoadIcons = () => {
-  const icons = import.meta.glob('@/icons/svg/*.svg')
-  for (const icon in icons) {
-    const iconName = icon.split('/src/icons/svg/')[1].split('.svg')[0]
-    iconList.push(iconName)
-  }
-}
 
 const dataFormRef = ref(null)
 const init = (id) => {
@@ -267,13 +200,8 @@ defineExpose({init})
 const handleSelectMenuChange = (val) => {
   dataForm.parentId = val[val.length - 1]
 }
-/**
- * 图标选中
- * @param iconName
- */
-const iconActiveHandle = (iconName) => {
-  dataForm.icon = iconName
-}
+
+
 /**
  * 表单提交
  */
