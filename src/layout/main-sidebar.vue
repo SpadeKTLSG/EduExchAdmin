@@ -12,10 +12,6 @@
               }"
               @click="toHome()"
             >
-              <svg-icon
-                icon-class="icon-shouye"
-                style="font-size: 16px; margin-right: 3px !important"
-              />
               <span style="font-size: 14px">仪表盘</span>
             </div>
           </li>
@@ -37,11 +33,6 @@
                 ]"
                 @click="expandMenu(menu)"
               >
-                <svg-icon
-                  v-if="menu.icon"
-                  :icon-class="`icon-${menu.icon}`"
-                  style="font-size: 16px; margin-right: 3px !important"
-                />
                 <span
                   :title="menu.name.length > 4 ? menu.name : ''"
                   class="item-text"
@@ -58,12 +49,7 @@
                 }"
                 @click="gotoRouteHandle(menu)"
               >
-                <svg-icon
-                  v-if="menu.icon"
-                  :icon-class="menu.icon || ''"
-                  class="site-sidebar__menu-icon"
-                  style="font-size: 16px; margin-right: 3px !important"
-                />
+
                 <span
                   :title="menu.name.length > 4 ? menu.name : ''"
                   class="item-text"

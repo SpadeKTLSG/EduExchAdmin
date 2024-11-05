@@ -101,38 +101,11 @@
 import {idList, treeDataTranslate} from '@/utils'
 import {ElMessage} from 'element-plus'
 
+
 const emit = defineEmits(['refreshDataList'])
 const visible = ref(false)
-const dataForm = reactive({
-  id: 0,
-  type: 1,
-  typeList: ['目录', '菜单', '按钮'],
-  name: '',
-  parentId: 0,
-  url: '',
-  perms: '',
-  orderNum: 0,
-  icon: '',
-  iconList: []
-})
-
 const menuList = ref([])
 const selectedMenu = ref([])
-const menuListTreeProps = {
-  value: 'menuId',
-  label: 'name',
-  checkStrictly: true
-}
-
-const validateUrl = (rule, value, callback) => {
-  if (dataForm.type === 1 && !/\S/.test(value)) {
-    callback(new Error('菜单URL不能为空'))
-  } else {
-    callback()
-  }
-}
-
-
 const dataRule = ref({
   name: [
     {
@@ -140,26 +113,52 @@ const dataRule = ref({
       message: '菜单名称不能为空',
       trigger: 'blur'
     },
-    {
-      pattern: /\s\S+|S+\s|\S/,
-      message: '请输入正确的菜单名称',
-      trigger: 'blur'
-    }
-  ],
-  url: [
-    {
-      validator: validateUrl,
-      trigger: 'blur'
-    }
   ]
 })
 
+/**
+ * 树形结构配置
+ */
+const menuListTreeProps = {
+  value: 'menuId',
+  label: 'name',
+  checkStrictly: true
+}
 
+/**
+ * 表单数据
+ */
+const dataForm = reactive({
+  id: 0,
+  type: 1,
+  typeList: ['目录', '菜单', '按钮'],
+  name: '',
+  parentId: 0,
+  url: '',
+  orderNum: 0
+})
 const dataFormRef = ref(null)
+
+
+/**
+ * 选择菜单表单的变化响应: 获取表单树
+ * @param val
+ */
+const handleSelectMenuChange = (val) => {
+  dataForm.parentId = val[val.length - 1]
+  //bug here
+
+}
+
+/**
+ * 初始化
+ * @param id
+ */
 const init = (id) => {
-  dataForm.id = id || 0
+  dataForm.id = id || 0 //获取对象id
+  // 获取树形结构
   http({
-    url: http.adornUrl('/sys/menu/list'),
+    url: http.adornUrl('/admin/eemfront/table/nobutton'),
     method: 'get',
     params: http.adornParams()
   })
@@ -167,39 +166,33 @@ const init = (id) => {
       menuList.value = treeDataTranslate(data, 'menuId')
     })
     .then(() => {
-      visible.value = true
+      visible.value = true // 显示弹窗
       nextTick(() => {
-        dataFormRef.value?.resetFields()
+        dataFormRef.value?.resetFields() // 重置表单
       })
     })
     .then(() => {
-      if (dataForm.id) {
-        // 修改
-        http({
-          url: http.adornUrl(`/sys/menu/info/${dataForm.id}`),
+      if (dataForm.id) { // 修改
+        http({ // 获取当前对象数据
+          url: http.adornUrl(`/admin/eemfront/table/info/${dataForm.id}`),
           method: 'get',
           params: http.adornParams()
-        }).then(({data}) => {
+        }).then((response) => {
+          const data = response.data.data
           dataForm.id = data.menuId
           dataForm.type = data.type
           dataForm.name = data.name
           dataForm.parentId = data.parentId
           dataForm.url = data.url
-          dataForm.perms = data.perms
           dataForm.orderNum = data.orderNum
-          dataForm.icon = data.icon
           selectedMenu.value = idList(menuList.value, data.parentId, 'menuId', 'children').reverse()
         })
       } else {
-        selectedMenu.value = []
+        selectedMenu.value = [] // 新增
       }
     })
 }
 defineExpose({init})
-
-const handleSelectMenuChange = (val) => {
-  dataForm.parentId = val[val.length - 1]
-}
 
 
 /**
@@ -236,4 +229,6 @@ const onSubmit = Debounce(() => {
     }
   })
 })
+
+
 </script>

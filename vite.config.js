@@ -4,7 +4,6 @@ import path from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
-import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import viteCompression from 'vite-plugin-compression'
 import fs from 'fs'
 
@@ -25,9 +24,7 @@ export default defineConfig(() => {
 
     optimizeDeps: {
       include: optimizeDepsElementPlusIncludes
-    }, plugins: [vue(), createSvgIconsPlugin({
-      iconDirs: [path.resolve(process.cwd(), 'src/icons/svg')], symbolId: 'icon-[dir]-[name]'
-    }),
+    }, plugins: [vue(),
       AutoImport({ // 自动引入内容
         imports: ['vue', 'vue-router'],
         dirs: ['src/utils/**'],
