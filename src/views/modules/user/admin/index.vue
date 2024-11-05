@@ -54,19 +54,18 @@
 
     </avue-crud>
 
-    <!-- 弹窗, 新增 / 修改 -->
-    <add-or-update
+    <!-- 弹窗 新增 / 修改 -->
+    <!--该功能未实现    <add-or-update
       v-if="addOrUpdateVisible"
       ref="addOrUpdateRef"
       @refresh-data-list="getDataList"
-    />
+    />-->
 
   </div>
 </template>
 
 <script setup>
 import {ElMessage, ElMessageBox} from 'element-plus'
-import AddOrUpdate from './add-or-update.vue'
 
 const dataList = ref([])
 const dataListLoading = ref(false)
