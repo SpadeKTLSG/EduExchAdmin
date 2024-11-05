@@ -98,7 +98,7 @@
 
 
 <script setup>
-import {idList, treeDataTranslate} from '@/utils'
+import {treeDataTranslate} from '@/utils'
 import {ElMessage} from 'element-plus'
 
 
@@ -185,7 +185,8 @@ const init = (id) => {
           dataForm.parentId = data.parentId
           dataForm.url = data.url
           dataForm.orderNum = data.orderNum
-          selectedMenu.value = idList(menuList.value, data.parentId, 'menuId', 'children').reverse()
+          selectedMenu.value = idList(menuList.value, dataForm.parentId, "id").reverse()
+          console.info(selectedMenu.value)
         })
       } else {
         selectedMenu.value = [] // 新增
