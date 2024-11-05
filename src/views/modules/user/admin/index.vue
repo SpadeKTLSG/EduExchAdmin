@@ -35,7 +35,7 @@ const getDataList = (pageParam, params, done) => {
   http({
     url: http.adornUrl('/admin/employee/page'),
     method: 'get',
-    params: http.adornParams(
+    params: http.adornParams( //组合查询条件和分页参数 (根据后端, 仅一个)
       Object.assign(
         {
           current: pageParam == null ? page.currentPage : pageParam.currentPage
@@ -45,9 +45,11 @@ const getDataList = (pageParam, params, done) => {
     )
   }).then((response) => {
     dataList.value = response.data.data.records
-    if (done) done()
+    if (done) done() //完成回调
   })
 }
+//note: 这里因为先开发的后端, 所以只有一个分页参数, 如果有多个, 需要合并.
+//同时, 由于没有实现条件查询, 因此搜索实际上完全不能用...2333
 
 
 /**
