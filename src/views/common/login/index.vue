@@ -71,7 +71,6 @@
 import cookie from 'vue-cookies'
 
 const router = useRouter()
-// const verifyRef = ref(null)
 const dataFormRef = ref(null)
 
 const dataForm = ref({
@@ -132,7 +131,8 @@ const dataFormSubmit = () => {
  * 获取验证码
  */
 const getCode = () => {
-  console.info("获取验证码");
+  console.info("使用临时手机获取验证码(仅测试使用)");
+  dataForm.value.phone = "15985765198"
   http({
     url: http.adornUrl('/admin/employee/code'),
     method: 'post',
