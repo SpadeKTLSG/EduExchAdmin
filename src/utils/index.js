@@ -59,7 +59,6 @@ function idListFromTree(data, val, res = [], id = 'id', children = 'children') {
 /**
  * 将数组中的parentId列表取出，倒序排列
  */
-// eslint-disable-next-line no-unused-vars
 export function idList(data, val, id = 'id', children = 'children') {
   const res = []
   idListFromTree(data, val, res, id)
